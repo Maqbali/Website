@@ -25,9 +25,11 @@ body::before{
   gap:1.4rem;padding:3rem 2rem;
   animation:fadeIn .8s ease forwards;
 }
+
+/* الشعار */
 .logo-wrap{opacity:0;animation:popIn .7s .15s cubic-bezier(.34,1.56,.64,1) forwards;}
 .logo-ring{
-  width:150px;height:150px;border-radius:50%;
+  width:140px;height:140px;border-radius:50%;
   border:1.5px solid rgba(200,169,110,.35);padding:5px;position:relative;
 }
 .logo-ring::before{
@@ -37,12 +39,11 @@ body::before{
 .logo-inner{
   width:100%;height:100%;border-radius:50%;
   background:#181818;display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  font-size:3rem;overflow:hidden;
 }
-.logo-inner img{
-  width:100%;height:100%;object-fit:cover;border-radius:50%;
-  display:block;
-}
+.logo-inner img{width:100%;height:100%;object-fit:cover;}
+
+/* الاسم */
 .name{
   font-size:1.2rem;font-weight:600;color:#f0ede6;letter-spacing:1px;
   opacity:0;animation:fadeUp .6s .45s ease forwards;
@@ -51,11 +52,15 @@ body::before{
   font-size:.75rem;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;
   margin-top:-.8rem;opacity:0;animation:fadeUp .6s .6s ease forwards;
 }
+
+/* فاصل */
 .line{
   width:36px;height:1px;
   background:linear-gradient(90deg,transparent,rgba(200,169,110,.4),transparent);
   opacity:0;animation:fadeIn .6s .75s ease forwards;
 }
+
+/* الأيقونات */
 .icons{
   display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
   opacity:0;animation:fadeUp .6s .85s ease forwards;
@@ -90,55 +95,53 @@ body::before{
 @keyframes popIn{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
 </style>
 </head>
-
 <body>
 <div class="card">
 
-<div class="logo-wrap">
-	<div class="logo-ring">
-		<div class="logo-inner">
-			<img src="https://drive.google.com/thumbnail?id=1_SmvBkRDw0aC-UvAtOQCDQokDLefCdbk&sz=w300">
-		</div>
-	</div>
-</div>
+  <!-- ✦ الشعار أو الصورة ✦ -->
+  <div class="logo-wrap">
+    <div class="logo-ring">
+      <div class="logo-inner">
+        <img src="https://drive.google.com/thumbnail?id=1_SmvBkRDw0aC-UvAtOQCDQokDLefCdbk&sz=w300" alt="">
+       </div>
+    </div>
+  </div>
 
-<div class="name">اسمك هنا</div>
-<div class="tagline">✦ مصور عماني ✦</div>
-<div class="line"></div>
+  <div class="name">Mohammed Al-Maqbali</div>
+  <div class="tagline">مصور ✦ فيديوغرافر</div>
+  <div class="line"></div>
 
-<div class="icons">
+  <!-- ✦ أيقونات التواصل ✦ -->
+  <div class="icons">
 
-<!-- Instagram -->
-<a class="icon-link" href="https://instagram.com/yourhandle" target="_blank" style="--hc:rgba(225,48,108,.5);--hb:rgba(225,48,108,.1)">
-	<svg viewBox="0 0 24 24">
-		<path d="M12 2.163c3.204 0 3.584.012 4.85.07..."/>
-	</svg>
-	<span class="tip">Instagram</span>
-</a>
+    <!-- انستقرام -->
+    <a class="icon-link" href="https://instagram.com/maqba1i" target="_blank"
+       style="--hc:rgba(225,48,108,.5);--hb:rgba(225,48,108,.1)">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <span class="tip">Instagram</span>
+    </a>
 
-<!-- Snapchat -->
-<a class="icon-link" href="https://snapchat.com/add/yourhandle" target="_blank" style="--hc:rgba(255,235,0,.6);--hb:rgba(255,235,0,.08)">
-	<svg viewBox="0 0 24 24">
-		<path fill="currentColor" d="M22 16.92c-.38.18-.8.29-1.23.34-.43.84-1.25 1.46-2.2 1.58-.18.03-.37.05-.57.05-.35 0-.69-.05-1.01-.15-.62.88-1.64 1.46-2.79 1.46s-2.17-.58-2.79-1.46c-.32.1-.66.15-1.01.15-.2 0-.39-.02-.57-.05-.95-.12-1.77-.74-2.2-1.58-.43-.05-.85-.16-1.23-.34-.41-.2-.61-.67-.46-1.1.15-.43.6-.7 1.04-.63.5.08 1.02-.02 1.45-.29-.02-.21-.03-.42-.03-.63 0-2.76 2.24-5 5-5s5 2.24 5 5c0 .21-.01.42-.03.63.43.27.95.37 1.45.29.44-.07.89.2 1.04.63.15.43-.05.9-.46 1.1z"/>
-	</svg>
-	<span class="tip">Snapchat</span>
-</a>
+    <!-- سناب شات -->
+    <a class="icon-link" href="https://snapchat.com/add/maqba1i" target="_blank"
+       style="--hc:rgba(255,235,0,.6);--hb:rgba(255,235,0,.08)">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.017 0C8.927 0 6.547 1.388 5.018 3.953c-.51.86-.73 1.838-.73 2.875 0 .746.08 1.49.143 2.232-.29.13-.59.19-.897.164-.24-.02-.473-.09-.69-.195-.09.115-.138.258-.138.404 0 .42.27.79.672.928-.19.06-.392.068-.585 0-.02.177.024.36.128.51.252.39.693.604 1.146.564-.208.306-.538.512-.91.572.33.41.83.635 1.353.618-.48.362-1.056.558-1.646.558l-.376-.02c.602.39 1.302.597 2.016.597 4.72 0 7.302-3.912 7.302-7.302l-.008-.332c.5-.363.932-.81 1.278-1.324-.46.2-.953.338-1.46.403.525-.313.928-.812 1.118-1.408-.493.29-1.037.5-1.609.616C11.483.256 10.765-.005 10.002 0c-.018 0-.034.003-.052.003A4.19 4.19 0 0 0 8.266.42C7.06 1.054 6.248 2.297 6.248 3.73c0 .327.04.644.115.946C4.26 4.555 2.49 3.598 1.3 2.094c-.36.617-.565 1.335-.565 2.101 0 1.453.74 2.734 1.865 3.484-.687-.02-1.334-.21-1.9-.524v.053c0 2.03 1.444 3.724 3.36 4.109-.35.096-.72.147-1.1.147-.27 0-.53-.027-.785-.074.53 1.658 2.07 2.864 3.895 2.898-1.427 1.118-3.226 1.784-5.18 1.784-.337 0-.67-.02-1-.058C1.74 22.272 3.808 23 6.042 23c7.25 0 11.215-6.007 11.215-11.215 0-.17-.004-.34-.012-.508.77-.555 1.437-1.25 1.966-2.04-.71.315-1.473.527-2.274.622.818-.49 1.446-1.268 1.74-2.194-.764.454-1.61.783-2.51.96A4.175 4.175 0 0 0 12.017 0z"/></svg>
+      <span class="tip">Snapchat</span>
+    </a>
 
-<!-- X -->
-<a class="icon-link" href="https://x.com/yourhandle" target="_blank" style="--hc:rgba(255,255,255,.3);--hb:rgba(255,255,255,.06)">
-	<svg viewBox="0 0 24 24">
-		<path d="M18.244 2.25h3.308..."/>
-	</svg>
-	<span class="tip">X</span>
-</a>
+    <!-- X (تويتر) -->
+    <a class="icon-link" href="https://x.com/maqba1i" target="_blank"
+       style="--hc:rgba(255,255,255,.3);--hb:rgba(255,255,255,.06)">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <span class="tip">X</span>
+    </a>
 
-<!-- Email -->
-<a class="icon-link" href="mailto:hello@yourname.com" style="--hc:rgba(200,169,110,.5);--hb:rgba(200,169,110,.1)">
-	<svg viewBox="0 0 24 24">
-		<path d="M20 4H4c-1.1 0-2 .9-2 2v12..."/>
-	</svg>
-	<span class="tip">Email</span>
-</a>
+    <!-- إيميل -->
+    <a class="icon-link" href="mailto:contect@maqbali.com"
+       style="--hc:rgba(200,169,110,.5);--hb:rgba(200,169,110,.1)">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <span class="tip">الإيميل</span>
+    </a>
+
 
 </div>
 </div>
