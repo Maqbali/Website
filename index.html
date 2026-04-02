@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Al-Maqbali</title>
+<meta name="description" content="مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.">
+<link rel="icon" href="https://drive.google.com/uc?export=view&id=1Y9X4c20n69m0fHBykhWPJ38FdrWkNjA5" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:#0a0a0a;font-family:'Cairo',sans-serif;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 30% 40%,rgba(200,169,110,.07) 0%,transparent 55%),
+             radial-gradient(ellipse at 70% 70%,rgba(200,169,110,.04) 0%,transparent 45%);
+  pointer-events:none;
+}
+.card{
+  display:flex;flex-direction:column;align-items:center;
+  gap:1.4rem;padding:3rem 2rem;
+  animation:fadeIn .8s ease forwards;
+}
+.logo-wrap{opacity:0;animation:popIn .7s .15s cubic-bezier(.34,1.56,.64,1) forwards;}
+.logo-ring{
+  width:150px;height:150px;border-radius:50%;
+  border:1.5px solid rgba(200,169,110,.35);padding:5px;position:relative;
+}
+.logo-ring::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(200,169,110,.1);
+}
+.logo-inner{
+  width:100%;height:100%;border-radius:50%;
+  background:#181818;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.logo-inner img{
+  width:100%;height:100%;object-fit:cover;border-radius:50%;
+  display:block;
+}
+.name{
+  font-size:1.2rem;font-weight:600;color:#f0ede6;letter-spacing:1px;
+  opacity:0;animation:fadeUp .6s .45s ease forwards;
+}
+.tagline{
+  font-size:.75rem;color:#c8a96e;letter-spacing:3px;text-transform:uppercase;
+  margin-top:-.8rem;opacity:0;animation:fadeUp .6s .6s ease forwards;
+}
+.line{
+  width:36px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,169,110,.4),transparent);
+  opacity:0;animation:fadeIn .6s .75s ease forwards;
+}
+.icons{
+  display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .6s .85s ease forwards;
+}
+.icon-link{
+  width:54px;height:54px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;cursor:pointer;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),
+             border-color .3s,background .3s,box-shadow .3s;
+  position:relative;
+}
+.icon-link:hover{
+  transform:translateY(-5px) scale(1.1);
+  border-color:var(--hc,rgba(200,169,110,.5));
+  background:var(--hb,rgba(200,169,110,.08));
+  box-shadow:0 10px 24px rgba(0,0,0,.5);
+}
+.icon-link svg{width:22px;height:22px;fill:rgba(240,237,230,.65);transition:fill .3s;}
+.icon-link:hover svg{fill:#f0ede6;}
+.icon-link .tip{
+  position:absolute;bottom:-22px;
+  font-size:.6rem;letter-spacing:1px;color:rgba(200,169,110,.75);
+  white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;
+}
+.icon-link:hover .tip{opacity:1;}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+<div class="logo-wrap">
+	<div class="logo-ring">
+		<div class="logo-inner">
+			<img src="https://drive.google.com/thumbnail?id=1_SmvBkRDw0aC-UvAtOQCDQokDLefCdbk&sz=w300">
+		</div>
+	</div>
+</div>
+
+<div class="name">Mohammed Al-Maqbali</div>
+<div class="tagline">✦ مصور عماني ✦</div>
+<div class="line"></div>
+
+<div class="icons">
+
+<!-- Instagram -->
+<a class="icon-link" href="https://instagram.com/maqba1i" target="_blank" style="--hc:rgba(225,48,108,.5);--hb:rgba(225,48,108,.1)">
+	<svg viewBox="0 0 24 24">
+		<path d="M12 2.163c3.204 0 3.584.012 4.85.07..."/>
+	</svg>
+	<span class="tip">Instagram</span>
+</a>
+
+<!-- Snapchat -->
+<a class="icon-link" href="https://snapchat.com/add/maqba1i" target="_blank" style="--hc:rgba(255,235,0,.6);--hb:rgba(255,235,0,.08)">
+	<svg viewBox="0 0 24 24">
+		<path fill="currentColor" d="M22 16.92c-.38.18-.8.29-1.23.34-.43.84-1.25 1.46-2.2 1.58-.18.03-.37.05-.57.05-.35 0-.69-.05-1.01-.15-.62.88-1.64 1.46-2.79 1.46s-2.17-.58-2.79-1.46c-.32.1-.66.15-1.01.15-.2 0-.39-.02-.57-.05-.95-.12-1.77-.74-2.2-1.58-.43-.05-.85-.16-1.23-.34-.41-.2-.61-.67-.46-1.1.15-.43.6-.7 1.04-.63.5.08 1.02-.02 1.45-.29-.02-.21-.03-.42-.03-.63 0-2.76 2.24-5 5-5s5 2.24 5 5c0 .21-.01.42-.03.63.43.27.95.37 1.45.29.44-.07.89.2 1.04.63.15.43-.05.9-.46 1.1z"/>
+	</svg>
+	<span class="tip">Snapchat</span>
+</a>
+
+<!-- X -->
+<a class="icon-link" href="https://x.com/maqba1i" target="_blank" style="--hc:rgba(255,255,255,.3);--hb:rgba(255,255,255,.06)">
+	<svg viewBox="0 0 24 24">
+		<path d="M18.244 2.25h3.308..."/>
+	</svg>
+	<span class="tip">X</span>
+</a>
+
+<!-- Email -->
+<a class="icon-link" href="mailto:contect@maqbali.com" style="--hc:rgba(200,169,110,.5);--hb:rgba(200,169,110,.1)">
+	<svg viewBox="0 0 24 24">
+		<path d="M20 4H4c-1.1 0-2 .9-2 2v12..."/>
+	</svg>
+	<span class="tip">Email</span>
+</a>
+
+</div>
+</div>
+</body>
+</html>
