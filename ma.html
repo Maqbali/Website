@@ -24,7 +24,7 @@
 
     .ticker-wrap { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 10px 0; margin-bottom: 1.5rem; overflow: hidden; position: relative; min-height: 40px; }
     .ticker-label { position: absolute; right: 0; top: 0; height: 100%; background: #c9a84c; color: #111; display: flex; align-items: center; padding: 0 14px; font-size: 12px; font-weight: 700; border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap; }
-    .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 10s linear infinite; padding-right: 130px; }
+    .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 20s linear infinite; padding-right: 130px; }
     .ticker-track:hover { animation-play-state: paused; }
     .ticker-item { font-size: 12px; color: #d4c49a; padding: 0 24px; border-left: 0.5px solid rgba(201,168,76,0.2); }
     .ticker-time { font-size: 10px; color: #555; margin-right: 6px; }
@@ -277,11 +277,8 @@ function timeSince(dateStr) {
 
 async function loadNews() {
   const feeds = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/arabic/rss.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.skynewsarabia.com/rss.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.france24.com/ar/rss',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml&api_key=free',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/'
   ];
   let items = [];
   for (const url of feeds) {
@@ -305,26 +302,15 @@ function changeHtml(ch, chp) {
   return `<span class="price-change ${cls}">${dir} ${fmt2(Math.abs(chp))}%</span>`;
 }
 
-async function fetchMetalPrice(symbol) {
-  try {
-    const url = `https://msx-stocks.al4muqbali.workers.dev/metal?s=${symbol}`;
-    const r = await fetch(url);
-    const d = await r.json();
-    return d;
-  } catch(e) { return null; }
-}
-
 async function loadGold() {
   try {
-    const r = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+    const r = await fetch('https://www.goldapi.io/api/XAU/USD', {headers:{'x-access-token':GOLD_KEY}});
     const d = await r.json();
-    if (!d || !d.items || !d.items[0]) throw new Error('no data');
-    const item = d.items[0];
-    const oz      = item.xauPrice;
-    const ozPrev  = oz / (1 + (item.chgXau / 100));
-    const g       = oz / 31.1035;
-    const prevG   = ozPrev / 31.1035;
-    const grades  = [
+    if (!d.price) return;
+    const oz = d.price;
+    const g = oz / 31.1035;
+    const prevG = (oz - (d.ch || 0)) / 31.1035;
+    const grades = [
       {label:'24K', purity:1,     cls:'g24'},
       {label:'22K', purity:22/24, cls:'g22'},
       {label:'21K', purity:21/24, cls:'g21'},
@@ -352,15 +338,13 @@ async function loadGold() {
 
 async function loadSilver() {
   try {
-    const r = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+    const r = await fetch('https://www.goldapi.io/api/XAG/USD', {headers:{'x-access-token':GOLD_KEY}});
     const d = await r.json();
-    if (!d || !d.items || !d.items[0]) throw new Error('no data');
-    const item = d.items[0];
-    const oz      = item.xagPrice;
-    const ozPrev  = oz / (1 + (item.chgXag / 100));
-    const g       = oz / 31.1035;
-    const prevG   = ozPrev / 31.1035;
-    const grades  = [
+    if (!d.price) return;
+    const oz = d.price;
+    const g = oz / 31.1035;
+    const prevG = (oz - (d.ch||0)) / 31.1035;
+    const grades = [
       {label:'999', purity:0.999, cls:'silver'},
       {label:'925', purity:0.925, cls:'silver'},
       {label:'900', purity:0.900, cls:'silver'},
@@ -428,13 +412,12 @@ function drawOilChart(canvasId, labels, data, color) {
 
 async function loadOil() {
   try {
-    const r = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+    const r = await fetch('https://www.goldapi.io/api/BRENT/USD', {headers:{'x-access-token':GOLD_KEY}});
     const d = await r.json();
-    const item = d?.items?.[0];
-    const brent = item?.oilPrice || 74.5;
+    const brent = d.price || 74.5;
     const oman  = brent + 0.8;
-    const chp   = item?.chgOil || 0;
-    const ch    = brent * chp / 100;
+    const ch    = d.ch || 0;
+    const chp   = d.chp || 0;
 
     document.getElementById('brent-usd').textContent = '$ ' + fmt2(brent);
     document.getElementById('brent-omr').textContent = 'ر.ع ' + fmt2(brent * OMR) + ' / برميل';
@@ -503,10 +486,10 @@ async function loadStocks() {
 
     let html = '';
     stocks.forEach((s, idx) => {
-      const nameAr = s.ar || s.symbol;
+      const name = STOCK_NAMES[s.symbol] || { ar: s.symbol, en: '' };
       if (s.error) {
         html += `<tr>
-          <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
+          <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
           <td colspan="5" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
         </tr>`;
         return;
@@ -514,7 +497,7 @@ async function loadStocks() {
       const chCls = s.change >= 0 ? 'up' : 'down';
       const chDir = s.change >= 0 ? '▲' : '▼';
       html += `<tr>
-        <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
+        <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
         <td class="left" style="font-weight:600">${s.price?.toFixed(3) ?? '—'}</td>
         <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${chDir} ${Math.abs(s.change ?? 0).toFixed(3)}</span></td>
         <td class="left">${stockRecommend(s.changePct)}</td>
