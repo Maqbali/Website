@@ -58,17 +58,13 @@
     .down { background: rgba(163,45,45,0.3); color: #F09595; }
     .neutral { background: rgba(136,135,128,0.2); color: #888; }
 
-    .yesterday-today { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
-    .yt-box { background: #1a1a1a; border-radius: 8px; padding: 8px 10px; }
-    .yt-label { font-size: 10px; color: #555; margin-bottom: 4px; }
-    .yt-val { font-size: 13px; font-weight: 600; color: #f0e6c8; }
-
     .oil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
     .oil-card { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 12px; padding: 1.2rem; }
     .oil-price { font-size: 24px; font-weight: 700; color: #f0e6c8; margin: 8px 0 4px; }
     .oil-omr { font-size: 12px; color: #888; }
     .chart-wrap { margin-top: 14px; padding-top: 12px; border-top: 0.5px solid rgba(201,168,76,0.1); }
     .chart-label { font-size: 10px; color: #555; margin-bottom: 6px; }
+    .chart-container { position: relative; height: 80px; width: 100%; }
 
     .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
@@ -183,7 +179,7 @@
       <div id="oman-change" style="margin-top:6px"></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — خام عُمان</div>
-        <canvas id="oman-chart" height="80"></canvas>
+        <div class="chart-container"><canvas id="oman-chart"></canvas></div>
       </div>
     </div>
     <div class="oil-card">
@@ -199,14 +195,15 @@
       <div id="brent-change" style="margin-top:6px"></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — برنت</div>
-        <canvas id="brent-chart" height="80"></canvas>
+        <div class="chart-container"><canvas id="brent-chart"></canvas></div>
       </div>
+    </div>
   </div>
 
   <div class="last-update" id="last-update"></div>
 
   <div class="footer">
-    <span>جميع الحقوق محفوظة &copy;<span id="year"></span></span>
+    <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
   </div>
 
 </div>
@@ -268,19 +265,15 @@ async function loadGold() {
     const r = await fetch('https://www.goldapi.io/api/XAU/USD', {headers:{'x-access-token':GOLD_KEY}});
     const d = await r.json();
     if (!d.price) return;
-
     const oz = d.price;
     const g = oz / 31.1035;
-    const prevOz = oz - (d.ch || 0);
-    const prevG = prevOz / 31.1035;
-
+    const prevG = (oz - (d.ch || 0)) / 31.1035;
     const grades = [
-      {label:'24K', purity:1,    cls:'g24'},
+      {label:'24K', purity:1,     cls:'g24'},
       {label:'22K', purity:22/24, cls:'g22'},
       {label:'21K', purity:21/24, cls:'g21'},
       {label:'18K', purity:18/24, cls:'g18'},
     ];
-
     let html = '';
     grades.forEach(gr => {
       const today = g * gr.purity * OMR;
@@ -306,18 +299,15 @@ async function loadSilver() {
     const r = await fetch('https://www.goldapi.io/api/XAG/USD', {headers:{'x-access-token':GOLD_KEY}});
     const d = await r.json();
     if (!d.price) return;
-
     const oz = d.price;
     const g = oz / 31.1035;
     const prevG = (oz - (d.ch||0)) / 31.1035;
-
     const grades = [
       {label:'999', purity:0.999, cls:'silver'},
       {label:'925', purity:0.925, cls:'silver'},
       {label:'900', purity:0.900, cls:'silver'},
       {label:'800', purity:0.800, cls:'silver'},
     ];
-
     let html = '';
     grades.forEach(gr => {
       const today = g * gr.purity * OMR;
@@ -339,17 +329,17 @@ async function loadSilver() {
 }
 
 function drawOilChart(canvasId, labels, data, color) {
-  const ctx = document.getElementById(canvasId);
-  if (!ctx) return;
-  if (ctx._chart) ctx._chart.destroy();
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  if (canvas._chart) { canvas._chart.destroy(); canvas._chart = null; }
   const min = Math.min(...data) * 0.998;
   const max = Math.max(...data) * 1.002;
-  ctx._chart = new Chart(ctx, {
+  canvas._chart = new Chart(canvas, {
     type: 'line',
     data: {
-      labels: labels,
+      labels,
       datasets: [{
-        data: data,
+        data,
         borderColor: color,
         backgroundColor: color.replace('1)', '0.08)'),
         borderWidth: 1.5,
@@ -362,11 +352,14 @@ function drawOilChart(canvasId, labels, data, color) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: {
-        callbacks: { label: ctx => '$ ' + ctx.parsed.y.toFixed(2) },
-        backgroundColor: '#1e1e1e', titleColor: '#c9a84c', bodyColor: '#f0e6c8',
-        borderColor: 'rgba(201,168,76,0.3)', borderWidth: 0.5
-      }},
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: c => '$ ' + c.parsed.y.toFixed(2) },
+          backgroundColor: '#1e1e1e', titleColor: '#c9a84c', bodyColor: '#f0e6c8',
+          borderColor: 'rgba(201,168,76,0.3)', borderWidth: 0.5
+        }
+      },
       scales: {
         x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#555', font: { size: 9 } } },
         y: { min, max, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#555', font: { size: 9 }, callback: v => '$' + v.toFixed(0) } }
