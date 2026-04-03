@@ -302,17 +302,12 @@ function changeHtml(ch, chp) {
   return `<span class="price-change ${cls}">${dir} ${fmt2(Math.abs(chp))}%</span>`;
 }
 
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTbk6cRu1ycfpOTENcE5AkXcUYHXdoxmufNu4GjiOdXMtyM3P_H9lxW06Iu05kr2R27Ev2heO-LgA_8/pub?gid=0&single=true&output=csv';
+const WORKER_URL = 'https://msx-stocks.al4muqbali.workers.dev';
 
 async function fetchSheetData() {
-  const r = await fetch(SHEET_URL);
-  const text = await r.text();
-  const rows = text.trim().split('\n').map(row => row.split(','));
-  const data = {};
-  rows.forEach(row => {
-    if (row[0] && row[1]) data[row[0].trim()] = parseFloat(row[1].trim());
-  });
-  return data;
+  const r = await fetch(WORKER_URL + '/metals');
+  const d = await r.json();
+  return d;
 }
 
 async function loadGold() {
@@ -453,8 +448,6 @@ async function loadOil() {
   }
 }
 
-const WORKER_URL = 'https://msx-stocks.al4muqbali.workers.dev/';
-
 const STOCK_NAMES = {
   'ABRJ.OM':  { ar: 'أبراج لخدمات الطاقة',    en: 'Abraj Energy Services' },
   'OQGN.OM':  { ar: 'OQ لشبكات الغاز',          en: 'OQ Gas Networks' },
@@ -491,7 +484,7 @@ function drawStockChart(canvasId, data) {
 
 async function loadStocks() {
   try {
-    const res = await fetch(WORKER_URL);
+    const res = await fetch(WORKER_URL + '/stocks');
     const stocks = await res.json();
 
     document.getElementById('stocks-loading').style.display = 'none';
