@@ -314,25 +314,24 @@ async function loadGold() {
   try {
     const r = await fetch(WORKER_URL + '/metals');
     const d = await r.json();
-    if (!d?.gold) throw new Error('no data');
-    const { g24, g22, g21, g18, change } = d.gold;
+    if (!d?.gold?.g24) throw new Error('no data');
+    const g = d.gold;
     const grades = [
-      { label:'24K', today: g24, cls:'g24' },
-      { label:'22K', today: g22, cls:'g22' },
-      { label:'21K', today: g21, cls:'g21' },
-      { label:'18K', today: g18, cls:'g18' },
+      { label:'24K', today: g.g24, chg: g.chg24, cls:'g24' },
+      { label:'22K', today: g.g22, chg: g.chg22, cls:'g22' },
+      { label:'21K', today: g.g21, chg: g.chg21, cls:'g21' },
+      { label:'18K', today: g.g18, chg: g.chg18, cls:'g18' },
     ];
     let html = '';
     grades.forEach(gr => {
-      const yest = gr.today - change;
-      const diff = gr.today - yest;
-      const cls  = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
-      const dir  = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      const yest = parseFloat((gr.today - gr.chg).toFixed(3));
+      const cls  = gr.chg > 0 ? 'up' : gr.chg < 0 ? 'down' : 'neutral';
+      const dir  = gr.chg > 0 ? '▲' : gr.chg < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
         <td class="left" style="color:#888">${fmt(yest)}</td>
         <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
-        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(gr.chg))}</span></td>
       </tr>`;
     });
     document.getElementById('gold-table').innerHTML = html;
@@ -345,23 +344,24 @@ async function loadSilver() {
   try {
     const r = await fetch(WORKER_URL + '/metals');
     const d = await r.json();
-    if (!d?.silver) throw new Error('no data');
-    const { ag999, ag925 } = d.silver;
-    const ag900 = ag999 * 0.900;
-    const ag800 = ag999 * 0.800;
+    if (!d?.silver?.ag999) throw new Error('no data');
+    const s = d.silver;
     const grades = [
-      { label:'999', today: ag999, cls:'silver' },
-      { label:'925', today: ag925, cls:'silver' },
-      { label:'900', today: ag900, cls:'silver' },
-      { label:'800', today: ag800, cls:'silver' },
+      { label:'999', today: s.ag999, chg: s.chg999, cls:'silver' },
+      { label:'958', today: s.ag958, chg: s.chg958, cls:'silver' },
+      { label:'925', today: s.ag925, chg: s.chg925, cls:'silver' },
+      { label:'800', today: s.ag800, chg: s.chg800, cls:'silver' },
     ];
     let html = '';
     grades.forEach(gr => {
+      const yest = parseFloat((gr.today - gr.chg).toFixed(4));
+      const cls  = gr.chg > 0 ? 'up' : gr.chg < 0 ? 'down' : 'neutral';
+      const dir  = gr.chg > 0 ? '▲' : gr.chg < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
-        <td class="left" style="color:#888">—</td>
+        <td class="left" style="color:#888">${fmt(yest)}</td>
         <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
-        <td class="left"><span class="price-change neutral" style="font-size:10px">—</span></td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(gr.chg))}</span></td>
       </tr>`;
     });
     document.getElementById('silver-table').innerHTML = html;
