@@ -312,29 +312,26 @@ async function fetchSheetData() {
 
 async function loadGold() {
   try {
-    const data = await fetchSheetData();
-    const oz    = data['XAU'];
-    const ozPrev = data['PREV_XAU'] || oz;
-    if (!oz) throw new Error('no data');
-    const g     = oz / 31.1035;
-    const prevG = ozPrev / 31.1035;
+    const r = await fetch(WORKER_URL + '/metals');
+    const d = await r.json();
+    if (!d?.gold) throw new Error('no data');
+    const { g24, g22, g21, g18, change } = d.gold;
     const grades = [
-      {label:'24K', purity:1,     cls:'g24'},
-      {label:'22K', purity:22/24, cls:'g22'},
-      {label:'21K', purity:21/24, cls:'g21'},
-      {label:'18K', purity:18/24, cls:'g18'},
+      { label:'24K', today: g24, cls:'g24' },
+      { label:'22K', today: g22, cls:'g22' },
+      { label:'21K', today: g21, cls:'g21' },
+      { label:'18K', today: g18, cls:'g18' },
     ];
     let html = '';
     grades.forEach(gr => {
-      const today = g * gr.purity * OMR;
-      const yest  = prevG * gr.purity * OMR;
-      const diff  = today - yest;
-      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
-      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      const yest = gr.today - change;
+      const diff = gr.today - yest;
+      const cls  = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+      const dir  = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
         <td class="left" style="color:#888">${fmt(yest)}</td>
-        <td class="left" style="font-weight:600">${fmt(today)}</td>
+        <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
         <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
       </tr>`;
     });
@@ -346,30 +343,25 @@ async function loadGold() {
 
 async function loadSilver() {
   try {
-    const data = await fetchSheetData();
-    const oz    = data['XAG'];
-    const ozPrev = data['PREV_XAG'] || oz;
-    if (!oz) throw new Error('no data');
-    const g     = oz / 31.1035;
-    const prevG = ozPrev / 31.1035;
+    const r = await fetch(WORKER_URL + '/metals');
+    const d = await r.json();
+    if (!d?.silver) throw new Error('no data');
+    const { ag999, ag925 } = d.silver;
+    const ag900 = ag999 * 0.900;
+    const ag800 = ag999 * 0.800;
     const grades = [
-      {label:'999', purity:0.999, cls:'silver'},
-      {label:'925', purity:0.925, cls:'silver'},
-      {label:'900', purity:0.900, cls:'silver'},
-      {label:'800', purity:0.800, cls:'silver'},
+      { label:'999', today: ag999, cls:'silver' },
+      { label:'925', today: ag925, cls:'silver' },
+      { label:'900', today: ag900, cls:'silver' },
+      { label:'800', today: ag800, cls:'silver' },
     ];
     let html = '';
     grades.forEach(gr => {
-      const today = g * gr.purity * OMR;
-      const yest  = prevG * gr.purity * OMR;
-      const diff  = today - yest;
-      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
-      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
-        <td class="left" style="color:#888">${fmt(yest)}</td>
-        <td class="left" style="font-weight:600">${fmt(today)}</td>
-        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+        <td class="left" style="color:#888">—</td>
+        <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
+        <td class="left"><span class="price-change neutral" style="font-size:10px">—</span></td>
       </tr>`;
     });
     document.getElementById('silver-table').innerHTML = html;
