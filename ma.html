@@ -94,7 +94,11 @@
 <body>
 <div class="page">
 
-  <div class="nav" style="justify-content:flex-start">
+  <div class="nav">
+    <div class="date-item">
+      <div class="date-label-sm">اليوم</div>
+      <div class="date-value" id="date-day">-</div>
+    </div>
     <button class="nav-btn-action" onclick="loadAll()">
       <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
       تحديث
@@ -227,6 +231,8 @@
         <tbody id="stocks-table-body"></tbody>
       </table>
     </div>
+  </div>
+
   <div class="last-update" id="last-update"></div>
 
   <div class="footer">
@@ -248,6 +254,7 @@ function updateDate() {
   const opts = {timeZone:'Asia/Muscat'};
   const clock = now.toLocaleTimeString('en-US', {...opts, hour:'2-digit', minute:'2-digit', hour12:true});
   document.getElementById('date-clock').textContent = clock;
+  document.getElementById('date-day').textContent = now.toLocaleDateString('ar-OM', {...opts, weekday:'long'});
   document.getElementById('date-miladi').textContent = now.toLocaleDateString('ar-OM', {...opts, year:'numeric', month:'long', day:'numeric'});
   document.getElementById('date-hijri').textContent = now.toLocaleDateString('ar-SA-u-ca-islamic', {...opts, year:'numeric', month:'long', day:'numeric'});
 }
@@ -433,7 +440,7 @@ async function loadOil() {
   }
 }
 
-const WORKER_URL = 'https://ma.maqbali.com';
+const WORKER_URL = 'https://msx-stocks.al4muqbali.workers.dev/';
 
 const STOCK_NAMES = {
   'ABRJ.OM':  { ar: 'أبراج لخدمات الطاقة',    en: 'Abraj Energy Services' },
