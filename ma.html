@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جدول المباريات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      direction: rtl;
+      background: #0e0e0e;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      color: #f0e6c8;
+    }
+    .page { max-width: 860px; margin: 0 auto; }
+
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; background: #161616;
+      border: 0.5px solid rgba(201,168,76,0.15);
+      border-radius: 12px; margin-bottom: 2rem;
+    }
+    .nav-btn-action {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif;
+      background: #1a1a1a; border: 0.5px solid rgba(201,168,76,0.25);
+      border-radius: 8px; cursor: pointer; color: #c9a84c;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .nav-btn-action:hover { background: #222; border-color: #c9a84c; }
+    .nav-btn-action svg { width: 14px; height: 14px; }
+
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px;
+    }
+    .date-label { font-size: 18px; font-weight: 700; color: #f0e6c8; }
+    .date-sub { font-size: 12px; color: #666; margin-top: 3px; }
+
+    .nav-btns { display: flex; gap: 8px; }
+    .nav-btn {
+      padding: 8px 18px; font-size: 13px; font-family: 'Cairo', sans-serif;
+      background: #161616; border: 0.5px solid rgba(201,168,76,0.2);
+      border-radius: 8px; cursor: pointer; color: #888; transition: all 0.15s;
+    }
+    .nav-btn:hover { color: #c9a84c; border-color: #c9a84c; }
+    .nav-btn.active { background: #c9a84c; color: #111; border-color: #c9a84c; font-weight: 700; }
+
+    .league-section { margin-bottom: 1.5rem; }
+    .league-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px; background: #161616;
+      border: 0.5px solid rgba(201,168,76,0.12);
+      border-radius: 8px; margin-bottom: 8px;
+    }
+    .league-name { font-size: 13px; font-weight: 600; color: #c9a84c; }
+
+    .match-card {
+      background: #161616; border: 0.5px solid rgba(201,168,76,0.1);
+      border-radius: 10px; padding: 12px 16px; margin-bottom: 6px;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px;
+      transition: border-color 0.15s;
+    }
+    .match-card:hover { border-color: rgba(201,168,76,0.3); }
+
+    .team { display: flex; align-items: center; gap: 8px; }
+    .team.away { flex-direction: row-reverse; }
+    .team-logo {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #1e1e1e; border: 0.5px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: #c9a84c; flex-shrink: 0;
+    }
+    .team-name { font-size: 13px; font-weight: 500; color: #f0e6c8; }
+    .team.away .team-name { text-align: right; }
+
+    .score-box { text-align: center; min-width: 80px; }
+    .score { font-size: 20px; font-weight: 700; color: #c9a84c; letter-spacing: 3px; }
+    .status-live {
+      display: inline-block; font-size: 10px; background: #E24B4A;
+      color: #fff; padding: 2px 8px; border-radius: 10px; font-weight: 700; margin-top: 3px;
+    }
+    .status-ft {
+      display: inline-block; font-size: 10px; background: #1e1e1e;
+      color: #666; padding: 2px 8px; border-radius: 10px; margin-top: 3px;
+    }
+    .status-ns { font-size: 13px; color: #888; font-weight: 600; }
+
+    .last-update {
+      text-align: center; margin-top: 1.5rem; padding-top: 1rem;
+      border-top: 0.5px solid rgba(201,168,76,0.12);
+      font-size: 11px; color: #444;
+    }
+    .loading { text-align: center; padding: 3rem; color: #666; font-size: 14px; }
+    .error-box {
+      text-align: center; padding: 2rem; color: #666; font-size: 13px;
+      background: #161616; border-radius: 10px;
+      border: 0.5px solid rgba(201,168,76,0.1);
+    }
+
+    .footer {
+      text-align: center; margin-top: 2rem; padding-top: 1.2rem;
+      border-top: 0.5px solid rgba(201,168,76,0.12);
+    }
+    .footer span { font-size: 12px; color: #444; }
+    .footer strong { color: #c9a84c; font-weight: 600; }
+
+    @media (max-width: 560px) {
+      .team-name { font-size: 11px; }
+      .score { font-size: 16px; }
+      .nav-btn { padding: 7px 12px; font-size: 12px; }
+      .nav { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="nav">
+      <a href="index.html" class="nav-btn-action">
+        <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        الرئيسية
+      </a>
+      <button class="nav-btn-action" onclick="changeDay(currentOffset)">
+        <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
+        تحديث
+      </button>
+    </div>
+
+    <div class="header">
+      <div>
+        <div class="date-label" id="date-label">اليوم</div>
+        <div class="date-sub" id="date-sub"></div>
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="changeDay(-1)">الأمس</button>
+        <button class="nav-btn active" onclick="changeDay(0)">اليوم</button>
+        <button class="nav-btn" onclick="changeDay(1)">الغد</button>
+      </div>
+    </div>
+
+    <div id="matches-container">
+      <div class="loading">✦ جاري تحميل المباريات...</div>
+    </div>
+
+    <div class="last-update" id="last-update"></div>
+
+    <div class="footer">
+      <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
+    </div>
+
+  </div>
+
+  <script>
+    const API_KEY = 'da52d0b7f14d4b3e9e4e5c8f2a1b6d9c';
+    let currentOffset = 0;
+    let refreshTimer = null;
+
+    const LEAGUES = {
+      39:  { name: 'الدوري الإنجليزي الممتاز', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+      140: { name: 'الدوري الإسباني', flag: '🇪🇸' },
+      135: { name: 'الدوري الإيطالي', flag: '🇮🇹' },
+      78:  { name: 'الدوري الألماني', flag: '🇩🇪' },
+      61:  { name: 'الدوري الفرنسي', flag: '🇫🇷' },
+      2:   { name: 'دوري أبطال أوروبا', flag: '🏆' },
+      307: { name: 'دوري روشن السعودي', flag: '🇸🇦' },
+      290: { name: 'دوري عُمان المحترفين', flag: '🇴🇲' },
+    };
+
+    function getDateStr(offset) {
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      return d.toISOString().split('T')[0];
+    }
+
+    function formatDateAr(offset) {
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      return d.toLocaleDateString('ar-OM', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function formatTime(utcDate) {
+      const d = new Date(utcDate);
+      return d.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Muscat' });
+    }
+
+    function initials(name) {
+      return name ? name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : '?';
+    }
+
+    function renderMatches(data) {
+      const container = document.getElementById('matches-container');
+      if (!data || !data.response || data.response.length === 0) {
+        container.innerHTML = '<div class="error-box">لا توجد مباريات في هذا اليوم</div>';
+        return;
+      }
+
+      const grouped = {};
+      data.response.forEach(m => {
+        const lid = m.league.id;
+        if (!LEAGUES[lid]) return;
+        if (!grouped[lid]) grouped[lid] = [];
+        grouped[lid].push(m);
+      });
+
+      if (Object.keys(grouped).length === 0) {
+        container.innerHTML = '<div class="error-box">لا توجد مباريات من الدوريات المتابعة في هذا اليوم</div>';
+        return;
+      }
+
+      let html = '';
+      Object.keys(grouped).forEach(lid => {
+        const league = LEAGUES[lid];
+        const matches = grouped[lid];
+        html += `<div class="league-section">
+          <div class="league-header">
+            <span style="font-size:16px">${league.flag}</span>
+            <span class="league-name">✦ ${league.name}</span>
+          </div>`;
+
+        matches.forEach(m => {
+          const status = m.fixture.status.short;
+          const home = m.teams.home;
+          const away = m.teams.away;
+          const goals = m.goals;
+          let scoreHtml = '';
+
+          if (status === 'NS') {
+            scoreHtml = `<div class="score-box"><div class="status-ns">${formatTime(m.fixture.date)}</div></div>`;
+          } else if (['1H','2H','ET','HT','P'].includes(status)) {
+            const min = m.fixture.status.elapsed || '';
+            scoreHtml = `<div class="score-box">
+              <div class="score">${goals.home ?? 0} - ${goals.away ?? 0}</div>
+              <div><span class="status-live">${min}'</span></div>
+            </div>`;
+          } else {
+            scoreHtml = `<div class="score-box">
+              <div class="score">${goals.home ?? '-'} - ${goals.away ?? '-'}</div>
+              <div><span class="status-ft">انتهت</span></div>
+            </div>`;
+          }
+
+          html += `<div class="match-card">
+            <div class="team">
+              <div class="team-logo">${initials(home.name)}</div>
+              <span class="team-name">${home.name}</span>
+            </div>
+            ${scoreHtml}
+            <div class="team away">
+              <div class="team-logo">${initials(away.name)}</div>
+              <span class="team-name">${away.name}</span>
+            </div>
+          </div>`;
+        });
+
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+      document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function loadMatches() {
+      document.getElementById('date-sub').textContent = formatDateAr(currentOffset);
+      document.getElementById('date-label').textContent = currentOffset === -1 ? 'الأمس' : currentOffset === 0 ? 'اليوم' : 'الغد';
+
+      document.querySelectorAll('.nav-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === currentOffset + 1);
+      });
+
+      try {
+        const dateStr = getDateStr(currentOffset);
+        const promises = Object.keys(LEAGUES).map(lid =>
+          fetch(`https://v3.football.api-sports.io/fixtures?date=${dateStr}&league=${lid}&season=2024`, {
+            headers: { 'x-apisports-key': API_KEY }
+          }).then(r => r.json())
+        );
+        const results = await Promise.all(promises);
+        const merged = { response: results.flatMap(r => r.response || []) };
+        renderMatches(merged);
+      } catch(e) {
+        document.getElementById('matches-container').innerHTML = '<div class="error-box">تعذّر تحميل المباريات، تحقق من الاتصال بالإنترنت</div>';
+      }
+    }
+
+    function changeDay(offset) {
+      currentOffset = offset;
+      if (refreshTimer) clearInterval(refreshTimer);
+      document.getElementById('matches-container').innerHTML = '<div class="loading">✦ جاري تحميل المباريات...</div>';
+      loadMatches();
+      if (offset === 0) {
+        refreshTimer = setInterval(loadMatches, 60000);
+      }
+    }
+
+    changeDay(0);
+  </script>
+</body>
+</html>
