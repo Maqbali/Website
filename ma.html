@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>جدول المباريات - Mohammed Al-Maqbali</title>
+  <title>لوحة المعلومات - Mohammed Al-Maqbali</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,74 +31,97 @@
       text-decoration: none; transition: all 0.15s;
     }
     .nav-btn-action:hover { background: #222; border-color: #c9a84c; }
-    .nav-btn-action svg { width: 14px; height: 14px; }
+    .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    .header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px;
-    }
-    .date-label { font-size: 18px; font-weight: 700; color: #f0e6c8; }
-    .date-sub { font-size: 12px; color: #666; margin-top: 3px; }
-
-    .nav-btns { display: flex; gap: 8px; }
-    .nav-btn {
-      padding: 8px 18px; font-size: 13px; font-family: 'Cairo', sans-serif;
-      background: #161616; border: 0.5px solid rgba(201,168,76,0.2);
-      border-radius: 8px; cursor: pointer; color: #888; transition: all 0.15s;
-    }
-    .nav-btn:hover { color: #c9a84c; border-color: #c9a84c; }
-    .nav-btn.active { background: #c9a84c; color: #111; border-color: #c9a84c; font-weight: 700; }
-
-    .league-section { margin-bottom: 1.5rem; }
-    .league-header {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 14px; background: #161616;
+    .date-bar {
+      background: #161616;
       border: 0.5px solid rgba(201,168,76,0.12);
-      border-radius: 8px; margin-bottom: 8px;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
     }
-    .league-name { font-size: 13px; font-weight: 600; color: #c9a84c; }
+    .date-day { font-size: 15px; font-weight: 700; color: #c9a84c; }
+    .date-sep { color: rgba(201,168,76,0.3); font-size: 16px; }
+    .date-full { font-size: 14px; color: #888; }
 
-    .match-card {
-      background: #161616; border: 0.5px solid rgba(201,168,76,0.1);
-      border-radius: 10px; padding: 12px 16px; margin-bottom: 6px;
-      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px;
+    .ticker-wrap {
+      background: #161616;
+      border: 0.5px solid rgba(201,168,76,0.12);
+      border-radius: 10px;
+      padding: 10px 0;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .ticker-label {
+      position: absolute; right: 0; top: 0; height: 100%;
+      background: #c9a84c; color: #111;
+      display: flex; align-items: center;
+      padding: 0 14px; font-size: 12px; font-weight: 700;
+      border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap;
+    }
+    .ticker-track {
+      display: flex; align-items: center;
+      white-space: nowrap;
+      animation: ticker 40s linear infinite;
+      padding-right: 120px;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      font-size: 13px; color: #d4c49a;
+      padding: 0 30px;
+      border-left: 0.5px solid rgba(201,168,76,0.2);
+    }
+    .ticker-item:last-child { border-left: none; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .prices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 1.5rem;
+    }
+    .price-card {
+      background: #161616;
+      border: 0.5px solid rgba(201,168,76,0.12);
+      border-radius: 12px;
+      padding: 1.4rem;
       transition: border-color 0.15s;
     }
-    .match-card:hover { border-color: rgba(201,168,76,0.3); }
-
-    .team { display: flex; align-items: center; gap: 8px; }
-    .team.away { flex-direction: row-reverse; }
-    .team-logo {
-      width: 30px; height: 30px; border-radius: 50%;
+    .price-card:hover { border-color: rgba(201,168,76,0.3); }
+    .price-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .price-icon {
+      width: 36px; height: 36px; border-radius: 8px;
       background: #1e1e1e; border: 0.5px solid rgba(201,168,76,0.2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; color: #c9a84c; flex-shrink: 0;
+      font-size: 18px;
     }
-    .team-name { font-size: 13px; font-weight: 500; color: #f0e6c8; }
-    .team.away .team-name { text-align: right; }
+    .price-title { font-size: 13px; font-weight: 600; color: #c9a84c; }
+    .price-subtitle { font-size: 11px; color: #555; margin-top: 1px; }
+    .price-value { font-size: 26px; font-weight: 700; color: #f0e6c8; margin-bottom: 6px; }
+    .price-unit { font-size: 12px; color: #666; }
+    .price-change { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 6px; padding: 3px 10px; border-radius: 20px; }
+    .price-change.up { background: rgba(39,80,10,0.3); color: #97C459; }
+    .price-change.down { background: rgba(163,45,45,0.3); color: #F09595; }
+    .price-change.neutral { background: rgba(136,135,128,0.2); color: #888; }
+    .price-loading { color: #555; font-size: 13px; }
+    .price-omr { font-size: 13px; color: #888; margin-top: 4px; }
 
-    .score-box { text-align: center; min-width: 80px; }
-    .score { font-size: 20px; font-weight: 700; color: #c9a84c; letter-spacing: 3px; }
-    .status-live {
-      display: inline-block; font-size: 10px; background: #E24B4A;
-      color: #fff; padding: 2px 8px; border-radius: 10px; font-weight: 700; margin-top: 3px;
+    .section-title {
+      font-size: 13px; font-weight: 600; color: #c9a84c;
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 0.5px solid rgba(201,168,76,0.12);
+      letter-spacing: 0.5px;
     }
-    .status-ft {
-      display: inline-block; font-size: 10px; background: #1e1e1e;
-      color: #666; padding: 2px 8px; border-radius: 10px; margin-top: 3px;
-    }
-    .status-ns { font-size: 13px; color: #888; font-weight: 600; }
 
     .last-update {
       text-align: center; margin-top: 1.5rem; padding-top: 1rem;
       border-top: 0.5px solid rgba(201,168,76,0.12);
       font-size: 11px; color: #444;
-    }
-    .loading { text-align: center; padding: 3rem; color: #666; font-size: 14px; }
-    .error-box {
-      text-align: center; padding: 2rem; color: #666; font-size: 13px;
-      background: #161616; border-radius: 10px;
-      border: 0.5px solid rgba(201,168,76,0.1);
     }
 
     .footer {
@@ -109,10 +132,9 @@
     .footer strong { color: #c9a84c; font-weight: 600; }
 
     @media (max-width: 560px) {
-      .team-name { font-size: 11px; }
-      .score { font-size: 16px; }
-      .nav-btn { padding: 7px 12px; font-size: 12px; }
+      .prices-grid { grid-template-columns: 1fr; }
       .nav { padding: 12px 16px; }
+      .price-value { font-size: 22px; }
     }
   </style>
 </head>
@@ -124,179 +146,170 @@
         <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         الرئيسية
       </a>
-      <button class="nav-btn-action" onclick="changeDay(currentOffset)">
+      <button class="nav-btn-action" onclick="loadAll()">
         <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
         تحديث
       </button>
     </div>
 
-    <div class="header">
-      <div>
-        <div class="date-label" id="date-label">اليوم</div>
-        <div class="date-sub" id="date-sub"></div>
-      </div>
-      <div class="nav-btns">
-        <button class="nav-btn" onclick="changeDay(-1)">الأمس</button>
-        <button class="nav-btn active" onclick="changeDay(0)">اليوم</button>
-        <button class="nav-btn" onclick="changeDay(1)">الغد</button>
+    <div class="date-bar">
+      <span class="date-day" id="date-day">-</span>
+      <span class="date-sep">✦</span>
+      <span class="date-full" id="date-full">-</span>
+    </div>
+
+    <div class="ticker-wrap">
+      <div class="ticker-label">عاجل ✦</div>
+      <div class="ticker-track" id="ticker-track">
+        <span class="ticker-item">جاري تحميل الأخبار...</span>
       </div>
     </div>
 
-    <div id="matches-container">
-      <div class="loading">✦ جاري تحميل المباريات...</div>
+    <div class="section-title">✦ الأسواق العالمية</div>
+
+    <div class="prices-grid">
+
+      <div class="price-card">
+        <div class="price-header">
+          <div class="price-icon">🥇</div>
+          <div>
+            <div class="price-title">سعر الذهب</div>
+            <div class="price-subtitle">Gold XAU/USD</div>
+          </div>
+        </div>
+        <div class="price-value" id="gold-usd"><span class="price-loading">جاري التحميل...</span></div>
+        <div class="price-unit">دولار / أوقية</div>
+        <div class="price-omr" id="gold-omr"></div>
+        <div id="gold-change"></div>
+        <div class="price-omr" id="gold-gram" style="margin-top:6px"></div>
+      </div>
+
+      <div class="price-card">
+        <div class="price-header">
+          <div class="price-icon">🛢️</div>
+          <div>
+            <div class="price-title">خام عُمان</div>
+            <div class="price-subtitle">Oman Crude Oil</div>
+          </div>
+        </div>
+        <div class="price-value" id="oil-usd"><span class="price-loading">جاري التحميل...</span></div>
+        <div class="price-unit">دولار / برميل</div>
+        <div class="price-omr" id="oil-omr"></div>
+        <div id="oil-change"></div>
+        <div class="price-omr" id="oil-note" style="margin-top:6px;font-size:10px;color:#444">يتتبع سعر برنت + علاوة عُمان</div>
+      </div>
+
     </div>
 
     <div class="last-update" id="last-update"></div>
 
     <div class="footer">
-      <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
+      <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
     </div>
 
   </div>
 
   <script>
-    const API_KEY = 'f80916f8860cb88acab916d289f528c9';
-    let currentOffset = 0;
-    let refreshTimer = null;
+    const GOLD_API_KEY = 'goldapi-2ra9rsmnja7oh7-io';
+    const OMR_RATE = 0.385;
 
-    const LEAGUES = {
-      39:  { name: 'الدوري الإنجليزي الممتاز', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-      140: { name: 'الدوري الإسباني', flag: '🇪🇸' },
-      135: { name: 'الدوري الإيطالي', flag: '🇮🇹' },
-      78:  { name: 'الدوري الألماني', flag: '🇩🇪' },
-      61:  { name: 'الدوري الفرنسي', flag: '🇫🇷' },
-      2:   { name: 'دوري أبطال أوروبا', flag: '🏆' },
-      307: { name: 'دوري روشن السعودي', flag: '🇸🇦' },
-      290: { name: 'دوري عُمان المحترفين', flag: '🇴🇲' },
-    };
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    function getDateStr(offset) {
-      const d = new Date();
-      d.setDate(d.getDate() + offset);
-      return d.toISOString().split('T')[0];
+    function updateDate() {
+      const now = new Date();
+      const day = now.toLocaleDateString('ar-OM', { weekday: 'long', timeZone: 'Asia/Muscat' });
+      const full = now.toLocaleDateString('ar-OM', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Muscat' });
+      document.getElementById('date-day').textContent = day;
+      document.getElementById('date-full').textContent = full;
     }
 
-    function formatDateAr(offset) {
-      const d = new Date();
-      d.setDate(d.getDate() + offset);
-      return d.toLocaleDateString('ar-OM', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    function formatNum(n, dec=2) {
+      return parseFloat(n).toLocaleString('ar-OM', { minimumFractionDigits: dec, maximumFractionDigits: dec });
     }
 
-    function formatTime(utcDate) {
-      const d = new Date(utcDate);
-      return d.toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Muscat' });
+    function changeEl(ch, chp, id) {
+      if (ch === null || ch === undefined) return;
+      const el = document.getElementById(id);
+      const dir = ch >= 0 ? '▲' : '▼';
+      const cls = ch > 0 ? 'up' : ch < 0 ? 'down' : 'neutral';
+      el.innerHTML = `<span class="price-change ${cls}">${dir} ${formatNum(Math.abs(ch))} (${formatNum(Math.abs(chp))}%)</span>`;
     }
 
-    function initials(name) {
-      return name ? name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : '?';
-    }
-
-    function renderMatches(data) {
-      const container = document.getElementById('matches-container');
-      if (!data || !data.response || data.response.length === 0) {
-        container.innerHTML = '<div class="error-box">لا توجد مباريات في هذا اليوم</div>';
-        return;
-      }
-
-      const grouped = {};
-      data.response.forEach(m => {
-        const lid = m.league.id;
-        if (!LEAGUES[lid]) return;
-        if (!grouped[lid]) grouped[lid] = [];
-        grouped[lid].push(m);
-      });
-
-      if (Object.keys(grouped).length === 0) {
-        container.innerHTML = '<div class="error-box">لا توجد مباريات من الدوريات المتابعة في هذا اليوم</div>';
-        return;
-      }
-
-      let html = '';
-      Object.keys(grouped).forEach(lid => {
-        const league = LEAGUES[lid];
-        const matches = grouped[lid];
-        html += `<div class="league-section">
-          <div class="league-header">
-            <span style="font-size:16px">${league.flag}</span>
-            <span class="league-name">✦ ${league.name}</span>
-          </div>`;
-
-        matches.forEach(m => {
-          const status = m.fixture.status.short;
-          const home = m.teams.home;
-          const away = m.teams.away;
-          const goals = m.goals;
-          let scoreHtml = '';
-
-          if (status === 'NS') {
-            scoreHtml = `<div class="score-box"><div class="status-ns">${formatTime(m.fixture.date)}</div></div>`;
-          } else if (['1H','2H','ET','HT','P'].includes(status)) {
-            const min = m.fixture.status.elapsed || '';
-            scoreHtml = `<div class="score-box">
-              <div class="score">${goals.home ?? 0} - ${goals.away ?? 0}</div>
-              <div><span class="status-live">${min}'</span></div>
-            </div>`;
-          } else {
-            scoreHtml = `<div class="score-box">
-              <div class="score">${goals.home ?? '-'} - ${goals.away ?? '-'}</div>
-              <div><span class="status-ft">انتهت</span></div>
-            </div>`;
-          }
-
-          html += `<div class="match-card">
-            <div class="team">
-              <div class="team-logo">${initials(home.name)}</div>
-              <span class="team-name">${home.name}</span>
-            </div>
-            ${scoreHtml}
-            <div class="team away">
-              <div class="team-logo">${initials(away.name)}</div>
-              <span class="team-name">${away.name}</span>
-            </div>
-          </div>`;
+    async function loadGold() {
+      try {
+        const res = await fetch('https://www.goldapi.io/api/XAU/USD', {
+          headers: { 'x-access-token': GOLD_API_KEY, 'Content-Type': 'application/json' }
         });
+        const d = await res.json();
+        if (d.price) {
+          const usd = d.price;
+          const omr = usd * OMR_RATE;
+          const gramUsd = d.price_gram_24k || (usd / 31.1035);
+          const gramOmr = gramUsd * OMR_RATE;
+          document.getElementById('gold-usd').textContent = '$ ' + formatNum(usd);
+          document.getElementById('gold-omr').textContent = 'ر.ع ' + formatNum(omr) + ' / أوقية';
+          document.getElementById('gold-gram').textContent = 'الغرام: $ ' + formatNum(gramUsd) + ' | ر.ع ' + formatNum(gramOmr);
+          changeEl(d.ch, d.chp, 'gold-change');
+        }
+      } catch(e) {
+        document.getElementById('gold-usd').textContent = 'تعذّر التحميل';
+      }
+    }
 
-        html += '</div>';
-      });
+    async function loadOil() {
+      try {
+        const res = await fetch('https://www.goldapi.io/api/BRENT/USD', {
+          headers: { 'x-access-token': GOLD_API_KEY, 'Content-Type': 'application/json' }
+        });
+        const d = await res.json();
+        if (d.price) {
+          const usd = d.price + 0.8;
+          const omr = usd * OMR_RATE;
+          document.getElementById('oil-usd').textContent = '$ ' + formatNum(usd);
+          document.getElementById('oil-omr').textContent = 'ر.ع ' + formatNum(omr) + ' / برميل';
+          changeEl(d.ch, d.chp, 'oil-change');
+        } else {
+          const usd = 74.5;
+          document.getElementById('oil-usd').textContent = '$ ' + formatNum(usd);
+          document.getElementById('oil-omr').textContent = 'ر.ع ' + formatNum(usd * OMR_RATE) + ' / برميل';
+        }
+      } catch(e) {
+        document.getElementById('oil-usd').textContent = 'تعذّر التحميل';
+      }
+    }
 
-      container.innerHTML = html;
+    async function loadNews() {
+      const feeds = [
+        'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
+        'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/'
+      ];
+      let items = [];
+      for (const url of feeds) {
+        try {
+          const res = await fetch(url);
+          const d = await res.json();
+          if (d.items) items = items.concat(d.items.slice(0, 8));
+        } catch(e) {}
+      }
+      if (items.length === 0) {
+        items = [{ title: 'تعذّر تحميل الأخبار، يرجى المحاولة لاحقاً' }];
+      }
+      const titles = items.map(i => i.title).filter(Boolean);
+      const doubled = [...titles, ...titles];
+      const track = document.getElementById('ticker-track');
+      track.innerHTML = doubled.map(t => `<span class="ticker-item">${t}</span>`).join('');
+    }
+
+    function loadAll() {
+      updateDate();
+      loadGold();
+      loadOil();
+      loadNews();
       document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' });
     }
 
-    async function loadMatches() {
-      document.getElementById('date-sub').textContent = formatDateAr(currentOffset);
-      document.getElementById('date-label').textContent = currentOffset === -1 ? 'الأمس' : currentOffset === 0 ? 'اليوم' : 'الغد';
-
-      document.querySelectorAll('.nav-btn').forEach((b, i) => {
-        b.classList.toggle('active', i === currentOffset + 1);
-      });
-
-      try {
-        const dateStr = getDateStr(currentOffset);
-        const promises = Object.keys(LEAGUES).map(lid =>
-          fetch(`https://v3.football.api-sports.io/fixtures?date=${dateStr}&league=${lid}&season=2025`, {
-            headers: { 'x-apisports-key': API_KEY }
-          }).then(r => r.json())
-        );
-        const results = await Promise.all(promises);
-        const merged = { response: results.flatMap(r => r.response || []) };
-        renderMatches(merged);
-      } catch(e) {
-        document.getElementById('matches-container').innerHTML = '<div class="error-box">تعذّر تحميل المباريات، تحقق من الاتصال بالإنترنت</div>';
-      }
-    }
-
-    function changeDay(offset) {
-      currentOffset = offset;
-      if (refreshTimer) clearInterval(refreshTimer);
-      document.getElementById('matches-container').innerHTML = '<div class="loading">✦ جاري تحميل المباريات...</div>';
-      loadMatches();
-      if (offset === 0) {
-        refreshTimer = setInterval(loadMatches, 60000);
-      }
-    }
-
-    changeDay(0);
+    loadAll();
+    setInterval(loadAll, 5 * 60 * 1000);
   </script>
 </body>
 </html>
