@@ -3,313 +3,363 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة المعلومات - Mohammed Al-Maqbali</title>
+  <title>لوحة المعلومات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Cairo', sans-serif;
-      direction: rtl;
-      background: #0e0e0e;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      color: #f0e6c8;
-    }
-    .page { max-width: 860px; margin: 0 auto; }
+    body { font-family: 'Cairo', sans-serif; direction: rtl; background: #0e0e0e; min-height: 100vh; padding: 2rem 1rem; color: #f0e6c8; }
+    .page { max-width: 900px; margin: 0 auto; }
 
-    .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 20px; background: #161616;
-      border: 0.5px solid rgba(201,168,76,0.15);
-      border-radius: 12px; margin-bottom: 2rem;
-    }
-    .nav-btn-action {
-      display: flex; align-items: center; gap: 7px;
-      padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif;
-      background: #1a1a1a; border: 0.5px solid rgba(201,168,76,0.25);
-      border-radius: 8px; cursor: pointer; color: #c9a84c;
-      text-decoration: none; transition: all 0.15s;
-    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: #161616; border: 0.5px solid rgba(201,168,76,0.15); border-radius: 12px; margin-bottom: 1.5rem; }
+    .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif; background: #1a1a1a; border: 0.5px solid rgba(201,168,76,0.25); border-radius: 8px; cursor: pointer; color: #c9a84c; text-decoration: none; transition: all 0.15s; }
     .nav-btn-action:hover { background: #222; border-color: #c9a84c; }
     .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    .date-bar {
-      background: #161616;
-      border: 0.5px solid rgba(201,168,76,0.12);
-      border-radius: 10px;
-      padding: 14px 20px;
-      margin-bottom: 1.2rem;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-    }
-    .date-day { font-size: 15px; font-weight: 700; color: #c9a84c; }
-    .date-sep { color: rgba(201,168,76,0.3); font-size: 16px; }
-    .date-full { font-size: 14px; color: #888; }
+    .date-bar { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .date-item { text-align: center; }
+    .date-label-sm { font-size: 10px; color: #555; margin-bottom: 2px; }
+    .date-value { font-size: 14px; font-weight: 600; color: #c9a84c; }
+    .date-sep { color: rgba(201,168,76,0.3); font-size: 18px; }
 
-    .ticker-wrap {
-      background: #161616;
-      border: 0.5px solid rgba(201,168,76,0.12);
-      border-radius: 10px;
-      padding: 10px 0;
-      margin-bottom: 1.5rem;
-      overflow: hidden;
-      position: relative;
-    }
-    .ticker-label {
-      position: absolute; right: 0; top: 0; height: 100%;
-      background: #c9a84c; color: #111;
-      display: flex; align-items: center;
-      padding: 0 14px; font-size: 12px; font-weight: 700;
-      border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap;
-    }
-    .ticker-track {
-      display: flex; align-items: center;
-      white-space: nowrap;
-      animation: ticker 40s linear infinite;
-      padding-right: 120px;
-    }
+    .ticker-wrap { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 10px 0; margin-bottom: 1.5rem; overflow: hidden; position: relative; min-height: 40px; }
+    .ticker-label { position: absolute; right: 0; top: 0; height: 100%; background: #c9a84c; color: #111; display: flex; align-items: center; padding: 0 14px; font-size: 12px; font-weight: 700; border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap; }
+    .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 60s linear infinite; padding-right: 130px; }
     .ticker-track:hover { animation-play-state: paused; }
-    .ticker-item {
-      font-size: 13px; color: #d4c49a;
-      padding: 0 30px;
-      border-left: 0.5px solid rgba(201,168,76,0.2);
-    }
-    .ticker-item:last-child { border-left: none; }
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    .ticker-item { font-size: 12px; color: #d4c49a; padding: 0 24px; border-left: 0.5px solid rgba(201,168,76,0.2); }
+    .ticker-time { font-size: 10px; color: #555; margin-right: 6px; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    .prices-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 1.5rem;
-    }
-    .price-card {
-      background: #161616;
-      border: 0.5px solid rgba(201,168,76,0.12);
-      border-radius: 12px;
-      padding: 1.4rem;
-      transition: border-color 0.15s;
-    }
+    .section-title { font-size: 13px; font-weight: 600; color: #c9a84c; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid rgba(201,168,76,0.12); letter-spacing: 0.5px; }
+
+    .prices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+    .price-card { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 12px; padding: 1.2rem; transition: border-color 0.15s; }
     .price-card:hover { border-color: rgba(201,168,76,0.3); }
-    .price-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .price-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: #1e1e1e; border: 0.5px solid rgba(201,168,76,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
+    .price-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 0.5px solid rgba(201,168,76,0.1); }
+    .price-icon { width: 34px; height: 34px; border-radius: 8px; background: #1e1e1e; border: 0.5px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
     .price-title { font-size: 13px; font-weight: 600; color: #c9a84c; }
-    .price-subtitle { font-size: 11px; color: #555; margin-top: 1px; }
-    .price-value { font-size: 26px; font-weight: 700; color: #f0e6c8; margin-bottom: 6px; }
-    .price-unit { font-size: 12px; color: #666; }
-    .price-change { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 6px; padding: 3px 10px; border-radius: 20px; }
-    .price-change.up { background: rgba(39,80,10,0.3); color: #97C459; }
-    .price-change.down { background: rgba(163,45,45,0.3); color: #F09595; }
-    .price-change.neutral { background: rgba(136,135,128,0.2); color: #888; }
-    .price-loading { color: #555; font-size: 13px; }
-    .price-omr { font-size: 13px; color: #888; margin-top: 4px; }
+    .price-subtitle { font-size: 10px; color: #555; margin-top: 1px; }
 
-    .section-title {
-      font-size: 13px; font-weight: 600; color: #c9a84c;
-      margin-bottom: 12px; padding-bottom: 8px;
-      border-bottom: 0.5px solid rgba(201,168,76,0.12);
-      letter-spacing: 0.5px;
-    }
+    .grades-table { width: 100%; border-collapse: collapse; }
+    .grades-table th { font-size: 10px; color: #555; font-weight: 500; padding: 4px 6px; text-align: right; border-bottom: 0.5px solid rgba(201,168,76,0.1); }
+    .grades-table th.left { text-align: left; }
+    .grades-table td { font-size: 13px; padding: 7px 6px; border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f0e6c8; }
+    .grades-table td.left { text-align: left; }
+    .grades-table tr:last-child td { border-bottom: none; }
+    .grade-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
+    .g24 { background: rgba(201,168,76,0.2); color: #c9a84c; }
+    .g22 { background: rgba(201,168,76,0.15); color: #b8943a; }
+    .g21 { background: rgba(201,168,76,0.1); color: #9a7a2e; }
+    .g18 { background: rgba(201,168,76,0.08); color: #7a6025; }
+    .silver { background: rgba(180,178,169,0.2); color: #B4B2A9; }
 
-    .last-update {
-      text-align: center; margin-top: 1.5rem; padding-top: 1rem;
-      border-top: 0.5px solid rgba(201,168,76,0.12);
-      font-size: 11px; color: #444;
-    }
+    .price-change { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .up { background: rgba(39,80,10,0.3); color: #97C459; }
+    .down { background: rgba(163,45,45,0.3); color: #F09595; }
+    .neutral { background: rgba(136,135,128,0.2); color: #888; }
 
-    .footer {
-      text-align: center; margin-top: 2rem; padding-top: 1.2rem;
-      border-top: 0.5px solid rgba(201,168,76,0.12);
-    }
+    .yesterday-today { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+    .yt-box { background: #1a1a1a; border-radius: 8px; padding: 8px 10px; }
+    .yt-label { font-size: 10px; color: #555; margin-bottom: 4px; }
+    .yt-val { font-size: 13px; font-weight: 600; color: #f0e6c8; }
+
+    .oil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+    .oil-card { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 12px; padding: 1.2rem; }
+    .oil-price { font-size: 24px; font-weight: 700; color: #f0e6c8; margin: 8px 0 4px; }
+    .oil-omr { font-size: 12px; color: #888; }
+
+    .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
+    .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
     .footer span { font-size: 12px; color: #444; }
     .footer strong { color: #c9a84c; font-weight: 600; }
 
-    @media (max-width: 560px) {
-      .prices-grid { grid-template-columns: 1fr; }
-      .nav { padding: 12px 16px; }
-      .price-value { font-size: 22px; }
+    @media (max-width: 580px) {
+      .prices-grid, .oil-grid { grid-template-columns: 1fr; }
+      .nav { padding: 10px 14px; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
+<div class="page">
 
-    <div class="nav">
-      <a href="index.html" class="nav-btn-action">
-        <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        الرئيسية
-      </a>
-      <button class="nav-btn-action" onclick="loadAll()">
-        <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
-        تحديث
-      </button>
-    </div>
-
-    <div class="date-bar">
-      <span class="date-day" id="date-day">-</span>
-      <span class="date-sep">✦</span>
-      <span class="date-full" id="date-full">-</span>
-    </div>
-
-    <div class="ticker-wrap">
-      <div class="ticker-label">عاجل ✦</div>
-      <div class="ticker-track" id="ticker-track">
-        <span class="ticker-item">جاري تحميل الأخبار...</span>
-      </div>
-    </div>
-
-    <div class="section-title">✦ الأسواق العالمية</div>
-
-    <div class="prices-grid">
-
-      <div class="price-card">
-        <div class="price-header">
-          <div class="price-icon">🥇</div>
-          <div>
-            <div class="price-title">سعر الذهب</div>
-            <div class="price-subtitle">Gold XAU/USD</div>
-          </div>
-        </div>
-        <div class="price-value" id="gold-usd"><span class="price-loading">جاري التحميل...</span></div>
-        <div class="price-unit">دولار / أوقية</div>
-        <div class="price-omr" id="gold-omr"></div>
-        <div id="gold-change"></div>
-        <div class="price-omr" id="gold-gram" style="margin-top:6px"></div>
-      </div>
-
-      <div class="price-card">
-        <div class="price-header">
-          <div class="price-icon">🛢️</div>
-          <div>
-            <div class="price-title">خام عُمان</div>
-            <div class="price-subtitle">Oman Crude Oil</div>
-          </div>
-        </div>
-        <div class="price-value" id="oil-usd"><span class="price-loading">جاري التحميل...</span></div>
-        <div class="price-unit">دولار / برميل</div>
-        <div class="price-omr" id="oil-omr"></div>
-        <div id="oil-change"></div>
-        <div class="price-omr" id="oil-note" style="margin-top:6px;font-size:10px;color:#444">يتتبع سعر برنت + علاوة عُمان</div>
-      </div>
-
-    </div>
-
-    <div class="last-update" id="last-update"></div>
-
-    <div class="footer">
-      <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
-    </div>
-
+  <div class="nav">
+    <a href="index.html" class="nav-btn-action">
+      <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      الرئيسية
+    </a>
+    <button class="nav-btn-action" onclick="loadAll()">
+      <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
+      تحديث
+    </button>
   </div>
 
-  <script>
-    const GOLD_API_KEY = 'goldapi-2ra9rsmnja7oh7-io';
-    const OMR_RATE = 0.385;
+  <div class="date-bar">
+    <div class="date-item">
+      <div class="date-label-sm">اليوم</div>
+      <div class="date-value" id="date-day">-</div>
+    </div>
+    <div class="date-sep">✦</div>
+    <div class="date-item">
+      <div class="date-label-sm">التاريخ الميلادي</div>
+      <div class="date-value" id="date-miladi">-</div>
+    </div>
+    <div class="date-sep">✦</div>
+    <div class="date-item">
+      <div class="date-label-sm">التاريخ الهجري</div>
+      <div class="date-value" id="date-hijri">-</div>
+    </div>
+  </div>
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <div class="ticker-wrap">
+    <div class="ticker-label">عاجل ✦</div>
+    <div class="ticker-track" id="ticker-track">
+      <span class="ticker-item">جاري تحميل الأخبار...</span>
+    </div>
+  </div>
 
-    function updateDate() {
-      const now = new Date();
-      const day = now.toLocaleDateString('ar-OM', { weekday: 'long', timeZone: 'Asia/Muscat' });
-      const full = now.toLocaleDateString('ar-OM', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Muscat' });
-      document.getElementById('date-day').textContent = day;
-      document.getElementById('date-full').textContent = full;
-    }
+  <div class="section-title">✦ أسعار الذهب — ريال عُماني</div>
+  <div class="prices-grid">
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-icon">🥇</div>
+        <div>
+          <div class="price-title">الذهب — سعر اليوم</div>
+          <div class="price-subtitle">Gold Today / OMR per gram</div>
+        </div>
+      </div>
+      <table class="grades-table">
+        <thead>
+          <tr>
+            <th>العيار</th>
+            <th class="left">سعر الأمس</th>
+            <th class="left">سعر اليوم</th>
+            <th class="left">التغيير</th>
+          </tr>
+        </thead>
+        <tbody id="gold-table">
+          <tr><td colspan="4" style="color:#555;font-size:12px;text-align:center;padding:12px">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    function formatNum(n, dec=2) {
-      return parseFloat(n).toLocaleString('ar-OM', { minimumFractionDigits: dec, maximumFractionDigits: dec });
-    }
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-icon">🥈</div>
+        <div>
+          <div class="price-title">الفضة — سعر اليوم</div>
+          <div class="price-subtitle">Silver Today / OMR per gram</div>
+        </div>
+      </div>
+      <table class="grades-table">
+        <thead>
+          <tr>
+            <th>العيار</th>
+            <th class="left">سعر الأمس</th>
+            <th class="left">سعر اليوم</th>
+            <th class="left">التغيير</th>
+          </tr>
+        </thead>
+        <tbody id="silver-table">
+          <tr><td colspan="4" style="color:#555;font-size:12px;text-align:center;padding:12px">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    function changeEl(ch, chp, id) {
-      if (ch === null || ch === undefined) return;
-      const el = document.getElementById(id);
-      const dir = ch >= 0 ? '▲' : '▼';
-      const cls = ch > 0 ? 'up' : ch < 0 ? 'down' : 'neutral';
-      el.innerHTML = `<span class="price-change ${cls}">${dir} ${formatNum(Math.abs(ch))} (${formatNum(Math.abs(chp))}%)</span>`;
-    }
+  <div class="section-title">✦ أسعار النفط</div>
+  <div class="oil-grid">
+    <div class="oil-card">
+      <div class="price-header">
+        <div class="price-icon">🛢️</div>
+        <div>
+          <div class="price-title">خام عُمان</div>
+          <div class="price-subtitle">Oman Crude Oil</div>
+        </div>
+      </div>
+      <div class="oil-price" id="oman-usd">-</div>
+      <div class="oil-omr" id="oman-omr">-</div>
+      <div id="oman-change" style="margin-top:6px"></div>
+    </div>
+    <div class="oil-card">
+      <div class="price-header">
+        <div class="price-icon">⛽</div>
+        <div>
+          <div class="price-title">خام برنت</div>
+          <div class="price-subtitle">Brent Crude Oil</div>
+        </div>
+      </div>
+      <div class="oil-price" id="brent-usd">-</div>
+      <div class="oil-omr" id="brent-omr">-</div>
+      <div id="brent-change" style="margin-top:6px"></div>
+    </div>
+  </div>
 
-    async function loadGold() {
-      try {
-        const res = await fetch('https://www.goldapi.io/api/XAU/USD', {
-          headers: { 'x-access-token': GOLD_API_KEY, 'Content-Type': 'application/json' }
-        });
-        const d = await res.json();
-        if (d.price) {
-          const usd = d.price;
-          const omr = usd * OMR_RATE;
-          const gramUsd = d.price_gram_24k || (usd / 31.1035);
-          const gramOmr = gramUsd * OMR_RATE;
-          document.getElementById('gold-usd').textContent = '$ ' + formatNum(usd);
-          document.getElementById('gold-omr').textContent = 'ر.ع ' + formatNum(omr) + ' / أوقية';
-          document.getElementById('gold-gram').textContent = 'الغرام: $ ' + formatNum(gramUsd) + ' | ر.ع ' + formatNum(gramOmr);
-          changeEl(d.ch, d.chp, 'gold-change');
-        }
-      } catch(e) {
-        document.getElementById('gold-usd').textContent = 'تعذّر التحميل';
-      }
-    }
+  <div class="last-update" id="last-update"></div>
 
-    async function loadOil() {
-      try {
-        const res = await fetch('https://www.goldapi.io/api/BRENT/USD', {
-          headers: { 'x-access-token': GOLD_API_KEY, 'Content-Type': 'application/json' }
-        });
-        const d = await res.json();
-        if (d.price) {
-          const usd = d.price + 0.8;
-          const omr = usd * OMR_RATE;
-          document.getElementById('oil-usd').textContent = '$ ' + formatNum(usd);
-          document.getElementById('oil-omr').textContent = 'ر.ع ' + formatNum(omr) + ' / برميل';
-          changeEl(d.ch, d.chp, 'oil-change');
-        } else {
-          const usd = 74.5;
-          document.getElementById('oil-usd').textContent = '$ ' + formatNum(usd);
-          document.getElementById('oil-omr').textContent = 'ر.ع ' + formatNum(usd * OMR_RATE) + ' / برميل';
-        }
-      } catch(e) {
-        document.getElementById('oil-usd').textContent = 'تعذّر التحميل';
-      }
-    }
+  <div class="footer">
+    <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
+  </div>
 
-    async function loadNews() {
-      const feeds = [
-        'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
-        'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/'
-      ];
-      let items = [];
-      for (const url of feeds) {
-        try {
-          const res = await fetch(url);
-          const d = await res.json();
-          if (d.items) items = items.concat(d.items.slice(0, 8));
-        } catch(e) {}
-      }
-      if (items.length === 0) {
-        items = [{ title: 'تعذّر تحميل الأخبار، يرجى المحاولة لاحقاً' }];
-      }
-      const titles = items.map(i => i.title).filter(Boolean);
-      const doubled = [...titles, ...titles];
-      const track = document.getElementById('ticker-track');
-      track.innerHTML = doubled.map(t => `<span class="ticker-item">${t}</span>`).join('');
-    }
+</div>
+<script>
+const GOLD_KEY = 'goldapi-2ra9rsmnja7oh7-io';
+const OMR = 0.385;
+document.getElementById('year').textContent = new Date().getFullYear();
 
-    function loadAll() {
-      updateDate();
-      loadGold();
-      loadOil();
-      loadNews();
-      document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', { hour: '2-digit', minute: '2-digit' });
-    }
+function fmt(n, d=3) { return parseFloat(n).toLocaleString('ar-OM', {minimumFractionDigits:d, maximumFractionDigits:d}); }
+function fmt2(n) { return parseFloat(n).toLocaleString('ar-OM', {minimumFractionDigits:2, maximumFractionDigits:2}); }
 
-    loadAll();
-    setInterval(loadAll, 5 * 60 * 1000);
-  </script>
+function updateDate() {
+  const now = new Date();
+  const opts = {timeZone:'Asia/Muscat'};
+  document.getElementById('date-day').textContent = now.toLocaleDateString('ar-OM', {...opts, weekday:'long'});
+  document.getElementById('date-miladi').textContent = now.toLocaleDateString('ar-OM', {...opts, year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('date-hijri').textContent = now.toLocaleDateString('ar-SA-u-ca-islamic', {...opts, year:'numeric', month:'long', day:'numeric'});
+}
+
+function timeSince(dateStr) {
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 60000);
+  if (diff < 1) return 'الآن';
+  if (diff < 60) return `منذ ${diff} د`;
+  const h = Math.floor(diff/60);
+  if (h < 24) return `منذ ${h} س`;
+  return `منذ ${Math.floor(h/24)} ي`;
+}
+
+async function loadNews() {
+  const feeds = [
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml&api_key=free',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/'
+  ];
+  let items = [];
+  for (const url of feeds) {
+    try {
+      const r = await fetch(url);
+      const d = await r.json();
+      if (d.items) items = items.concat(d.items.slice(0, 10));
+    } catch(e) {}
+  }
+  if (!items.length) items = [{title:'تعذّر تحميل الأخبار', pubDate: new Date().toISOString()}];
+  const doubled = [...items, ...items];
+  document.getElementById('ticker-track').innerHTML = doubled.map(i =>
+    `<span class="ticker-item">${i.title}<span class="ticker-time">${timeSince(i.pubDate)}</span></span>`
+  ).join('');
+}
+
+function changeHtml(ch, chp) {
+  if (!ch && ch !== 0) return '';
+  const dir = ch >= 0 ? '▲' : '▼';
+  const cls = ch > 0 ? 'up' : ch < 0 ? 'down' : 'neutral';
+  return `<span class="price-change ${cls}">${dir} ${fmt2(Math.abs(chp))}%</span>`;
+}
+
+async function loadGold() {
+  try {
+    const r = await fetch('https://www.goldapi.io/api/XAU/USD', {headers:{'x-access-token':GOLD_KEY}});
+    const d = await r.json();
+    if (!d.price) return;
+
+    const oz = d.price;
+    const g = oz / 31.1035;
+    const prevOz = oz - (d.ch || 0);
+    const prevG = prevOz / 31.1035;
+
+    const grades = [
+      {label:'24K', purity:1,    cls:'g24'},
+      {label:'22K', purity:22/24, cls:'g22'},
+      {label:'21K', purity:21/24, cls:'g21'},
+      {label:'18K', purity:18/24, cls:'g18'},
+    ];
+
+    let html = '';
+    grades.forEach(gr => {
+      const today = g * gr.purity * OMR;
+      const yest  = prevG * gr.purity * OMR;
+      const diff  = today - yest;
+      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      html += `<tr>
+        <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
+        <td class="left" style="color:#888">${fmt(yest)}</td>
+        <td class="left" style="font-weight:600">${fmt(today)}</td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+      </tr>`;
+    });
+    document.getElementById('gold-table').innerHTML = html;
+  } catch(e) {
+    document.getElementById('gold-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
+  }
+}
+
+async function loadSilver() {
+  try {
+    const r = await fetch('https://www.goldapi.io/api/XAG/USD', {headers:{'x-access-token':GOLD_KEY}});
+    const d = await r.json();
+    if (!d.price) return;
+
+    const oz = d.price;
+    const g = oz / 31.1035;
+    const prevG = (oz - (d.ch||0)) / 31.1035;
+
+    const grades = [
+      {label:'999', purity:0.999, cls:'silver'},
+      {label:'925', purity:0.925, cls:'silver'},
+      {label:'900', purity:0.900, cls:'silver'},
+      {label:'800', purity:0.800, cls:'silver'},
+    ];
+
+    let html = '';
+    grades.forEach(gr => {
+      const today = g * gr.purity * OMR;
+      const yest  = prevG * gr.purity * OMR;
+      const diff  = today - yest;
+      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      html += `<tr>
+        <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
+        <td class="left" style="color:#888">${fmt(yest)}</td>
+        <td class="left" style="font-weight:600">${fmt(today)}</td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+      </tr>`;
+    });
+    document.getElementById('silver-table').innerHTML = html;
+  } catch(e) {
+    document.getElementById('silver-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
+  }
+}
+
+async function loadOil() {
+  try {
+    const r = await fetch('https://www.goldapi.io/api/BRENT/USD', {headers:{'x-access-token':GOLD_KEY}});
+    const d = await r.json();
+    const brent = d.price || 74.5;
+    const oman  = brent + 0.8;
+    const ch    = d.ch || 0;
+    const chp   = d.chp || 0;
+
+    document.getElementById('brent-usd').textContent = '$ ' + fmt2(brent);
+    document.getElementById('brent-omr').textContent = 'ر.ع ' + fmt2(brent * OMR) + ' / برميل';
+    document.getElementById('brent-change').innerHTML = changeHtml(ch, chp);
+
+    document.getElementById('oman-usd').textContent = '$ ' + fmt2(oman);
+    document.getElementById('oman-omr').textContent = 'ر.ع ' + fmt2(oman * OMR) + ' / برميل';
+    document.getElementById('oman-change').innerHTML = changeHtml(ch, chp);
+  } catch(e) {
+    document.getElementById('brent-usd').textContent = 'تعذّر التحميل';
+    document.getElementById('oman-usd').textContent = 'تعذّر التحميل';
+  }
+}
+
+function loadAll() {
+  updateDate();
+  loadNews();
+  loadGold();
+  loadSilver();
+  loadOil();
+  document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'});
+}
+
+loadAll();
+setInterval(loadAll, 5 * 60 * 1000);
+</script>
 </body>
 </html>
