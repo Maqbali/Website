@@ -94,11 +94,7 @@
 <body>
 <div class="page">
 
-  <div class="nav">
-    <a href="index.html" class="nav-btn-action">
-      <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      الرئيسية
-    </a>
+  <div class="nav" style="justify-content:flex-start">
     <button class="nav-btn-action" onclick="loadAll()">
       <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
       تحديث
@@ -107,8 +103,8 @@
 
   <div class="date-bar">
     <div class="date-item">
-      <div class="date-label-sm">اليوم</div>
-      <div class="date-value" id="date-day">-</div>
+      <div class="date-label-sm">الساعة الآن</div>
+      <div class="date-value" id="date-clock">-</div>
     </div>
     <div class="date-sep">✦</div>
     <div class="date-item">
@@ -223,10 +219,7 @@
           <tr>
             <th>الشركة</th>
             <th class="left">آخر سعر</th>
-            <th class="left">إغلاق الأمس</th>
             <th class="left">التغيير</th>
-            <th class="left">% التغيير</th>
-            <th class="left">الحجم</th>
             <th class="left">التوصية</th>
             <th class="left">التغير الأسبوعي</th>
           </tr>
@@ -253,10 +246,18 @@ function fmt2(n) { return parseFloat(n).toLocaleString('ar-OM', {minimumFraction
 function updateDate() {
   const now = new Date();
   const opts = {timeZone:'Asia/Muscat'};
-  document.getElementById('date-day').textContent = now.toLocaleDateString('ar-OM', {...opts, weekday:'long'});
+  const clock = now.toLocaleTimeString('en-US', {...opts, hour:'2-digit', minute:'2-digit', hour12:true});
+  document.getElementById('date-clock').textContent = clock;
   document.getElementById('date-miladi').textContent = now.toLocaleDateString('ar-OM', {...opts, year:'numeric', month:'long', day:'numeric'});
   document.getElementById('date-hijri').textContent = now.toLocaleDateString('ar-SA-u-ca-islamic', {...opts, year:'numeric', month:'long', day:'numeric'});
 }
+
+setInterval(() => {
+  const now = new Date();
+  const clock = now.toLocaleTimeString('en-US', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit', hour12:true});
+  const el = document.getElementById('date-clock');
+  if (el) el.textContent = clock;
+}, 1000);
 
 function timeSince(dateStr) {
   const diff = Math.floor((Date.now() - new Date(dateStr)) / 60000);
@@ -482,7 +483,7 @@ async function loadStocks() {
       if (s.error) {
         html += `<tr>
           <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
-          <td colspan="7" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
+          <td colspan="5" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
         </tr>`;
         return;
       }
@@ -491,10 +492,7 @@ async function loadStocks() {
       html += `<tr>
         <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
         <td class="left" style="font-weight:600">${s.price?.toFixed(3) ?? '—'}</td>
-        <td class="left" style="color:#888">${s.prevClose?.toFixed(3) ?? '—'}</td>
         <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${chDir} ${Math.abs(s.change ?? 0).toFixed(3)}</span></td>
-        <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${Math.abs(s.changePct ?? 0).toFixed(2)}%</span></td>
-        <td class="left" style="color:#666;font-size:11px">${s.volume?.toLocaleString('ar-OM') ?? '—'}</td>
         <td class="left">${stockRecommend(s.changePct)}</td>
         <td class="left stock-chart-cell"><div class="stock-chart-wrap"><canvas id="schart-${idx}"></canvas></div></td>
       </tr>`;
@@ -518,7 +516,9 @@ function loadAll() {
   loadSilver();
   loadOil();
   loadStocks();
-  document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'});
+  const now = new Date();
+  const upd = now.toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
+  document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + upd;
 }
 
 loadAll();
