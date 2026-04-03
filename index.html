@@ -25,17 +25,16 @@
   <meta name="twitter:image" content="https://www.maqbali.com/images/profile.jpg">
 
   <!-- Canonical -->
-  
   <link rel="canonical" href="https://www.maqbali.com/">
   <link rel="icon" href="images/favicon.png" type="image/png">
   
-    <!-- Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 body{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:#0a0a0a;font-family:'Cairo',sans-serif;
 }
 body::before{
@@ -115,11 +114,15 @@ body::before{
 .icon-link:hover .tip{opacity:1;}
 
 .footer {
-      text-align: center; margin-top: 2rem; padding-top: 1.2rem;
-      border-top: 0.5px solid rgba(201,168,76,0.12);
-    }
-    .footer span { font-size: 12px; color: #444; }
-    .footer strong { color: #c9a84c; font-weight: 600; }
+  text-align: center;
+  padding: 1rem;
+  border-top: 0.5px solid rgba(201,168,76,0.12);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.footer span { font-size: 12px; color: #444; }
+.footer strong { color: #c9a84c; font-weight: 600; }
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -173,11 +176,12 @@ body::before{
       <span class="tip">الإيميل</span>
     </a>
 
+  </div>
 </div>
+
+<div class="footer">
+  <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
 </div>
-    <div class="footer">
-      <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
-    </div>
-    
+
 </body>
 </html>
