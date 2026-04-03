@@ -302,13 +302,25 @@ function changeHtml(ch, chp) {
   return `<span class="price-change ${cls}">${dir} ${fmt2(Math.abs(chp))}%</span>`;
 }
 
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTbk6cRu1ycfpOTENcE5AkXcUYHXdoxmufNu4GjiOdXMtyM3P_H9lxW06Iu05kr2R27Ev2heO-LgA_8/pub?gid=0&single=true&output=csv';
+
+async function fetchSheetData() {
+  const r = await fetch(SHEET_URL);
+  const text = await r.text();
+  const rows = text.trim().split('\n').map(row => row.split(','));
+  const data = {};
+  rows.forEach(row => {
+    if (row[0] && row[1]) data[row[0].trim()] = parseFloat(row[1].trim());
+  });
+  return data;
+}
+
 async function loadGold() {
   try {
-    const r = await fetch('https://gold-api.com/price/XAU');
-    const d = await r.json();
-    if (!d?.price) throw new Error('no data');
-    const oz    = d.price;
-    const ozPrev = d.prev_close_price || oz;
+    const data = await fetchSheetData();
+    const oz    = data['XAU'];
+    const ozPrev = data['PREV_XAU'] || oz;
+    if (!oz) throw new Error('no data');
     const g     = oz / 31.1035;
     const prevG = ozPrev / 31.1035;
     const grades = [
@@ -339,11 +351,10 @@ async function loadGold() {
 
 async function loadSilver() {
   try {
-    const r = await fetch('https://gold-api.com/price/XAG');
-    const d = await r.json();
-    if (!d?.price) throw new Error('no data');
-    const oz    = d.price;
-    const ozPrev = d.prev_close_price || oz;
+    const data = await fetchSheetData();
+    const oz    = data['XAG'];
+    const ozPrev = data['PREV_XAG'] || oz;
+    if (!oz) throw new Error('no data');
     const g     = oz / 31.1035;
     const prevG = ozPrev / 31.1035;
     const grades = [
