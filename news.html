@@ -302,32 +302,36 @@ function changeHtml(ch, chp) {
   return `<span class="price-change ${cls}">${dir} ${fmt2(Math.abs(chp))}%</span>`;
 }
 
+const WORKER_URL = 'https://msx-stocks.al4muqbali.workers.dev';
+
+async function fetchSheetData() {
+  const r = await fetch(WORKER_URL + '/metals');
+  const d = await r.json();
+  return d;
+}
+
 async function loadGold() {
   try {
-    const r = await fetch('https://www.goldapi.io/api/XAU/USD', {headers:{'x-access-token':GOLD_KEY}});
+    const r = await fetch(WORKER_URL + '/metals');
     const d = await r.json();
-    if (!d.price) return;
-    const oz = d.price;
-    const g = oz / 31.1035;
-    const prevG = (oz - (d.ch || 0)) / 31.1035;
+    if (!d?.gold?.g24) throw new Error('no data');
+    const g = d.gold;
     const grades = [
-      {label:'24K', purity:1,     cls:'g24'},
-      {label:'22K', purity:22/24, cls:'g22'},
-      {label:'21K', purity:21/24, cls:'g21'},
-      {label:'18K', purity:18/24, cls:'g18'},
+      { label:'24K', today: g.g24, chg: g.chg24, cls:'g24' },
+      { label:'22K', today: g.g22, chg: g.chg22, cls:'g22' },
+      { label:'21K', today: g.g21, chg: g.chg21, cls:'g21' },
+      { label:'18K', today: g.g18, chg: g.chg18, cls:'g18' },
     ];
     let html = '';
     grades.forEach(gr => {
-      const today = g * gr.purity * OMR;
-      const yest  = prevG * gr.purity * OMR;
-      const diff  = today - yest;
-      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
-      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      const yest = parseFloat((gr.today - gr.chg).toFixed(3));
+      const cls  = gr.chg > 0 ? 'up' : gr.chg < 0 ? 'down' : 'neutral';
+      const dir  = gr.chg > 0 ? '▲' : gr.chg < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
         <td class="left" style="color:#888">${fmt(yest)}</td>
-        <td class="left" style="font-weight:600">${fmt(today)}</td>
-        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+        <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(gr.chg))}</span></td>
       </tr>`;
     });
     document.getElementById('gold-table').innerHTML = html;
@@ -338,30 +342,26 @@ async function loadGold() {
 
 async function loadSilver() {
   try {
-    const r = await fetch('https://www.goldapi.io/api/XAG/USD', {headers:{'x-access-token':GOLD_KEY}});
+    const r = await fetch(WORKER_URL + '/metals');
     const d = await r.json();
-    if (!d.price) return;
-    const oz = d.price;
-    const g = oz / 31.1035;
-    const prevG = (oz - (d.ch||0)) / 31.1035;
+    if (!d?.silver?.ag999) throw new Error('no data');
+    const s = d.silver;
     const grades = [
-      {label:'999', purity:0.999, cls:'silver'},
-      {label:'925', purity:0.925, cls:'silver'},
-      {label:'900', purity:0.900, cls:'silver'},
-      {label:'800', purity:0.800, cls:'silver'},
+      { label:'999', today: s.ag999, chg: s.chg999, cls:'silver' },
+      { label:'958', today: s.ag958, chg: s.chg958, cls:'silver' },
+      { label:'925', today: s.ag925, chg: s.chg925, cls:'silver' },
+      { label:'800', today: s.ag800, chg: s.chg800, cls:'silver' },
     ];
     let html = '';
     grades.forEach(gr => {
-      const today = g * gr.purity * OMR;
-      const yest  = prevG * gr.purity * OMR;
-      const diff  = today - yest;
-      const cls   = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
-      const dir   = diff > 0 ? '▲' : diff < 0 ? '▼' : '–';
+      const yest = parseFloat((gr.today - gr.chg).toFixed(4));
+      const cls  = gr.chg > 0 ? 'up' : gr.chg < 0 ? 'down' : 'neutral';
+      const dir  = gr.chg > 0 ? '▲' : gr.chg < 0 ? '▼' : '–';
       html += `<tr>
         <td><span class="grade-badge ${gr.cls}">${gr.label}</span></td>
         <td class="left" style="color:#888">${fmt(yest)}</td>
-        <td class="left" style="font-weight:600">${fmt(today)}</td>
-        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(diff))}</span></td>
+        <td class="left" style="font-weight:600">${fmt(gr.today)}</td>
+        <td class="left"><span class="price-change ${cls}" style="font-size:10px">${dir} ${fmt(Math.abs(gr.chg))}</span></td>
       </tr>`;
     });
     document.getElementById('silver-table').innerHTML = html;
@@ -440,8 +440,6 @@ async function loadOil() {
   }
 }
 
-const WORKER_URL = 'https://msx-stocks.al4muqbali.workers.dev/';
-
 const STOCK_NAMES = {
   'ABRJ.OM':  { ar: 'أبراج لخدمات الطاقة',    en: 'Abraj Energy Services' },
   'OQGN.OM':  { ar: 'OQ لشبكات الغاز',          en: 'OQ Gas Networks' },
@@ -478,7 +476,7 @@ function drawStockChart(canvasId, data) {
 
 async function loadStocks() {
   try {
-    const res = await fetch(WORKER_URL);
+    const res = await fetch(WORKER_URL + '/stocks');
     const stocks = await res.json();
 
     document.getElementById('stocks-loading').style.display = 'none';
