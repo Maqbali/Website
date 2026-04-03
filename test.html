@@ -288,24 +288,28 @@ function timeSince(dateStr) {
 }
 
 async function loadNews() {
-  const ECON_KW = ['نفط','ذهب','فضة','أسهم','بورصة','فائدة','تضخم','أوبك','برنت','خام','دولار','ريال','اقتصاد','بنك مركزي','فيدرالي','تداول','سوق','معادن','عملة','صرف','احتياطي','موازنة','ميزانية','نمو','ركود','oil','gold','silver','opec','inflation','fed','stocks','crude','market','economy','rate'];
+  const ECON_KW = ['نفط','ذهب','فضة','أسهم','بورصة','فائدة','تضخم','أوبك','برنت','خام','دولار','ريال','اقتصاد','بنك مركزي','فيدرالي','تداول','سوق','معادن','عملة','صرف','احتياطي','ميزانية','نمو','ركود','بترول','غاز','طاقة','استثمار','مالي','تجارة'];
   const feeds = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/economy.xml',
     'https://api.rss2json.com/v1/api.json?rss_url=https://www.cnbcarabia.com/rss',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/economy/',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.skynewsarabia.com/web/rss/4/economy.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
     'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/arabic/rss.xml',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.france24.com/ar/rss',
   ];
   let all = [];
   for (const url of feeds) {
     try {
       const r = await fetch(url);
       const d = await r.json();
-      if (d.items) all = all.concat(d.items.slice(0, 12));
+      if (d.items) all = all.concat(d.items.slice(0, 15));
     } catch(e) {}
   }
-  let items = all.filter(i => ECON_KW.some(k => (i.title||'').toLowerCase().includes(k.toLowerCase())));
-  if (items.length < 5) items = all.slice(0, 20);
+  // فلترة صارمة — لازم يحتوي على كلمة اقتصادية
+  let items = all.filter(i => ECON_KW.some(k => (i.title||'').includes(k)));
+  // لو ما في كافي نأخذ من feeds الاقتصادية الأولى مباشرة
+  if (items.length < 8) items = all.slice(0, 30).filter(i => ECON_KW.some(k => (i.title||'').includes(k)));
+  if (items.length < 4) items = all.slice(0, 20);
   if (!items.length) items = [{title:'تعذّر تحميل الأخبار', pubDate: new Date().toISOString()}];
   const doubled = [...items, ...items];
   document.getElementById('ticker-track').innerHTML = doubled.map(i =>
