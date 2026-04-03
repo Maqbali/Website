@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>جدول المباريات</title>
+  <title>جدول المباريات - Mohammed Al-Maqbali</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -274,7 +274,7 @@
       try {
         const dateStr = getDateStr(currentOffset);
         const promises = Object.keys(LEAGUES).map(lid =>
-          fetch(`https://v3.football.api-sports.io/fixtures?date=${dateStr}&league=${lid}&season=2024`, {
+          fetch(`https://v3.football.api-sports.io/fixtures?date=${dateStr}&league=${lid}&season=2025`, {
             headers: { 'x-apisports-key': API_KEY }
           }).then(r => r.json())
         );
