@@ -66,6 +66,20 @@
     .chart-label { font-size: 10px; color: #555; margin-bottom: 6px; }
     .chart-container { position: relative; height: 80px; width: 100%; }
 
+    .stocks-table { width: 100%; border-collapse: collapse; }
+    .stocks-table th { font-size: 10px; color: #555; font-weight: 500; padding: 6px 8px; text-align: right; border-bottom: 0.5px solid rgba(201,168,76,0.1); white-space: nowrap; }
+    .stocks-table th.left { text-align: left; }
+    .stocks-table td { font-size: 12px; padding: 8px; border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f0e6c8; vertical-align: middle; }
+    .stocks-table td.left { text-align: left; }
+    .stocks-table tr:last-child td { border-bottom: none; }
+    .stocks-table tr:hover td { background: rgba(201,168,76,0.03); }
+    .stock-name { font-weight: 600; font-size: 12px; color: #f0e6c8; }
+    .stock-symbol { font-size: 10px; color: #555; margin-top: 1px; }
+    .recommend-yes { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: rgba(39,80,10,0.3); color: #97C459; }
+    .recommend-no  { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: rgba(163,45,45,0.3); color: #F09595; }
+    .stock-chart-cell { width: 100px; }
+    .stock-chart-wrap { position: relative; height: 40px; width: 100px; }
+
     .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
     .footer span { font-size: 12px; color: #444; }
@@ -200,7 +214,27 @@
     </div>
   </div>
 
-  <div class="last-update" id="last-update"></div>
+  <div class="section-title" style="margin-top:1.5rem">✦ أسهم الشركات العُمانية — IPO</div>
+  <div class="price-card" style="margin-bottom:1.5rem">
+    <div id="stocks-loading" style="text-align:center;padding:1.5rem;color:#555;font-size:13px">جاري تحميل بيانات الأسهم...</div>
+    <div id="stocks-container" style="display:none">
+      <table class="stocks-table">
+        <thead>
+          <tr>
+            <th>الشركة</th>
+            <th class="left">آخر سعر</th>
+            <th class="left">إغلاق الأمس</th>
+            <th class="left">التغيير</th>
+            <th class="left">% التغيير</th>
+            <th class="left">الحجم</th>
+            <th class="left">التوصية</th>
+            <th class="left">التغير الأسبوعي</th>
+          </tr>
+        </thead>
+        <tbody id="stocks-table-body"></tbody>
+      </table>
+    </div>
+  </div> id="last-update"></div>
 
   <div class="footer">
     <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
@@ -398,12 +432,92 @@ async function loadOil() {
   }
 }
 
+const WORKER_URL = 'https://ma.maqbali.com';
+
+const STOCK_NAMES = {
+  'ABRJ.OM':  { ar: 'أبراج لخدمات الطاقة',    en: 'Abraj Energy Services' },
+  'OQGN.OM':  { ar: 'OQ لشبكات الغاز',          en: 'OQ Gas Networks' },
+  'OQEP.OM':  { ar: 'OQ للاستكشاف والإنتاج',    en: 'OQ Exploration & Production' },
+  'OQBI.OM':  { ar: 'OQ للديزل الحيوي',         en: 'OQ Biodiesel & Industries' },
+  'ASYAD.OM': { ar: 'أسياد للشحن',              en: 'ASYAD Shipping' },
+};
+
+function stockRecommend(changePct) {
+  if (changePct === null || changePct === undefined) return '<span style="color:#555;font-size:11px">—</span>';
+  if (changePct >= 0) return '<span class="recommend-yes">ينصح</span>';
+  return '<span class="recommend-no">لا ينصح</span>';
+}
+
+function drawStockChart(canvasId, data) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas || !data || data.length < 2) return;
+  if (canvas._chart) { canvas._chart.destroy(); canvas._chart = null; }
+  const color = data[data.length-1] >= data[0] ? 'rgba(97,196,89,1)' : 'rgba(240,149,149,1)';
+  canvas._chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: data.map((_,i) => i),
+      datasets: [{ data, borderColor: color, borderWidth: 1.5, pointRadius: 0, tension: 0.4, fill: false }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { display: false } },
+      animation: false
+    }
+  });
+}
+
+async function loadStocks() {
+  try {
+    const res = await fetch(WORKER_URL);
+    const stocks = await res.json();
+
+    document.getElementById('stocks-loading').style.display = 'none';
+    document.getElementById('stocks-container').style.display = 'block';
+
+    let html = '';
+    stocks.forEach((s, idx) => {
+      const name = STOCK_NAMES[s.symbol] || { ar: s.symbol, en: '' };
+      if (s.error) {
+        html += `<tr>
+          <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
+          <td colspan="7" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
+        </tr>`;
+        return;
+      }
+      const chCls = s.change >= 0 ? 'up' : 'down';
+      const chDir = s.change >= 0 ? '▲' : '▼';
+      html += `<tr>
+        <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
+        <td class="left" style="font-weight:600">${s.price?.toFixed(3) ?? '—'}</td>
+        <td class="left" style="color:#888">${s.prevClose?.toFixed(3) ?? '—'}</td>
+        <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${chDir} ${Math.abs(s.change ?? 0).toFixed(3)}</span></td>
+        <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${Math.abs(s.changePct ?? 0).toFixed(2)}%</span></td>
+        <td class="left" style="color:#666;font-size:11px">${s.volume?.toLocaleString('ar-OM') ?? '—'}</td>
+        <td class="left">${stockRecommend(s.changePct)}</td>
+        <td class="left stock-chart-cell"><div class="stock-chart-wrap"><canvas id="schart-${idx}"></canvas></div></td>
+      </tr>`;
+    });
+
+    document.getElementById('stocks-table-body').innerHTML = html;
+
+    stocks.forEach((s, idx) => {
+      if (!s.error && s.week?.length) drawStockChart(`schart-${idx}`, s.week);
+    });
+
+  } catch(e) {
+    document.getElementById('stocks-loading').textContent = 'تعذّر تحميل بيانات الأسهم';
+  }
+}
+
 function loadAll() {
   updateDate();
   loadNews();
   loadGold();
   loadSilver();
   loadOil();
+  loadStocks();
   document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + new Date().toLocaleTimeString('ar-OM', {hour:'2-digit', minute:'2-digit'});
 }
 
