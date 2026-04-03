@@ -24,7 +24,7 @@
 
     .ticker-wrap { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 10px 0; margin-bottom: 1.5rem; overflow: hidden; position: relative; min-height: 40px; }
     .ticker-label { position: absolute; right: 0; top: 0; height: 100%; background: #c9a84c; color: #111; display: flex; align-items: center; padding: 0 14px; font-size: 12px; font-weight: 700; border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap; }
-    .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 20s linear infinite; padding-right: 130px; }
+    .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 10s linear infinite; padding-right: 130px; }
     .ticker-track:hover { animation-play-state: paused; }
     .ticker-item { font-size: 12px; color: #d4c49a; padding: 0 24px; border-left: 0.5px solid rgba(201,168,76,0.2); }
     .ticker-time { font-size: 10px; color: #555; margin-right: 6px; }
@@ -81,6 +81,19 @@
     .stock-chart-wrap { position: relative; height: 40px; width: 100px; }
 
     .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
+
+    .news-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid rgba(201,168,76,0.08); }
+    .news-item:last-child { border-bottom: none; }
+    .news-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9a84c; flex-shrink: 0; margin-top: 6px; }
+    .news-content { flex: 1; }
+    .news-title { font-size: 13px; color: #f0e6c8; line-height: 1.5; margin-bottom: 3px; }
+    .news-meta { font-size: 10px; color: #555; display: flex; gap: 8px; }
+    .news-source { color: #c9a84c; }
+    .news-page { display: none; }
+    .news-page.active { display: block; animation: fadeIn 0.4s ease; }
+    .dot-btn { width: 7px; height: 7px; border-radius: 50%; background: rgba(201,168,76,0.2); border: none; cursor: pointer; transition: background 0.2s; padding: 0; }
+    .dot-btn.active { background: #c9a84c; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
     .footer span { font-size: 12px; color: #444; }
     .footer strong { color: #c9a84c; font-weight: 600; }
@@ -122,12 +135,13 @@
     </div>
   </div>
 
-  <div class="ticker-wrap">
-    <div class="ticker-label">عاجل ✦</div>
+  <!--- 
+    <div class="ticker-wrap">
+    <div class="ticker-label">أخبار اقتصادية ✦</div>
     <div class="ticker-track" id="ticker-track">
       <span class="ticker-item">جاري تحميل الأخبار...</span>
     </div>
-  </div>
+  </div> --->
 
   <div class="section-title">✦ أسعار الذهب — ريال عُماني</div>
   <div class="prices-grid">
@@ -225,7 +239,6 @@
             <th class="left">آخر سعر</th>
             <th class="left">التغيير</th>
             <th class="left">التوصية</th>
-            <th class="left">التغير الأسبوعي</th>
           </tr>
         </thead>
         <tbody id="stocks-table-body"></tbody>
@@ -276,18 +289,28 @@ function timeSince(dateStr) {
 }
 
 async function loadNews() {
+  const ECON_KW = ['نفط','ذهب','فضة','أسهم','بورصة','فائدة','تضخم','أوبك','برنت','خام','دولار','ريال','اقتصاد','بنك مركزي','فيدرالي','تداول','سوق','معادن','عملة','صرف','احتياطي','ميزانية','نمو','ركود','بترول','غاز','طاقة','استثمار','مالي','تجارة'];
   const feeds = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml&api_key=free',
-    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/'
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/economy.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.cnbcarabia.com/rss',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/economy/',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.skynewsarabia.com/web/rss/4/economy.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/arabic/rss.xml',
   ];
-  let items = [];
+  let all = [];
   for (const url of feeds) {
     try {
       const r = await fetch(url);
       const d = await r.json();
-      if (d.items) items = items.concat(d.items.slice(0, 10));
+      if (d.items) all = all.concat(d.items.slice(0, 15));
     } catch(e) {}
   }
+  // فلترة صارمة — لازم يحتوي على كلمة اقتصادية
+  let items = all.filter(i => ECON_KW.some(k => (i.title||'').includes(k)));
+  // لو ما في كافي نأخذ من feeds الاقتصادية الأولى مباشرة
+  if (items.length < 8) items = all.slice(0, 30).filter(i => ECON_KW.some(k => (i.title||'').includes(k)));
+  if (items.length < 4) items = all.slice(0, 20);
   if (!items.length) items = [{title:'تعذّر تحميل الأخبار', pubDate: new Date().toISOString()}];
   const doubled = [...items, ...items];
   document.getElementById('ticker-track').innerHTML = doubled.map(i =>
@@ -484,30 +507,25 @@ async function loadStocks() {
 
     let html = '';
     stocks.forEach((s, idx) => {
-      const name = STOCK_NAMES[s.symbol] || { ar: s.symbol, en: '' };
+      const nameAr = s.ar || s.symbol;
       if (s.error) {
         html += `<tr>
-          <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
-          <td colspan="5" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
+          <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
+          <td colspan="4" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
         </tr>`;
         return;
       }
       const chCls = s.change >= 0 ? 'up' : 'down';
       const chDir = s.change >= 0 ? '▲' : '▼';
       html += `<tr>
-        <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
+        <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
         <td class="left" style="font-weight:600">${s.price?.toFixed(3) ?? '—'}</td>
         <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${chDir} ${Math.abs(s.change ?? 0).toFixed(3)}</span></td>
         <td class="left">${stockRecommend(s.changePct)}</td>
-        <td class="left stock-chart-cell"><div class="stock-chart-wrap"><canvas id="schart-${idx}"></canvas></div></td>
       </tr>`;
     });
 
     document.getElementById('stocks-table-body').innerHTML = html;
-
-    stocks.forEach((s, idx) => {
-      if (!s.error && s.week?.length) drawStockChart(`schart-${idx}`, s.week);
-    });
 
   } catch(e) {
     document.getElementById('stocks-loading').textContent = 'تعذّر تحميل بيانات الأسهم';
