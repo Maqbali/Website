@@ -304,12 +304,11 @@ function changeHtml(ch, chp) {
 
 async function loadGold() {
   try {
-    const r = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+    const r = await fetch('https://gold-api.com/price/XAU');
     const d = await r.json();
-    if (!d?.items?.[0]) throw new Error('no data');
-    const item = d.items[0];
-    const oz    = item.xauPrice;
-    const ozPrev = oz / (1 + (item.chgXau / 100));
+    if (!d?.price) throw new Error('no data');
+    const oz    = d.price;
+    const ozPrev = d.prev_close_price || oz;
     const g     = oz / 31.1035;
     const prevG = ozPrev / 31.1035;
     const grades = [
@@ -340,12 +339,11 @@ async function loadGold() {
 
 async function loadSilver() {
   try {
-    const r = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
+    const r = await fetch('https://gold-api.com/price/XAG');
     const d = await r.json();
-    if (!d?.items?.[0]) throw new Error('no data');
-    const item = d.items[0];
-    const oz    = item.xagPrice;
-    const ozPrev = oz / (1 + (item.chgXag / 100));
+    if (!d?.price) throw new Error('no data');
+    const oz    = d.price;
+    const ozPrev = d.prev_close_price || oz;
     const g     = oz / 31.1035;
     const prevG = ozPrev / 31.1035;
     const grades = [
