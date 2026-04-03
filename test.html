@@ -81,6 +81,19 @@
     .stock-chart-wrap { position: relative; height: 40px; width: 100px; }
 
     .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
+
+    .news-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid rgba(201,168,76,0.08); }
+    .news-item:last-child { border-bottom: none; }
+    .news-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9a84c; flex-shrink: 0; margin-top: 6px; }
+    .news-content { flex: 1; }
+    .news-title { font-size: 13px; color: #f0e6c8; line-height: 1.5; margin-bottom: 3px; }
+    .news-meta { font-size: 10px; color: #555; display: flex; gap: 8px; }
+    .news-source { color: #c9a84c; }
+    .news-page { display: none; }
+    .news-page.active { display: block; animation: fadeIn 0.4s ease; }
+    .dot-btn { width: 7px; height: 7px; border-radius: 50%; background: rgba(201,168,76,0.2); border: none; cursor: pointer; transition: background 0.2s; padding: 0; }
+    .dot-btn.active { background: #c9a84c; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
     .footer span { font-size: 12px; color: #444; }
     .footer strong { color: #c9a84c; font-weight: 600; }
@@ -225,12 +238,19 @@
             <th class="left">آخر سعر</th>
             <th class="left">التغيير</th>
             <th class="left">التوصية</th>
-            <th class="left">التغير الأسبوعي</th>
           </tr>
         </thead>
         <tbody id="stocks-table-body"></tbody>
       </table>
     </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1.5rem">✦ الأخبار الاقتصادية</div>
+  <div class="price-card" style="margin-bottom:1.5rem;min-height:180px">
+    <div id="econ-news-container">
+      <div style="text-align:center;padding:1.5rem;color:#555;font-size:13px">جاري تحميل الأخبار...</div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:14px;padding-top:12px;border-top:0.5px solid rgba(201,168,76,0.1)" id="news-dots"></div>
   </div>
 
   <div class="last-update" id="last-update"></div>
@@ -484,34 +504,97 @@ async function loadStocks() {
 
     let html = '';
     stocks.forEach((s, idx) => {
-      const name = STOCK_NAMES[s.symbol] || { ar: s.symbol, en: '' };
+      const nameAr = s.ar || s.symbol;
       if (s.error) {
         html += `<tr>
-          <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
-          <td colspan="5" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
+          <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
+          <td colspan="4" style="color:#555;font-size:11px">تعذّر تحميل البيانات</td>
         </tr>`;
         return;
       }
       const chCls = s.change >= 0 ? 'up' : 'down';
       const chDir = s.change >= 0 ? '▲' : '▼';
       html += `<tr>
-        <td><div class="stock-name">${name.ar}</div><div class="stock-symbol">${s.symbol}</div></td>
+        <td><div class="stock-name">${nameAr}</div><div class="stock-symbol">${s.symbol}</div></td>
         <td class="left" style="font-weight:600">${s.price?.toFixed(3) ?? '—'}</td>
         <td class="left"><span class="price-change ${chCls}" style="font-size:10px">${chDir} ${Math.abs(s.change ?? 0).toFixed(3)}</span></td>
         <td class="left">${stockRecommend(s.changePct)}</td>
-        <td class="left stock-chart-cell"><div class="stock-chart-wrap"><canvas id="schart-${idx}"></canvas></div></td>
       </tr>`;
     });
 
     document.getElementById('stocks-table-body').innerHTML = html;
 
-    stocks.forEach((s, idx) => {
-      if (!s.error && s.week?.length) drawStockChart(`schart-${idx}`, s.week);
-    });
-
   } catch(e) {
     document.getElementById('stocks-loading').textContent = 'تعذّر تحميل بيانات الأسهم';
   }
+}
+
+const ECON_KEYWORDS = ['نفط','ذهب','فضة','أسهم','بورصة','فائدة','تضخم','أوبك','برنت','خام','دولار','ريال','اقتصاد','بنك','مركزي','فيدرالي','تداول','سوق','معادن','عملة','صرف'];
+
+let econNews = [];
+let econPage = 0;
+let econTimer = null;
+
+async function loadEconNews() {
+  const feeds = [
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/xml/rss/all.xml',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://arabic.rt.com/rss/',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://www.cnbcarabia.com/rss',
+    'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/arabic/rss.xml',
+  ];
+  let all = [];
+  for (const url of feeds) {
+    try {
+      const r = await fetch(url);
+      const d = await r.json();
+      if (d.items) all = all.concat(d.items.map(i => ({ ...i, source: d.feed?.title || '' })));
+    } catch(e) {}
+  }
+  econNews = all.filter(i => ECON_KEYWORDS.some(k => (i.title||'').includes(k))).slice(0, 20);
+  if (!econNews.length) econNews = all.slice(0, 16);
+  renderEconNews(0);
+  startEconTimer();
+}
+
+function renderEconNews(page) {
+  econPage = page;
+  const container = document.getElementById('econ-news-container');
+  const dotsEl    = document.getElementById('news-dots');
+  if (!econNews.length) {
+    container.innerHTML = '<div style="text-align:center;padding:1.5rem;color:#555;font-size:13px">لا توجد أخبار</div>';
+    return;
+  }
+  const pages = Math.ceil(econNews.length / 4);
+  const items = econNews.slice(page * 4, page * 4 + 4);
+
+  container.innerHTML = `<div class="news-page active">${items.map(i => `
+    <div class="news-item">
+      <div class="news-dot"></div>
+      <div class="news-content">
+        <div class="news-title">${i.title}</div>
+        <div class="news-meta">
+          <span class="news-source">${i.source.split(' ')[0]}</span>
+          <span>${timeSince(i.pubDate)}</span>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+
+  dotsEl.innerHTML = Array.from({length: pages}, (_, i) =>
+    `<button class="dot-btn ${i===page?'active':''}" onclick="goEconPage(${i})"></button>`
+  ).join('');
+}
+
+function goEconPage(page) {
+  renderEconNews(page);
+  startEconTimer();
+}
+
+function startEconTimer() {
+  if (econTimer) clearInterval(econTimer);
+  econTimer = setInterval(() => {
+    const pages = Math.ceil(econNews.length / 4);
+    renderEconNews((econPage + 1) % pages);
+  }, 8000);
 }
 
 function loadAll() {
@@ -521,6 +604,7 @@ function loadAll() {
   loadSilver();
   loadOil();
   loadStocks();
+  loadEconNews();
   const now = new Date();
   const upd = now.toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
   document.getElementById('last-update').textContent = '✦ آخر تحديث: ' + upd;
