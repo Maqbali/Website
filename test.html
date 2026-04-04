@@ -560,11 +560,31 @@
     footer {
       background: var(--black);
       color: rgba(255,255,255,0.4);
-      text-align: center;
-      padding: 2.5rem 1rem;
+      padding: 2rem 2.5rem;
       font-size: 0.85rem;
     }
-    footer strong { color: var(--teal-light); }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .footer-credit {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: rgba(255,255,255,0.35);
+    }
+    .footer-credit .heart { color: #e05a7a; font-size: 1rem; }
+    .footer-credit a {
+      color: var(--teal-light); text-decoration: none;
+      font-weight: 600; letter-spacing: 0.5px;
+      transition: color 0.3s;
+    }
+    .footer-credit a:hover { color: white; }
+    .footer-copy { text-align: right; font-size: 0.82rem; }
+    .footer-copy strong { color: var(--teal-light); }
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column-reverse; align-items: center; text-align: center; }
+      .footer-copy { text-align: center; }
+    }
 
     /* ─── ANIMATIONS ON SCROLL ─────────────────────── */
     .reveal {
@@ -814,7 +834,7 @@
       <div class="loc-item">
         <span class="loc-icon">🏔️</span>
         <span class="loc-val">منطقة جبلية</span>
-        <span class="loc-desc">بين جبال أفيولايت عُمان</span>
+        <span class="loc-desc">بين جبال عُمان الشامخة</span>
       </div>
       <div class="loc-item">
         <span class="loc-icon">🚗</span>
@@ -877,7 +897,15 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>جميع الحقوق محفوظة © <strong>قرية صهبان</strong> 🇴🇲</p>
+    <div class="footer-inner">
+      <div class="footer-credit">
+        صمم <span class="heart">♥</span>
+        <a href="https://www.maqbali.com" target="_blank" rel="noopener noreferrer">Maqba1i</a>
+      </div>
+      <div class="footer-copy">
+        <p>جميع الحقوق محفوظة © <strong>قرية صهبان</strong> 🇴🇲</p>
+      </div>
+    </div>
   </footer>
 
   <script>
