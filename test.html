@@ -529,7 +529,7 @@
       text-decoration: none;
     }
     .gmap-iframe {
-      display: block; pointer-events: none;
+      display: block; pointer-events: auto;
       filter: saturate(0.7) brightness(0.85);
     }
     .gmap-overlay {
@@ -863,18 +863,13 @@
       </div>
       <a href="https://maps.app.goo.gl/mN4xHJrwQSREX2Pm9" target="_blank" rel="noopener noreferrer" class="gmap-embed-link" title="فتح في خرائط جوجل">
         <iframe
-          class="gmap-iframe"
-          src="https://maps.google.com/maps?q=24.0812,56.4891&t=k&z=14&ie=UTF8&iwloc=&output=embed"
-          width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
+          class="gmap-iframe" style="border:0; pointer-events:auto;"
+          src="https://maps.google.com/maps?q=24.186041,56.315826&t=k&z=14&ie=UTF8&iwloc=B&output=embed"
+          width="100%" height="380" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           title="خريطة قرية صهبان">
         </iframe>
-        <div class="gmap-overlay">
-          <div class="gmap-overlay-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            اضغط لفتح الخريطة
-          </div>
-        </div>
+      </a>
       </a>
     </div>
 
