@@ -1,1 +1,834 @@
-hello world
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>صهبان – جوهرة وادي الجزي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --teal:       #0a9b8e;
+      --teal-light: #1bbdad;
+      --teal-dark:  #05706a;
+      --sand:       #c9a96e;
+      --sand-light: #e8d5b0;
+      --sand-pale:  #f5efe3;
+      --stone:      #4a3f35;
+      --stone-mid:  #7a6a5a;
+      --white:      #fdfaf5;
+      --black:      #1a1208;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--white);
+      color: var(--stone);
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: #031f1e;
+    }
+
+    /* Animated water background */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 100%, #0a5c56 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 30% 80%, #0a9b8e33 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 70% 70%, #1bbdad22 0%, transparent 50%),
+        linear-gradient(170deg, #031f1e 0%, #042e2b 40%, #063d38 70%, #0a5c56 100%);
+      animation: bgShift 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgShift {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.15) hue-rotate(5deg); }
+    }
+
+    /* Ripple circles */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(27,189,173,0.15);
+      animation: rippleOut 6s ease-out infinite;
+    }
+    .ripple:nth-child(1) { width: 300px; height: 300px; bottom: -50px; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+    .ripple:nth-child(2) { width: 500px; height: 500px; bottom: -150px; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+    .ripple:nth-child(3) { width: 700px; height: 700px; bottom: -250px; left: 50%; transform: translateX(-50%); animation-delay: 3s; }
+
+    @keyframes rippleOut {
+      0%   { opacity: 0.6; transform: translateX(-50%) scale(0.8); }
+      100% { opacity: 0;   transform: translateX(-50%) scale(1.2); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: rgba(27,189,173,0.6);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      20%  { opacity: 1; }
+      80%  { opacity: 0.5; }
+      100% { transform: translateY(-80vh) translateX(30px); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 1rem;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      border: 1px solid rgba(27,189,173,0.4);
+      padding: 5px 16px;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -1px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.6s;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--teal-light);
+      font-style: italic;
+      font-size: 0.55em;
+    }
+
+    .hero-subtitle {
+      margin-top: 1.5rem;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.9s;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--teal);
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 3px;
+      transition: background 0.3s, transform 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 1.2s;
+    }
+    .hero-cta:hover { background: var(--teal-dark); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.7rem; letter-spacing: 3px;
+      animation: bounce 2s ease-in-out infinite;
+      z-index: 2;
+    }
+    .scroll-hint svg { width: 20px; height: 20px; }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── NAV ──────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; right: 0; left: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(3,31,30,0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(27,189,173,0.15);
+    }
+    .nav-logo {
+      font-family: 'Amiri', serif;
+      font-size: 1.6rem;
+      color: var(--teal-light);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--teal-light); }
+
+    /* ─── SECTION SHARED ───────────────────────────── */
+    section { padding: 7rem 2rem; }
+
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--stone);
+    }
+    .section-body {
+      font-size: 1.05rem; line-height: 2;
+      color: var(--stone-mid); max-width: 65ch;
+    }
+
+    /* ─── ABOUT ────────────────────────────────────── */
+    .about {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .about-text { }
+    .about-text .section-title { margin-bottom: 1.5rem; }
+    .about-text .section-body { margin-bottom: 2rem; }
+
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .stat-card {
+      padding: 1.5rem;
+      border: 1px solid rgba(10,155,142,0.2);
+      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(10,155,142,0.03), rgba(10,155,142,0.08));
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+    .stat-num {
+      font-family: 'Amiri', serif;
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--teal); line-height: 1;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--stone-mid); margin-top: 4px; }
+
+    /* Visual block */
+    .about-visual {
+      position: relative;
+    }
+    .about-visual-main {
+      width: 100%; aspect-ratio: 4/5;
+      background: linear-gradient(145deg, #0a5c56, #031f1e);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .water-art {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 80%, rgba(27,189,173,0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 30% 60%, rgba(10,155,142,0.2) 0%, transparent 60%);
+      animation: waterShimmer 4s ease-in-out infinite alternate;
+    }
+    @keyframes waterShimmer {
+      from { transform: scale(1) translateY(0); }
+      to   { transform: scale(1.05) translateY(-8px); }
+    }
+    .water-art-text {
+      position: relative; z-index: 2;
+      font-family: 'Amiri', serif;
+      font-size: 5rem; font-weight: 700;
+      color: rgba(255,255,255,0.12);
+      text-align: center;
+      line-height: 1.3;
+    }
+    .about-badge {
+      position: absolute;
+      bottom: -1.5rem; left: -1.5rem;
+      background: var(--sand);
+      color: var(--white);
+      padding: 1.2rem 1.6rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 8px 30px rgba(201,169,110,0.3);
+    }
+    .about-badge span { display: block; font-size: 1.6rem; font-family: 'Amiri', serif; }
+
+    /* ─── SPRING (MAIN ATTRACTION) ─────────────────── */
+    .spring-section {
+      background: #031f1e;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .spring-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(10,155,142,0.25) 0%, transparent 70%);
+    }
+    .spring-inner {
+      max-width: 1200px; margin: 0 auto;
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .spring-inner .section-title { color: white; }
+    .spring-inner .section-label { color: var(--teal-light); }
+    .spring-inner .section-body { color: rgba(255,255,255,0.65); }
+
+    .spring-features {
+      display: flex; flex-direction: column; gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(27,189,173,0.12);
+      border-radius: 8px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .feature-item:hover { background: rgba(27,189,173,0.08); border-color: rgba(27,189,173,0.3); }
+    .feature-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: rgba(27,189,173,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .feature-text strong { display: block; font-size: 0.95rem; color: white; margin-bottom: 3px; }
+    .feature-text span { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* Spring visual */
+    .spring-pool {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #1bbdad, #0a9b8e 40%, #05706a 70%, #031f1e);
+      position: relative;
+      box-shadow: 0 0 80px rgba(27,189,173,0.4), 0 0 160px rgba(10,155,142,0.2);
+      animation: poolGlow 4s ease-in-out infinite alternate;
+      max-width: 400px; margin: 0 auto;
+    }
+    @keyframes poolGlow {
+      from { box-shadow: 0 0 80px rgba(27,189,173,0.4), 0 0 160px rgba(10,155,142,0.2); }
+      to   { box-shadow: 0 0 120px rgba(27,189,173,0.6), 0 0 200px rgba(10,155,142,0.35); }
+    }
+    .pool-ring {
+      position: absolute; inset: -20px;
+      border-radius: 50%;
+      border: 1px solid rgba(27,189,173,0.2);
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+    .pool-ring:nth-child(2) { inset: -40px; animation-delay: 1s; }
+    .pool-ring:nth-child(3) { inset: -60px; animation-delay: 2s; }
+    @keyframes ringPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.15; }
+    }
+    .pool-label {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Amiri', serif;
+      font-size: 2rem; font-weight: 700; color: rgba(255,255,255,0.4);
+    }
+
+    /* ─── AGRICULTURE ──────────────────────────────── */
+    .agri-section {
+      background: var(--sand-pale);
+      position: relative;
+      overflow: hidden;
+    }
+    .agri-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--sand), var(--teal));
+    }
+    .agri-inner { max-width: 1200px; margin: 0 auto; }
+    .agri-header { text-align: center; margin-bottom: 4rem; }
+    .agri-header .section-title { margin-top: 0.5rem; }
+
+    .crops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+    .crop-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 20px rgba(74,63,53,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(201,169,110,0.15);
+    }
+    .crop-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(74,63,53,0.12); }
+    .crop-icon { font-size: 2.8rem; margin-bottom: 0.8rem; display: block; }
+    .crop-name { font-weight: 700; font-size: 1rem; color: var(--stone); }
+    .crop-note { font-size: 0.8rem; color: var(--stone-mid); margin-top: 4px; }
+
+    /* ─── CULTURE ──────────────────────────────────── */
+    .culture-section {
+      background: white;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .culture-grid {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 4rem; align-items: start;
+      margin-top: 3rem;
+    }
+    .culture-quote {
+      background: var(--teal-dark);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      position: relative;
+    }
+    .culture-quote::before {
+      content: '❝';
+      font-size: 5rem;
+      position: absolute; top: -1rem; right: 1.5rem;
+      color: rgba(255,255,255,0.1);
+      font-family: serif; line-height: 1;
+    }
+    .culture-quote p {
+      font-family: 'Amiri', serif;
+      font-size: 1.3rem; line-height: 2;
+      color: rgba(255,255,255,0.85);
+    }
+    .tradition-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .tradition-item {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+    }
+    .tradition-item:last-child { border-bottom: none; }
+    .tradition-num {
+      font-family: 'Amiri', serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--sand); line-height: 1; flex-shrink: 0;
+    }
+    .tradition-text strong { display: block; font-size: 1rem; color: var(--stone); margin-bottom: 4px; }
+    .tradition-text p { font-size: 0.9rem; color: var(--stone-mid); line-height: 1.8; }
+
+    /* ─── MAP / LOCATION ───────────────────────────── */
+    .location-section {
+      background: #031f1e;
+      color: white;
+      text-align: center;
+    }
+    .location-section .section-title { color: white; margin-top: 0.5rem; margin-bottom: 1rem; }
+    .location-section .section-label { color: var(--teal-light); }
+
+    .location-info {
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+      margin: 3rem 0;
+    }
+    .loc-item {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    .loc-icon { font-size: 2rem; }
+    .loc-val { font-size: 1.1rem; font-weight: 700; color: var(--teal-light); }
+    .loc-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+
+    .map-placeholder {
+      max-width: 700px; margin: 0 auto;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(27,189,173,0.15);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    /* Minimal SVG map art */
+    .map-art { width: 100%; height: 220px; }
+
+    /* ─── FOOTER ───────────────────────────────────── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    footer strong { color: var(--teal-light); }
+
+    /* ─── ANIMATIONS ON SCROLL ─────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .about, .spring-inner, .culture-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .about-badge { left: 0; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 5rem 1.2rem; }
+      .nav-links { display: none; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">صهبان</a>
+    <ul class="nav-links">
+      <li><a href="#about">عن القرية</a></li>
+      <li><a href="#spring">العين الكبريتية</a></li>
+      <li><a href="#agri">الزراعة</a></li>
+      <li><a href="#culture">التراث</a></li>
+      <li><a href="#location">الموقع</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <!-- Ripples -->
+    <div class="ripple"></div>
+    <div class="ripple"></div>
+    <div class="ripple"></div>
+    <!-- Particles generated by JS -->
+    <div class="hero-content">
+      <div class="hero-tag">سلطنة عُمان · ولاية صحار · وادي الجزي</div>
+      <h1 class="hero-title">
+        صَهبان
+        <span>جوهرة وادي الجزي</span>
+      </h1>
+      <p class="hero-subtitle">حيث تلتقي المياه الفيروزية بالجبال الشامخة والأصالة العمانية الأصيلة</p>
+      <a href="#about" class="hero-cta">
+        اكتشف القرية
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </a>
+    </div>
+    <div class="scroll-hint">
+      <span>تمرير</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about">
+      <div class="about-text reveal">
+        <p class="section-label">نظرة عامة</p>
+        <h2 class="section-title">بوابة الغرب<br/>في صحار</h2>
+        <p class="section-body">
+          تتربع قرية صهبان بفخر على أعالي جبال وادي الجزي، لتكون البوابة الغربية لولاية صحار العريقة.
+          تمتزج فيها روائح التاريخ بزخّات المياه الجبلية، وتتعانق الأشجار الخضراء مع الصخور الصمّاء
+          لتُشكّل مشهدًا طبيعيًا لا يُنسى.
+        </p>
+        <p class="section-body">
+          تُعدّ صهبان من القرى التي حافظت على هويتها الأصيلة وعاداتها الراسخة، مع انفتاحها على
+          خدمات الحياة الحديثة من مدارس وطرق وكهرباء واتصالات.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card reveal">
+            <div class="stat-num">٥٠ كم</div>
+            <div class="stat-label">المسافة من مركز صحار</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">٨ كم</div>
+            <div class="stat-label">إلى العين الكبريتية</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">٣٦٥</div>
+            <div class="stat-label">يومًا تتدفق العين</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">جبال</div>
+            <div class="stat-label">تحيط بها من كل جانب</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual reveal">
+        <div class="about-visual-main">
+          <div class="water-art"></div>
+          <div class="water-art-text">صهبان<br/>وادي الجزي</div>
+        </div>
+        <div class="about-badge">
+          <span>🏔️ أعالي</span>
+          الجبال العُمانية
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPRING -->
+  <section class="spring-section" id="spring" style="padding: 7rem 2rem;">
+    <div class="spring-inner">
+      <div class="reveal">
+        <p class="section-label">الكنز المائي</p>
+        <h2 class="section-title">عين صهبان<br/>الكبريتية</h2>
+        <p class="section-body" style="margin-top:1.2rem;">
+          تتدفق عين صهبان الكبريتية بمياهها الفيروزية الساحرة طوال العام دون انقطاع. ملونةً بزرقة
+          لا مثيل لها، نابعة من تفاعل الكبريت مع الصخور الجبلية، لتُوجِد لوحةً بديعة في قلب الطبيعة.
+        </p>
+        <div class="spring-features">
+          <div class="feature-item">
+            <div class="feature-icon">💙</div>
+            <div class="feature-text">
+              <strong>اللون الفيروزي الفريد</strong>
+              <span>ينتج عن تراكم ترسبات الكبريت والكربونات على الصخور</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌡️</div>
+            <div class="feature-text">
+              <strong>حرارة معتدلة على مدار السنة</strong>
+              <span>دافئة في الشتاء ومعتدلة في الصيف — ثابتة لا تتأثر بالمناخ</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌿</div>
+            <div class="feature-text">
+              <strong>خصائص علاجية</strong>
+              <span>تُستخدم للتداوي من أمراض جلدية كالأكزيما والصدفية وحب الشباب</span>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🚙</div>
+            <div class="feature-text">
+              <strong>مغامرة للوصول إليها</strong>
+              <span>تحتاج سيارة دفع رباعي عبر طريق جبلي متعرج بطول ٨ كم</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="display:flex; align-items:center; justify-content:center;">
+        <div class="spring-pool" style="width: min(380px, 85vw); height: min(380px, 85vw);">
+          <div class="pool-ring"></div>
+          <div class="pool-ring"></div>
+          <div class="pool-ring"></div>
+          <div class="pool-label">عين<br/>صهبان</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGRICULTURE -->
+  <section class="agri-section" id="agri">
+    <div class="agri-inner">
+      <div class="agri-header reveal">
+        <p class="section-label">الخيرات الزراعية</p>
+        <h2 class="section-title">أرض تُعطي بسخاء</h2>
+        <p class="section-body" style="margin: 1rem auto 0; text-align:center;">
+          تتميز صهبان بوفرة مياهها ونضارة تربتها، فتُنتج تنوعًا زراعيًا نادرًا
+          يجمع بين ثمار المناطق الحارة والمحاصيل الجبلية.
+        </p>
+      </div>
+      <div class="crops-grid">
+        <div class="crop-card reveal"><span class="crop-icon">🌴</span><div class="crop-name">النخيل</div><div class="crop-note">ثمرة عُمان الأصيلة</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🥭</span><div class="crop-name">المانجو</div><div class="crop-note">متعدد الأصناف</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🍋</span><div class="crop-name">الحمضيات</div><div class="crop-note">بشتى أنواعها</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🍇</span><div class="crop-name">العنب المحلي</div><div class="crop-note">عنب جبلي أصيل</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🫒</span><div class="crop-name">الزيتون</div><div class="crop-note">زيت عماني خالص</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🧅</span><div class="crop-name">البصل والثوم</div><div class="crop-note">محاصيل موسمية</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">🌽</span><div class="crop-name">الذرة</div><div class="crop-note">تقليد زراعي عريق</div></div>
+        <div class="crop-card reveal"><span class="crop-icon">💧</span><div class="crop-name">الأفلاج والعيون</div><div class="crop-note">ري طبيعي متواصل</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULTURE -->
+  <section id="culture" style="padding: 7rem 2rem; background: white;">
+    <div class="culture-section">
+      <div class="reveal" style="text-align:center; margin-bottom:0.5rem;">
+        <p class="section-label">التراث والهوية</p>
+        <h2 class="section-title">أصالة متجذّرة</h2>
+      </div>
+      <div class="culture-grid reveal">
+        <div class="culture-quote">
+          <p>يجتمع في صهبان عناصر تراثية وتاريخية ومناظر طبيعية تشكّل مقومات سياحية تجذب كل زائر.</p>
+        </div>
+        <div class="tradition-list">
+          <div class="tradition-item">
+            <div class="tradition-num">١</div>
+            <div class="tradition-text">
+              <strong>صلاة العيد الجماعية</strong>
+              <p>يجتمع أهالي القرية والقرى المجاورة في جامع القرية، ثم يتبادلون التهاني ويتناولون قهوة العيد في جو من الأُلفة.</p>
+            </div>
+          </div>
+          <div class="tradition-item">
+            <div class="tradition-num">٢</div>
+            <div class="tradition-text">
+              <strong>فن الرزفة والشلات</strong>
+              <p>يحيون رمسة العيد بالشلات الحماسية وأشعار المديح، ويتجولون بين القرى منشدين الأغاني التراثية.</p>
+            </div>
+          </div>
+          <div class="tradition-item">
+            <div class="tradition-num">٣</div>
+            <div class="tradition-text">
+              <strong>الكرم والضيافة</strong>
+              <p>يشتهر أهالي صهبان بكرم الضيافة وحفاوة الاستقبال، وكثيرًا ما يكونون مرشدين طوعيين للزوار.</p>
+            </div>
+          </div>
+          <div class="tradition-item">
+            <div class="tradition-num">٤</div>
+            <div class="tradition-text">
+              <strong>الزراعة المتوارثة</strong>
+              <p>يحافظ الأهالي على أساليب الزراعة التقليدية وشبكات الأفلاج القديمة التي تروي أراضيهم منذ قرون.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="location-section" id="location">
+    <p class="section-label">كيف تصل</p>
+    <h2 class="section-title">الموقع الجغرافي</h2>
+    <p style="color: rgba(255,255,255,0.5); margin-top:0.8rem; font-size:1rem; max-width:50ch; margin-left:auto; margin-right:auto;">
+      صهبان في قلب جبال وادي الجزي، يمرّ بها الطريق الرابط بين ولاية صحار ومحافظة البريمي
+    </p>
+    <div class="location-info reveal">
+      <div class="loc-item">
+        <span class="loc-icon">🗺️</span>
+        <span class="loc-val">ولاية صحار</span>
+        <span class="loc-desc">محافظة شمال الباطنة</span>
+      </div>
+      <div class="loc-item">
+        <span class="loc-icon">📍</span>
+        <span class="loc-val">وادي الجزي</span>
+        <span class="loc-desc">على امتداد ٥٠ كم من المركز</span>
+      </div>
+      <div class="loc-item">
+        <span class="loc-icon">🏔️</span>
+        <span class="loc-val">منطقة جبلية</span>
+        <span class="loc-desc">بين جبال أفيولايت عُمان</span>
+      </div>
+      <div class="loc-item">
+        <span class="loc-icon">🚗</span>
+        <span class="loc-val">دفع رباعي</span>
+        <span class="loc-desc">مُوصى به للوصول إلى العين</span>
+      </div>
+    </div>
+
+    <!-- Simple SVG map art -->
+    <div class="map-placeholder reveal">
+      <svg class="map-art" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Road line -->
+        <path d="M 50 150 Q 150 120 250 130 Q 350 140 450 100 Q 550 70 650 80" stroke="rgba(27,189,173,0.4)" stroke-width="3" fill="none" stroke-dasharray="8 4"/>
+        <!-- Mountain silhouettes -->
+        <polygon points="80,150 130,70 180,150" fill="rgba(27,189,173,0.08)" stroke="rgba(27,189,173,0.2)" stroke-width="1"/>
+        <polygon points="160,150 230,50 300,150" fill="rgba(27,189,173,0.06)" stroke="rgba(27,189,173,0.15)" stroke-width="1"/>
+        <polygon points="320,150 390,80 460,150" fill="rgba(27,189,173,0.08)" stroke="rgba(27,189,173,0.2)" stroke-width="1"/>
+        <polygon points="480,150 540,60 600,150" fill="rgba(27,189,173,0.06)" stroke="rgba(27,189,173,0.15)" stroke-width="1"/>
+        <!-- Village marker -->
+        <circle cx="350" cy="115" r="8" fill="var(--teal-light)" opacity="0.9"/>
+        <circle cx="350" cy="115" r="16" fill="none" stroke="var(--teal-light)" stroke-width="1.5" opacity="0.5"/>
+        <circle cx="350" cy="115" r="24" fill="none" stroke="var(--teal-light)" stroke-width="1" opacity="0.2"/>
+        <!-- Label صحار -->
+        <text x="60" y="175" fill="rgba(255,255,255,0.3)" font-family="Tajawal, sans-serif" font-size="12" text-anchor="middle">صحار</text>
+        <!-- Label البريمي -->
+        <text x="640" y="100" fill="rgba(255,255,255,0.3)" font-family="Tajawal, sans-serif" font-size="12" text-anchor="middle">البريمي</text>
+        <!-- Label صهبان -->
+        <text x="350" y="150" fill="rgba(27,189,173,0.9)" font-family="Tajawal, sans-serif" font-size="13" text-anchor="middle" font-weight="700">صهبان</text>
+        <!-- Ground -->
+        <line x1="0" y1="155" x2="700" y2="155" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      </svg>
+      <p style="color: rgba(255,255,255,0.3); font-size: 0.8rem; margin-top: 1rem;">صهبان تقع على الطريق الجبلي الرابط بين صحار والبريمي عبر وادي الجزي</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>صُمِّمت هذه الصفحة للتعريف بـ <strong>قرية صهبان</strong> في وادي الجزي · سلطنة عُمان 🇴🇲</p>
+    <p style="margin-top: 0.4rem; font-size: 0.78rem;">جميع المعلومات مستقاة من مصادر إعلامية عُمانية موثوقة</p>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Particle generator
+    const hero = document.querySelector('.hero');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        bottom: ${Math.random() * 30}%;
+        width: ${1 + Math.random() * 3}px;
+        height: ${1 + Math.random() * 3}px;
+        animation-duration: ${4 + Math.random() * 8}s;
+        animation-delay: ${Math.random() * 6}s;
+        opacity: ${0.3 + Math.random() * 0.7};
+      `;
+      hero.appendChild(p);
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
