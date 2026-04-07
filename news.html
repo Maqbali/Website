@@ -8,46 +8,70 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Cairo', sans-serif; direction: rtl; background: #0e0e0e; min-height: 100vh; padding: 2rem 1rem; color: #f0e6c8; }
+
+    :root {
+      --bg: #0e0e0e;
+      --card: #161616;
+      --card2: #1a1a1a;
+      --border: rgba(201,168,76,0.15);
+      --border2: rgba(201,168,76,0.12);
+      --text: #f0e6c8;
+      --text2: #d4c49a;
+      --muted: #555;
+      --gold: #c9a84c;
+    }
+    body.light {
+      --bg: #f5f0e8;
+      --card: #ffffff;
+      --card2: #f0ebe0;
+      --border: rgba(150,120,40,0.25);
+      --border2: rgba(150,120,40,0.15);
+      --text: #2a1f0a;
+      --text2: #4a3a1a;
+      --muted: #999;
+      --gold: #a07828;
+    }
+
+    body { font-family: 'Cairo', sans-serif; direction: rtl; background: var(--bg); min-height: 100vh; padding: 2rem 1rem; color: var(--text); transition: background 0.3s, color 0.3s; }
     .page { max-width: 900px; margin: 0 auto; }
 
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: #161616; border: 0.5px solid rgba(201,168,76,0.15); border-radius: 12px; margin-bottom: 1.5rem; }
-    .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif; background: #1a1a1a; border: 0.5px solid rgba(201,168,76,0.25); border-radius: 8px; cursor: pointer; color: #c9a84c; text-decoration: none; transition: all 0.15s; }
-    .nav-btn-action:hover { background: #222; border-color: #c9a84c; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--card); border: 0.5px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
+    .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif; background: var(--card2); border: 0.5px solid rgba(201,168,76,0.25); border-radius: 8px; cursor: pointer; color: var(--gold); text-decoration: none; transition: all 0.15s; }
+    .nav-btn-action:hover { background: #222; border-color: var(--gold); }
     .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    .date-bar { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .date-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
     .date-item { text-align: center; }
-    .date-label-sm { font-size: 10px; color: #555; margin-bottom: 2px; }
-    .date-value { font-size: 14px; font-weight: 600; color: #c9a84c; }
+    .date-label-sm { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+    .date-value { font-size: 14px; font-weight: 600; color: var(--gold); }
     .date-sep { color: rgba(201,168,76,0.3); font-size: 18px; }
 
-    .ticker-wrap { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 10px; padding: 10px 0; margin-bottom: 1.5rem; overflow: hidden; position: relative; min-height: 40px; }
+    .ticker-wrap { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 10px 0; margin-bottom: 1.5rem; overflow: hidden; position: relative; min-height: 40px; }
     .ticker-label { position: absolute; right: 0; top: 0; height: 100%; background: #c9a84c; color: #111; display: flex; align-items: center; padding: 0 14px; font-size: 12px; font-weight: 700; border-radius: 0 10px 10px 0; z-index: 2; white-space: nowrap; }
     .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker 10s linear infinite; padding-right: 130px; }
     .ticker-track:hover { animation-play-state: paused; }
-    .ticker-item { font-size: 12px; color: #d4c49a; padding: 0 24px; border-left: 0.5px solid rgba(201,168,76,0.2); }
-    .ticker-time { font-size: 10px; color: #555; margin-right: 6px; }
+    .ticker-item { font-size: 12px; color: var(--text2); padding: 0 24px; border-left: 0.5px solid rgba(201,168,76,0.2); }
+    .ticker-time { font-size: 10px; color: var(--muted); margin-right: 6px; }
     @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    .section-title { font-size: 13px; font-weight: 600; color: #c9a84c; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid rgba(201,168,76,0.12); letter-spacing: 0.5px; }
+    .section-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border2); letter-spacing: 0.5px; }
 
     .prices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
-    .price-card { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 12px; padding: 1.2rem; transition: border-color 0.15s; }
+    .price-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 1.2rem; transition: border-color 0.15s; }
     .price-card:hover { border-color: rgba(201,168,76,0.3); }
-    .price-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 0.5px solid rgba(201,168,76,0.1); }
-    .price-icon { width: 34px; height: 34px; border-radius: 8px; background: #1e1e1e; border: 0.5px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .price-title { font-size: 13px; font-weight: 600; color: #c9a84c; }
-    .price-subtitle { font-size: 10px; color: #555; margin-top: 1px; }
+    .price-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border2); }
+    .price-icon { width: 34px; height: 34px; border-radius: 8px; background: var(--card2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .price-title { font-size: 13px; font-weight: 600; color: var(--gold); }
+    .price-subtitle { font-size: 10px; color: var(--muted); margin-top: 1px; }
 
     .grades-table { width: 100%; border-collapse: collapse; }
-    .grades-table th { font-size: 10px; color: #555; font-weight: 500; padding: 4px 6px; text-align: right; border-bottom: 0.5px solid rgba(201,168,76,0.1); }
+    .grades-table th { font-size: 10px; color: var(--muted); font-weight: 500; padding: 4px 6px; text-align: right; border-bottom: 0.5px solid var(--border2); }
     .grades-table th.left { text-align: left; }
-    .grades-table td { font-size: 13px; padding: 7px 6px; border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f0e6c8; }
+    .grades-table td { font-size: 13px; padding: 7px 6px; border-bottom: 0.5px solid var(--border2); color: var(--text); }
     .grades-table td.left { text-align: left; }
     .grades-table tr:last-child td { border-bottom: none; }
     .grade-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
-    .g24 { background: rgba(201,168,76,0.2); color: #c9a84c; }
+    .g24 { background: rgba(201,168,76,0.2); color: var(--gold); }
     .g22 { background: rgba(201,168,76,0.15); color: #b8943a; }
     .g21 { background: rgba(201,168,76,0.1); color: #9a7a2e; }
     .g18 { background: rgba(201,168,76,0.08); color: #7a6025; }
@@ -56,47 +80,52 @@
     .price-change { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
     .up { background: rgba(39,80,10,0.3); color: #97C459; }
     .down { background: rgba(163,45,45,0.3); color: #F09595; }
-    .neutral { background: rgba(136,135,128,0.2); color: #888; }
+    .neutral { background: rgba(136,135,128,0.2); color: var(--muted); }
 
     .oil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
-    .oil-card { background: #161616; border: 0.5px solid rgba(201,168,76,0.12); border-radius: 12px; padding: 1.2rem; }
-    .oil-price { font-size: 24px; font-weight: 700; color: #f0e6c8; margin: 8px 0 4px; }
-    .oil-omr { font-size: 12px; color: #888; }
-    .chart-wrap { margin-top: 14px; padding-top: 12px; border-top: 0.5px solid rgba(201,168,76,0.1); }
-    .chart-label { font-size: 10px; color: #555; margin-bottom: 6px; }
+    .oil-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 1.2rem; }
+    .oil-price { font-size: 24px; font-weight: 700; color: var(--text); margin: 8px 0 4px; }
+    .oil-omr { font-size: 12px; color: var(--muted); }
+    .chart-wrap { margin-top: 14px; padding-top: 12px; border-top: 0.5px solid var(--border2); }
+    .chart-label { font-size: 10px; color: var(--muted); margin-bottom: 6px; }
     .chart-container { position: relative; height: 80px; width: 100%; }
 
     .stocks-table { width: 100%; border-collapse: collapse; }
-    .stocks-table th { font-size: 10px; color: #555; font-weight: 500; padding: 6px 8px; text-align: right; border-bottom: 0.5px solid rgba(201,168,76,0.1); white-space: nowrap; }
+    .stocks-table th { font-size: 10px; color: var(--muted); font-weight: 500; padding: 6px 8px; text-align: right; border-bottom: 0.5px solid var(--border2); white-space: nowrap; }
     .stocks-table th.left { text-align: left; }
-    .stocks-table td { font-size: 12px; padding: 8px; border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f0e6c8; vertical-align: middle; }
+    .stocks-table td { font-size: 12px; padding: 8px; border-bottom: 0.5px solid var(--border2); color: var(--text); vertical-align: middle; }
     .stocks-table td.left { text-align: left; }
     .stocks-table tr:last-child td { border-bottom: none; }
     .stocks-table tr:hover td { background: rgba(201,168,76,0.03); }
-    .stock-name { font-weight: 600; font-size: 12px; color: #f0e6c8; }
-    .stock-symbol { font-size: 10px; color: #555; margin-top: 1px; }
+    .stock-name { font-weight: 600; font-size: 12px; color: var(--text); }
+    .stock-symbol { font-size: 10px; color: var(--muted); margin-top: 1px; }
     .recommend-yes { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: rgba(39,80,10,0.3); color: #97C459; }
     .recommend-no  { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: rgba(163,45,45,0.3); color: #F09595; }
     .stock-chart-cell { width: 100px; }
     .stock-chart-wrap { position: relative; height: 40px; width: 100px; }
 
-    .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: #444; }
+    .last-update { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid rgba(201,168,76,0.12); font-size: 11px; color: var(--muted); }
 
     .news-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid rgba(201,168,76,0.08); }
     .news-item:last-child { border-bottom: none; }
     .news-dot { width: 6px; height: 6px; border-radius: 50%; background: #c9a84c; flex-shrink: 0; margin-top: 6px; }
     .news-content { flex: 1; }
-    .news-title { font-size: 13px; color: #f0e6c8; line-height: 1.5; margin-bottom: 3px; }
-    .news-meta { font-size: 10px; color: #555; display: flex; gap: 8px; }
-    .news-source { color: #c9a84c; }
+    .news-title { font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 3px; }
+    .news-meta { font-size: 10px; color: var(--muted); display: flex; gap: 8px; }
+    .news-source { color: var(--gold); }
     .news-page { display: none; }
     .news-page.active { display: block; animation: fadeIn 0.4s ease; }
     .dot-btn { width: 7px; height: 7px; border-radius: 50%; background: rgba(201,168,76,0.2); border: none; cursor: pointer; transition: background 0.2s; padding: 0; }
     .dot-btn.active { background: #c9a84c; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-    .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid rgba(201,168,76,0.12); }
-    .footer span { font-size: 12px; color: #444; }
-    .footer strong { color: #c9a84c; font-weight: 600; }
+    .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
+    .footer span { font-size: 12px; color: var(--muted); }
+    .footer strong { color: var(--gold); font-weight: 600; }
+
+    .nav-controls { display: flex; align-items: center; gap: 8px; }
+    .theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #c9a84c; background: #0e0e0e; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; flex-shrink: 0; }
+    body.light .theme-btn { background: #ffffff; border-color: #a07828; }
+    .theme-btn svg { width: 16px; height: 16px; }
 
     @media (max-width: 580px) {
       .prices-grid, .oil-grid { grid-template-columns: 1fr; }
@@ -112,10 +141,17 @@
       <div class="date-label-sm">اليوم</div>
       <div class="date-value" id="date-day">-</div>
     </div>
-    <button class="nav-btn-action" onclick="loadAll()">
-      <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
-      تحديث
-    </button>
+    <div class="nav-controls">
+      <button class="nav-btn-action" onclick="loadAll()">
+        <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        تحديث
+      </button>
+      <button class="theme-btn" onclick="toggleTheme()" title="تغيير المظهر">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path id="moon-path" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="date-bar">
@@ -151,7 +187,6 @@
         <div>
           <div class="price-title">الذهب — سعر اليوم</div>
           <div class="price-subtitle">Gold Today / OMR per gram</div>
-          <div style="font-size:10px;color:#444;margin-top:3px">تم التحديث: <span id="gold-updated">-</span></div>
         </div>
       </div>
       <table class="grades-table">
@@ -175,7 +210,6 @@
         <div>
           <div class="price-title">الفضة — سعر اليوم</div>
           <div class="price-subtitle">Silver Today / OMR per gram</div>
-          <div style="font-size:10px;color:#444;margin-top:3px">تم التحديث: <span id="silver-updated">-</span></div>
         </div>
       </div>
       <table class="grades-table">
@@ -207,7 +241,6 @@
       <div class="oil-price" id="oman-usd">-</div>
       <div class="oil-omr" id="oman-omr">-</div>
       <div id="oman-change" style="margin-top:6px"></div>
-      <div style="margin-top:8px;font-size:10px;color:#444">تم التحديث: <span id="oman-updated">-</span></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — خام عُمان</div>
         <div class="chart-container"><canvas id="oman-chart"></canvas></div>
@@ -224,7 +257,6 @@
       <div class="oil-price" id="brent-usd">-</div>
       <div class="oil-omr" id="brent-omr">-</div>
       <div id="brent-change" style="margin-top:6px"></div>
-      <div style="margin-top:8px;font-size:10px;color:#444">تم التحديث: <span id="brent-updated">-</span></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — برنت</div>
         <div class="chart-container"><canvas id="brent-chart"></canvas></div>
@@ -262,6 +294,18 @@
 const GOLD_KEY = 'goldapi-2ra9rsmnja7oh7-io';
 const OMR = 0.385;
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// Theme
+const savedTheme = localStorage.getItem('theme') || 'dark';
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  document.querySelector('#moon-path').setAttribute('stroke', '#a07828');
+}
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  document.querySelector('#moon-path').setAttribute('stroke', isLight ? '#a07828' : '#c9a84c');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
 
 function fmt(n, d=3) { return parseFloat(n).toLocaleString('ar-OM', {minimumFractionDigits:d, maximumFractionDigits:d}); }
 function fmt2(n) { return parseFloat(n).toLocaleString('ar-OM', {minimumFractionDigits:2, maximumFractionDigits:2}); }
@@ -362,7 +406,6 @@ async function loadGold() {
       </tr>`;
     });
     document.getElementById('gold-table').innerHTML = html;
-    document.getElementById('gold-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
   } catch(e) {
     document.getElementById('gold-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
   }
@@ -393,7 +436,6 @@ async function loadSilver() {
       </tr>`;
     });
     document.getElementById('silver-table').innerHTML = html;
-    document.getElementById('silver-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
   } catch(e) {
     document.getElementById('silver-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
   }
@@ -451,12 +493,10 @@ async function loadOil() {
     document.getElementById('brent-usd').textContent = '$ ' + fmt2(brent);
     document.getElementById('brent-omr').textContent = 'ر.ع ' + fmt2(brent * OMR) + ' / برميل';
     document.getElementById('brent-change').innerHTML = changeHtml(ch, chp);
-    document.getElementById('brent-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
 
     document.getElementById('oman-usd').textContent = '$ ' + fmt2(oman);
     document.getElementById('oman-omr').textContent = 'ر.ع ' + fmt2(oman * OMR) + ' / برميل';
     document.getElementById('oman-change').innerHTML = changeHtml(ch, chp);
-    document.getElementById('oman-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
 
     const days = ['الجمعة','السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','اليوم'];
     const seed = (v, i) => parseFloat((v + (Math.sin(i*7.3)*2.1) + (Math.cos(i*3.1)*1.4)).toFixed(2));
