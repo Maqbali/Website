@@ -187,6 +187,7 @@
         <div>
           <div class="price-title">الذهب — سعر اليوم</div>
           <div class="price-subtitle">Gold Today / OMR per gram</div>
+          <div style="font-size:10px;color:#555;margin-top:6px">تم التحديث: <span id="gold-updated">-</span></div>
         </div>
       </div>
       <table class="grades-table">
@@ -210,6 +211,7 @@
         <div>
           <div class="price-title">الفضة — سعر اليوم</div>
           <div class="price-subtitle">Silver Today / OMR per gram</div>
+          <div style="font-size:10px;color:#555;margin-top:6px">تم التحديث: <span id="silver-updated">-</span></div>
         </div>
       </div>
       <table class="grades-table">
@@ -241,6 +243,7 @@
       <div class="oil-price" id="oman-usd">-</div>
       <div class="oil-omr" id="oman-omr">-</div>
       <div id="oman-change" style="margin-top:6px"></div>
+      <div style="font-size:10px;color:#555;margin-top:6px">تم التحديث: <span id="oman-updated">-</span></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — خام عُمان</div>
         <div class="chart-container"><canvas id="oman-chart"></canvas></div>
@@ -257,6 +260,7 @@
       <div class="oil-price" id="brent-usd">-</div>
       <div class="oil-omr" id="brent-omr">-</div>
       <div id="brent-change" style="margin-top:6px"></div>
+      <div style="font-size:10px;color:#555;margin-top:6px">تم التحديث: <span id="brent-updated">-</span></div>
       <div class="chart-wrap">
         <div class="chart-label">التغير الأسبوعي — برنت</div>
         <div class="chart-container"><canvas id="brent-chart"></canvas></div>
@@ -285,7 +289,10 @@
   <div class="last-update" id="last-update"></div>
 
   <div class="footer">
-    <span>جميع الحقوق محفوظة &copy; <span id="year"></span></span>
+    <span style="display:flex;justify-content:space-between;align-items:center;width:100%">
+      <span>جميع الحقوق محفوظة &copy; 2026</span>
+      <span>صمم ♥ <a href="https://www.maqbali.com" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600">Maqbali</a></span>
+    </span>
   </div>
 
 </div>
@@ -293,7 +300,7 @@
 <script>
 const GOLD_KEY = 'goldapi-2ra9rsmnja7oh7-io';
 const OMR = 0.385;
-document.getElementById('year').textContent = new Date().getFullYear();
+
 
 // Theme
 const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -406,6 +413,7 @@ async function loadGold() {
       </tr>`;
     });
     document.getElementById('gold-table').innerHTML = html;
+    document.getElementById('gold-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
   } catch(e) {
     document.getElementById('gold-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
   }
@@ -436,6 +444,7 @@ async function loadSilver() {
       </tr>`;
     });
     document.getElementById('silver-table').innerHTML = html;
+    document.getElementById('silver-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
   } catch(e) {
     document.getElementById('silver-table').innerHTML = '<tr><td colspan="4" style="color:#555;text-align:center;padding:12px">تعذّر التحميل</td></tr>';
   }
@@ -493,10 +502,12 @@ async function loadOil() {
     document.getElementById('brent-usd').textContent = '$ ' + fmt2(brent);
     document.getElementById('brent-omr').textContent = 'ر.ع ' + fmt2(brent * OMR) + ' / برميل';
     document.getElementById('brent-change').innerHTML = changeHtml(ch, chp);
+    document.getElementById('brent-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
 
     document.getElementById('oman-usd').textContent = '$ ' + fmt2(oman);
     document.getElementById('oman-omr').textContent = 'ر.ع ' + fmt2(oman * OMR) + ' / برميل';
     document.getElementById('oman-change').innerHTML = changeHtml(ch, chp);
+    document.getElementById('oman-updated').textContent = new Date().toLocaleTimeString('ar-OM', {timeZone:'Asia/Muscat', hour:'2-digit', minute:'2-digit'});
 
     const days = ['الجمعة','السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','اليوم'];
     const seed = (v, i) => parseFloat((v + (Math.sin(i*7.3)*2.1) + (Math.cos(i*3.1)*1.4)).toFixed(2));
