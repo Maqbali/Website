@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مكتبة الأيقونات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f0e8;
+  --card: #ffffff;
+  --card2: #f0ebe0;
+  --border: rgba(150,120,40,0.25);
+  --border2: rgba(150,120,40,0.15);
+  --text: #2a1f0a;
+  --text2: #4a3a1a;
+  --muted: #999;
+  --gold: #a07828;
+  --gold-bg: rgba(160,120,40,0.08);
+}
+
+/* ✅ الخط محلي — ضع bobjoll.woff2 في نفس مجلد الصفحة */
+@font-face {
+  font-family: 'css/bobjoll';
+  src: url('bobjoll.woff2') format('woff2');
+  font-display: swap;
+}
+
+.fi {
+  display: inline-block;
+  font-family: 'bobjoll' !important;
+  font-style: normal; font-weight: normal;
+  font-variant: normal; text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  speak: none; line-height: 1;
+}
+.fi-xs { font-size: 12px; } .fi-sm { font-size: 14px; }
+.fi-md { font-size: 16px; } .fi-lg { font-size: 20px; }
+.fi-xl { font-size: 24px; } .fi-2x { font-size: 32px; }
+.fi-3x { font-size: 48px; }
+
+.fi-3d::before { content: "\f101"; }
+.fi-add-to-folder::before { content: "\f102"; }
+.fi-add-user::before { content: "\f103"; }
+.fi-addcollection::before { content: "\f104"; }
+.fi-advanced::before { content: "\f105"; }
+.fi-ai-filter::before { content: "\f106"; }
+.fi-ai-stars::before { content: "\f107"; }
+.fi-ai::before { content: "\f108"; }
+.fi-aligncenter::before { content: "\f109"; }
+.fi-alignleft::before { content: "\f10a"; }
+.fi-alignright::before { content: "\f10b"; }
+.fi-amex::before { content: "\f10c"; }
+.fi-animated-icon::before { content: "\f10d"; }
+.fi-api::before { content: "\f10e"; }
+.fi-archive::before { content: "\f10f"; }
+.fi-attribution-pen::before { content: "\f110"; }
+.fi-attribution-pencil::before { content: "\f111"; }
+.fi-background::before { content: "\f112"; }
+.fi-backwards::before { content: "\f113"; }
+.fi-base-model::before { content: "\f114"; }
+.fi-beacon-lineal::before { content: "\f115"; }
+.fi-beacon::before { content: "\f116"; }
+.fi-beginner::before { content: "\f117"; }
+.fi-behance::before { content: "\f118"; }
+.fi-blog-pencil::before { content: "\f119"; }
+.fi-blog-text::before { content: "\f11a"; }
+.fi-bold::before { content: "\f11b"; }
+.fi-book::before { content: "\f11c"; }
+.fi-bookmark-filled::before { content: "\f11d"; }
+.fi-bookmark::before { content: "\f11e"; }
+.fi-briefcase::before { content: "\f11f"; }
+.fi-broken-image::before { content: "\f120"; }
+.fi-brush::before { content: "\f121"; }
+.fi-bug::before { content: "\f122"; }
+.fi-bullet::before { content: "\f123"; }
+.fi-business-card::before { content: "\f124"; }
+.fi-calendar::before { content: "\f125"; }
+.fi-camera::before { content: "\f126"; }
+.fi-caret-down::before { content: "\f127"; }
+.fi-caret-left::before { content: "\f128"; }
+.fi-caret-right::before { content: "\f129"; }
+.fi-caret-up::before { content: "\f12a"; }
+.fi-check-round::before { content: "\f12b"; }
+.fi-checkbox::before { content: "\f12d"; }
+.fi-circle-filled::before { content: "\f12e"; }
+.fi-circle-lineal-small::before { content: "\f12f"; }
+.fi-circle-lineal::before { content: "\f130"; }
+.fi-circle::before { content: "\f131"; }
+.fi-clean::before { content: "\f132"; }
+.fi-clip::before { content: "\f133"; }
+.fi-cloud::before { content: "\f134"; }
+.fi-collapse::before { content: "\f135"; }
+.fi-collection::before { content: "\f136"; }
+.fi-comment::before { content: "\f137"; }
+.fi-cookie::before { content: "\f138"; }
+.fi-copy-image::before { content: "\f139"; }
+.fi-copyright::before { content: "\f13a"; }
+.fi-coupon::before { content: "\f13b"; }
+.fi-create-folder-filled::before { content: "\f13c"; }
+.fi-create-folder::before { content: "\f13d"; }
+.fi-credit-card::before { content: "\f13e"; }
+.fi-crop::before { content: "\f13f"; }
+.fi-cross-small::before { content: "\f140"; }
+.fi-cross::before { content: "\f141"; }
+.fi-crown-filled::before { content: "\f142"; }
+.fi-crown-lineal::before { content: "\f143"; }
+.fi-crown::before { content: "\f144"; }
+.fi-dashboard::before { content: "\f145"; }
+.fi-desktop-wallpaper::before { content: "\f146"; }
+.fi-devices::before { content: "\f147"; }
+.fi-disabled::before { content: "\f148"; }
+.fi-display-options::before { content: "\f149"; }
+.fi-dollar::before { content: "\f14a"; }
+.fi-down-small::before { content: "\f14b"; }
+.fi-down::before { content: "\f14c"; }
+.fi-download::before { content: "\f14d"; }
+.fi-dribbble::before { content: "\f14e"; }
+.fi-duplicate::before { content: "\f14f"; }
+.fi-earnings::before { content: "\f150"; }
+.fi-edit::before { content: "\f151"; }
+.fi-education::before { content: "\f152"; }
+.fi-empty::before { content: "\f153"; }
+.fi-envelope-solid::before { content: "\f154"; }
+.fi-envelope::before { content: "\f155"; }
+.fi-error-round::before { content: "\f156"; }
+.fi-external-link::before { content: "\f158"; }
+.fi-eye-line-through::before { content: "\f159"; }
+.fi-eye::before { content: "\f15a"; }
+.fi-facebook::before { content: "\f15b"; }
+.fi-file::before { content: "\f15c"; }
+.fi-filter::before { content: "\f15d"; }
+.fi-fiverr::before { content: "\f15e"; }
+.fi-flag::before { content: "\f15f"; }
+.fi-flame::before { content: "\f160"; }
+.fi-flaticon-symbol::before { content: "\f161"; }
+.fi-flaticon-text::before { content: "\f162"; }
+.fi-flaticon::before { content: "\f163"; }
+.fi-flip::before { content: "\f164"; }
+.fi-fold::before { content: "\f165"; }
+.fi-folder::before { content: "\f166"; }
+.fi-follow-folder::before { content: "\f167"; }
+.fi-followcollection::before { content: "\f168"; }
+.fi-following::before { content: "\f169"; }
+.fi-font::before { content: "\f16a"; }
+.fi-forwards::before { content: "\f16b"; }
+.fi-fullscreen::before { content: "\f16c"; }
+.fi-globe::before { content: "\f16d"; }
+.fi-go-to-page1::before { content: "\f16e"; }
+.fi-google::before { content: "\f16f"; }
+.fi-graphic-style::before { content: "\f170"; }
+.fi-grid::before { content: "\f171"; }
+.fi-headphones::before { content: "\f172"; }
+.fi-headquarters::before { content: "\f173"; }
+.fi-heart-filled::before { content: "\f174"; }
+.fi-heart::before { content: "\f175"; }
+.fi-history::before { content: "\f176"; }
+.fi-home::before { content: "\f177"; }
+.fi-hourglass::before { content: "\f178"; }
+.fi-icon::before { content: "\f179"; }
+.fi-icons::before { content: "\f17a"; }
+.fi-images::before { content: "\f17b"; }
+.fi-inbox::before { content: "\f17c"; }
+.fi-info::before { content: "\f17d"; }
+.fi-instagram::before { content: "\f17e"; }
+.fi-interactive::before { content: "\f17f"; }
+.fi-intermediate::before { content: "\f180"; }
+.fi-interogation::before { content: "\f181"; }
+.fi-italic::before { content: "\f182"; }
+.fi-justify::before { content: "\f183"; }
+.fi-keyboard::before { content: "\f184"; }
+.fi-laptop::before { content: "\f185"; }
+.fi-layers::before { content: "\f186"; }
+.fi-left-small::before { content: "\f187"; }
+.fi-left::before { content: "\f188"; }
+.fi-license::before { content: "\f189"; }
+.fi-light-bulb::before { content: "\f18a"; }
+.fi-linkedin::before { content: "\f18b"; }
+.fi-list::before { content: "\f18c"; }
+.fi-lock-open-solid::before { content: "\f18d"; }
+.fi-lock-solid::before { content: "\f18e"; }
+.fi-lock::before { content: "\f18f"; }
+.fi-logo-symbol-old::before { content: "\f190"; }
+.fi-logo-symbol::before { content: "\f191"; }
+.fi-logo-text-old::before { content: "\f192"; }
+.fi-logo-text::before { content: "\f193"; }
+.fi-logout::before { content: "\f194"; }
+.fi-marker::before { content: "\f195"; }
+.fi-master-card::before { content: "\f196"; }
+.fi-medical-1::before { content: "\f197"; }
+.fi-medical-2::before { content: "\f198"; }
+.fi-menuburger::before { content: "\f199"; }
+.fi-menudots-vertical::before { content: "\f19a"; }
+.fi-menudots::before { content: "\f19b"; }
+.fi-minimize::before { content: "\f19c"; }
+.fi-minus-small::before { content: "\f19d"; }
+.fi-minus::before { content: "\f19e"; }
+.fi-mockup::before { content: "\f19f"; }
+.fi-move-to-folder-2::before { content: "\f1a0"; }
+.fi-move-to-folder::before { content: "\f1a1"; }
+.fi-next-small::before { content: "\f1a2"; }
+.fi-next::before { content: "\f1a3"; }
+.fi-no-people::before { content: "\f1a4"; }
+.fi-notification-filled::before { content: "\f1a5"; }
+.fi-notification::before { content: "\f1a6"; }
+.fi-o-horizontal::before { content: "\f1a7"; }
+.fi-o-panoramic::before { content: "\f1a8"; }
+.fi-o-square::before { content: "\f1a9"; }
+.fi-o-vertical::before { content: "\f1aa"; }
+.fi-opacity::before { content: "\f1ab"; }
+.fi-palette::before { content: "\f1ac"; }
+.fi-paper-plane::before { content: "\f1ad"; }
+.fi-paper-plane2::before { content: "\f1ae"; }
+.fi-paste::before { content: "\f1af"; }
+.fi-pattern::before { content: "\f1b0"; }
+.fi-pause::before { content: "\f1b1"; }
+.fi-paypal::before { content: "\f1b2"; }
+.fi-pencil::before { content: "\f1b3"; }
+.fi-phone::before { content: "\f1b4"; }
+.fi-photo::before { content: "\f1b5"; }
+.fi-picpeople-filled::before { content: "\f1b6"; }
+.fi-picpeople::before { content: "\f1b7"; }
+.fi-pinterest::before { content: "\f1b8"; }
+.fi-pixabay::before { content: "\f1b9"; }
+.fi-play::before { content: "\f1ba"; }
+.fi-plus-small::before { content: "\f1bb"; }
+.fi-plus::before { content: "\f1bc"; }
+.fi-presentation::before { content: "\f1bd"; }
+.fi-prev-small::before { content: "\f1be"; }
+.fi-prev::before { content: "\f1bf"; }
+.fi-projects::before { content: "\f1c0"; }
+.fi-prompt::before { content: "\f1c1"; }
+.fi-psd::before { content: "\f1c2"; }
+.fi-quote::before { content: "\f1c3"; }
+.fi-receipt::before { content: "\f1c4"; }
+.fi-redo::before { content: "\f1c5"; }
+.fi-reflect-horizontal::before { content: "\f1c6"; }
+.fi-reflect-vertical::before { content: "\f1c7"; }
+.fi-refresh::before { content: "\f1c8"; }
+.fi-remove-folder::before { content: "\f1c9"; }
+.fi-removecollection::before { content: "\f1ca"; }
+.fi-replace::before { content: "\f1cb"; }
+.fi-resources::before { content: "\f1cc"; }
+.fi-right-small::before { content: "\f1cd"; }
+.fi-right::before { content: "\f1ce"; }
+.fi-rotate-inverted::before { content: "\f1cf"; }
+.fi-rotate::before { content: "\f1d0"; }
+.fi-save::before { content: "\f1d1"; }
+.fi-search-by-image::before { content: "\f1d2"; }
+.fi-search-heart::before { content: "\f1d3"; }
+.fi-search::before { content: "\f1d4"; }
+.fi-security::before { content: "\f1d5"; }
+.fi-settings::before { content: "\f1d6"; }
+.fi-share::before { content: "\f1d7"; }
+.fi-shield::before { content: "\f1d8"; }
+.fi-shopping-cart::before { content: "\f1d9"; }
+.fi-shuffle::before { content: "\f1da"; }
+.fi-slidesgo::before { content: "\f1db"; }
+.fi-smiley-comment::before { content: "\f1dc"; }
+.fi-sortcollection::before { content: "\f1dd"; }
+.fi-speaker::before { content: "\f1de"; }
+.fi-spinner::before { content: "\f1df"; }
+.fi-square-lineal::before { content: "\f1e0"; }
+.fi-square::before { content: "\f1e1"; }
+.fi-squares::before { content: "\f1e2"; }
+.fi-squircle-lineal::before { content: "\f1e3"; }
+.fi-squircle::before { content: "\f1e4"; }
+.fi-star-comment::before { content: "\f1e5"; }
+.fi-star-filled::before { content: "\f1e6"; }
+.fi-star::before { content: "\f1e7"; }
+.fi-stats::before { content: "\f1e8"; }
+.fi-sticker::before { content: "\f1e9"; }
+.fi-stop::before { content: "\f1ea"; }
+.fi-stroke::before { content: "\f1eb"; }
+.fi-stumbleupon::before { content: "\f1ec"; }
+.fi-subtitles::before { content: "\f1ed"; }
+.fi-support::before { content: "\f1ee"; }
+.fi-tablet::before { content: "\f1ef"; }
+.fi-tag::before { content: "\f1f0"; }
+.fi-telegram::before { content: "\f1f1"; }
+.fi-template-alt::before { content: "\f1f2"; }
+.fi-template::before { content: "\f1f3"; }
+.fi-text-shadow::before { content: "\f1f4"; }
+.fi-thumb-down::before { content: "\f1f5"; }
+.fi-thumb-up::before { content: "\f1f6"; }
+.fi-time::before { content: "\f1f7"; }
+.fi-trash::before { content: "\f1f8"; }
+.fi-twitter::before { content: "\f1f9"; }
+.fi-underline::before { content: "\f1fa"; }
+.fi-undo::before { content: "\f1fb"; }
+.fi-unfold::before { content: "\f1fc"; }
+.fi-unlock::before { content: "\f1fd"; }
+.fi-up-small::before { content: "\f1fe"; }
+.fi-up::before { content: "\f1ff"; }
+.fi-upload-to-folder::before { content: "\f200"; }
+.fi-upload::before { content: "\f201"; }
+.fi-url::before { content: "\f202"; }
+.fi-user::before { content: "\f203"; }
+.fi-users::before { content: "\f204"; }
+.fi-vector::before { content: "\f205"; }
+.fi-video-linear::before { content: "\f206"; }
+.fi-video::before { content: "\f207"; }
+.fi-vimeo::before { content: "\f208"; }
+.fi-visa::before { content: "\f209"; }
+.fi-volume::before { content: "\f20a"; }
+.fi-warning-filled::before { content: "\f20b"; }
+.fi-whatsapp::before { content: "\f20c"; }
+.fi-world::before { content: "\f20d"; }
+.fi-youtube::before { content: "\f20e"; }
+.fi-zoom-in::before { content: "\f20f"; }
+.fi-zoom-out::before { content: "\f210"; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  color: var(--text);
+}
+.page { max-width: 900px; margin: 0 auto; }
+
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+.nav-title { font-size: 14px; font-weight: 700; color: var(--gold); }
+.nav-subtitle { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.nav-badge {
+  font-size: 11px; font-weight: 700;
+  background: var(--gold-bg);
+  border: 0.5px solid var(--border);
+  color: var(--gold);
+  padding: 4px 12px; border-radius: 20px;
+}
+
+.search-wrap {
+  background: var(--card);
+  border: 0.5px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.search-wrap input {
+  flex: 1; border: none; background: transparent;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px; color: var(--text);
+  outline: none; direction: rtl;
+}
+.search-wrap input::placeholder { color: var(--muted); }
+.search-count {
+  font-size: 11px; color: var(--muted);
+  background: var(--card2);
+  border: 0.5px solid var(--border2);
+  padding: 3px 10px; border-radius: 20px;
+  white-space: nowrap;
+}
+
+.section-title {
+  font-size: 13px; font-weight: 600; color: var(--gold);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--border2);
+  letter-spacing: 0.5px;
+}
+
+.usage-card {
+  background: var(--card);
+  border: 0.5px solid var(--border2);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.usage-sizes {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  align-items: center; padding: 12px 0;
+  border-bottom: 0.5px solid var(--border2);
+  margin-bottom: 12px;
+}
+.size-demo { text-align: center; }
+.size-demo .fi { color: var(--gold); display: block; margin-bottom: 4px; }
+.size-demo span { font-size: 10px; color: var(--muted); }
+
+.code-block {
+  background: var(--card2);
+  border: 0.5px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+  direction: ltr;
+  text-align: left;
+}
+
+.files-note {
+  background: var(--gold-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 10px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.files-note span { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+.icon-card {
+  background: var(--card);
+  border: 0.5px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px 8px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.icon-card:hover {
+  border-color: var(--gold);
+  background: var(--gold-bg);
+  transform: translateY(-1px);
+}
+.icon-card:active { transform: scale(0.96); }
+.icon-card.copied {
+  border-color: #5cba4a;
+  background: rgba(92,186,74,0.08);
+}
+.icon-card .fi {
+  font-size: 24px; color: var(--gold);
+  display: block; margin-bottom: 8px;
+}
+.icon-card .icon-name {
+  font-size: 10px; color: var(--muted);
+  display: block; word-break: break-all; line-height: 1.3;
+}
+.icon-card.hidden { display: none; }
+
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: var(--card); border: 0.5px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  color: var(--text); padding: 10px 22px;
+  border-radius: 10px; font-size: 13px; font-weight: 600;
+  opacity: 0; transition: opacity 0.25s;
+  pointer-events: none; z-index: 999; white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+.toast span { color: var(--gold); }
+
+.footer {
+  text-align: center; margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 0.5px solid var(--border2);
+}
+.footer span { font-size: 12px; color: var(--muted); }
+.footer strong { color: var(--gold); font-weight: 600; }
+
+@media (max-width: 580px) {
+  .icons-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+  .usage-sizes { gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="nav">
+    <div>
+      <div class="nav-title">✦ مكتبة الأيقونات</div>
+      <div class="nav-subtitle">Flaticon · bobjoll icon font</div>
+    </div>
+    <div class="nav-badge">270 أيقونة</div>
+  </div>
+
+  <div class="section-title">✦ طريقة الاستخدام</div>
+  <div class="usage-card">
+    <div class="usage-sizes">
+      <div class="size-demo"><i class="fi fi-search fi-xs"></i><span>xs · 12</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-sm"></i><span>sm · 14</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-md"></i><span>md · 16</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-lg"></i><span>lg · 20</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-xl"></i><span>xl · 24</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-2x"></i><span>2x · 32</span></div>
+      <div class="size-demo"><i class="fi fi-search fi-3x"></i><span>3x · 48</span></div>
+    </div>
+    <div class="code-block">&lt;link rel="stylesheet" href="flaticon-icons.css"&gt;<br><br>&lt;i class="fi fi-search"&gt;&lt;/i&gt;<br>&lt;i class="fi fi-heart fi-lg"&gt;&lt;/i&gt;<br>&lt;i class="fi fi-download fi-2x"&gt;&lt;/i&gt;</div>
+    <div class="files-note">
+      <span>📁</span>
+      <div>ضع الملفين في نفس المجلد على موقعك:<br>
+      <strong>flaticon-icons.css</strong> + <strong>bobjoll.woff2</strong></div>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span style="color:var(--gold);font-size:16px;flex-shrink:0">✦</span>
+    <input type="text" id="searchInput" placeholder="ابحث عن أيقونة بالإنجليزية... مثال: home, star, user" oninput="filterIcons(this.value)">
+    <div class="search-count" id="count">270 / 270</div>
+  </div>
+
+  <div class="section-title" id="grid-title">✦ جميع الأيقونات</div>
+  <div class="icons-grid" id="grid">
+<div class="icon-card" data-name="3d"><i class="fi fi-3d"></i><span class="icon-name">3d</span></div>
+<div class="icon-card" data-name="add-to-folder"><i class="fi fi-add-to-folder"></i><span class="icon-name">add-to-folder</span></div>
+<div class="icon-card" data-name="add-user"><i class="fi fi-add-user"></i><span class="icon-name">add-user</span></div>
+<div class="icon-card" data-name="addcollection"><i class="fi fi-addcollection"></i><span class="icon-name">addcollection</span></div>
+<div class="icon-card" data-name="advanced"><i class="fi fi-advanced"></i><span class="icon-name">advanced</span></div>
+<div class="icon-card" data-name="ai-filter"><i class="fi fi-ai-filter"></i><span class="icon-name">ai-filter</span></div>
+<div class="icon-card" data-name="ai-stars"><i class="fi fi-ai-stars"></i><span class="icon-name">ai-stars</span></div>
+<div class="icon-card" data-name="ai"><i class="fi fi-ai"></i><span class="icon-name">ai</span></div>
+<div class="icon-card" data-name="aligncenter"><i class="fi fi-aligncenter"></i><span class="icon-name">aligncenter</span></div>
+<div class="icon-card" data-name="alignleft"><i class="fi fi-alignleft"></i><span class="icon-name">alignleft</span></div>
+<div class="icon-card" data-name="alignright"><i class="fi fi-alignright"></i><span class="icon-name">alignright</span></div>
+<div class="icon-card" data-name="amex"><i class="fi fi-amex"></i><span class="icon-name">amex</span></div>
+<div class="icon-card" data-name="animated-icon"><i class="fi fi-animated-icon"></i><span class="icon-name">animated-icon</span></div>
+<div class="icon-card" data-name="api"><i class="fi fi-api"></i><span class="icon-name">api</span></div>
+<div class="icon-card" data-name="archive"><i class="fi fi-archive"></i><span class="icon-name">archive</span></div>
+<div class="icon-card" data-name="attribution-pen"><i class="fi fi-attribution-pen"></i><span class="icon-name">attribution-pen</span></div>
+<div class="icon-card" data-name="attribution-pencil"><i class="fi fi-attribution-pencil"></i><span class="icon-name">attribution-pencil</span></div>
+<div class="icon-card" data-name="background"><i class="fi fi-background"></i><span class="icon-name">background</span></div>
+<div class="icon-card" data-name="backwards"><i class="fi fi-backwards"></i><span class="icon-name">backwards</span></div>
+<div class="icon-card" data-name="base-model"><i class="fi fi-base-model"></i><span class="icon-name">base-model</span></div>
+<div class="icon-card" data-name="beacon-lineal"><i class="fi fi-beacon-lineal"></i><span class="icon-name">beacon-lineal</span></div>
+<div class="icon-card" data-name="beacon"><i class="fi fi-beacon"></i><span class="icon-name">beacon</span></div>
+<div class="icon-card" data-name="beginner"><i class="fi fi-beginner"></i><span class="icon-name">beginner</span></div>
+<div class="icon-card" data-name="behance"><i class="fi fi-behance"></i><span class="icon-name">behance</span></div>
+<div class="icon-card" data-name="blog-pencil"><i class="fi fi-blog-pencil"></i><span class="icon-name">blog-pencil</span></div>
+<div class="icon-card" data-name="blog-text"><i class="fi fi-blog-text"></i><span class="icon-name">blog-text</span></div>
+<div class="icon-card" data-name="bold"><i class="fi fi-bold"></i><span class="icon-name">bold</span></div>
+<div class="icon-card" data-name="book"><i class="fi fi-book"></i><span class="icon-name">book</span></div>
+<div class="icon-card" data-name="bookmark-filled"><i class="fi fi-bookmark-filled"></i><span class="icon-name">bookmark-filled</span></div>
+<div class="icon-card" data-name="bookmark"><i class="fi fi-bookmark"></i><span class="icon-name">bookmark</span></div>
+<div class="icon-card" data-name="briefcase"><i class="fi fi-briefcase"></i><span class="icon-name">briefcase</span></div>
+<div class="icon-card" data-name="broken-image"><i class="fi fi-broken-image"></i><span class="icon-name">broken-image</span></div>
+<div class="icon-card" data-name="brush"><i class="fi fi-brush"></i><span class="icon-name">brush</span></div>
+<div class="icon-card" data-name="bug"><i class="fi fi-bug"></i><span class="icon-name">bug</span></div>
+<div class="icon-card" data-name="bullet"><i class="fi fi-bullet"></i><span class="icon-name">bullet</span></div>
+<div class="icon-card" data-name="business-card"><i class="fi fi-business-card"></i><span class="icon-name">business-card</span></div>
+<div class="icon-card" data-name="calendar"><i class="fi fi-calendar"></i><span class="icon-name">calendar</span></div>
+<div class="icon-card" data-name="camera"><i class="fi fi-camera"></i><span class="icon-name">camera</span></div>
+<div class="icon-card" data-name="caret-down"><i class="fi fi-caret-down"></i><span class="icon-name">caret-down</span></div>
+<div class="icon-card" data-name="caret-left"><i class="fi fi-caret-left"></i><span class="icon-name">caret-left</span></div>
+<div class="icon-card" data-name="caret-right"><i class="fi fi-caret-right"></i><span class="icon-name">caret-right</span></div>
+<div class="icon-card" data-name="caret-up"><i class="fi fi-caret-up"></i><span class="icon-name">caret-up</span></div>
+<div class="icon-card" data-name="check-round"><i class="fi fi-check-round"></i><span class="icon-name">check-round</span></div>
+<div class="icon-card" data-name="checkbox"><i class="fi fi-checkbox"></i><span class="icon-name">checkbox</span></div>
+<div class="icon-card" data-name="circle-filled"><i class="fi fi-circle-filled"></i><span class="icon-name">circle-filled</span></div>
+<div class="icon-card" data-name="circle-lineal-small"><i class="fi fi-circle-lineal-small"></i><span class="icon-name">circle-lineal-small</span></div>
+<div class="icon-card" data-name="circle-lineal"><i class="fi fi-circle-lineal"></i><span class="icon-name">circle-lineal</span></div>
+<div class="icon-card" data-name="circle"><i class="fi fi-circle"></i><span class="icon-name">circle</span></div>
+<div class="icon-card" data-name="clean"><i class="fi fi-clean"></i><span class="icon-name">clean</span></div>
+<div class="icon-card" data-name="clip"><i class="fi fi-clip"></i><span class="icon-name">clip</span></div>
+<div class="icon-card" data-name="cloud"><i class="fi fi-cloud"></i><span class="icon-name">cloud</span></div>
+<div class="icon-card" data-name="collapse"><i class="fi fi-collapse"></i><span class="icon-name">collapse</span></div>
+<div class="icon-card" data-name="collection"><i class="fi fi-collection"></i><span class="icon-name">collection</span></div>
+<div class="icon-card" data-name="comment"><i class="fi fi-comment"></i><span class="icon-name">comment</span></div>
+<div class="icon-card" data-name="cookie"><i class="fi fi-cookie"></i><span class="icon-name">cookie</span></div>
+<div class="icon-card" data-name="copy-image"><i class="fi fi-copy-image"></i><span class="icon-name">copy-image</span></div>
+<div class="icon-card" data-name="copyright"><i class="fi fi-copyright"></i><span class="icon-name">copyright</span></div>
+<div class="icon-card" data-name="coupon"><i class="fi fi-coupon"></i><span class="icon-name">coupon</span></div>
+<div class="icon-card" data-name="create-folder-filled"><i class="fi fi-create-folder-filled"></i><span class="icon-name">create-folder-filled</span></div>
+<div class="icon-card" data-name="create-folder"><i class="fi fi-create-folder"></i><span class="icon-name">create-folder</span></div>
+<div class="icon-card" data-name="credit-card"><i class="fi fi-credit-card"></i><span class="icon-name">credit-card</span></div>
+<div class="icon-card" data-name="crop"><i class="fi fi-crop"></i><span class="icon-name">crop</span></div>
+<div class="icon-card" data-name="cross-small"><i class="fi fi-cross-small"></i><span class="icon-name">cross-small</span></div>
+<div class="icon-card" data-name="cross"><i class="fi fi-cross"></i><span class="icon-name">cross</span></div>
+<div class="icon-card" data-name="crown-filled"><i class="fi fi-crown-filled"></i><span class="icon-name">crown-filled</span></div>
+<div class="icon-card" data-name="crown-lineal"><i class="fi fi-crown-lineal"></i><span class="icon-name">crown-lineal</span></div>
+<div class="icon-card" data-name="crown"><i class="fi fi-crown"></i><span class="icon-name">crown</span></div>
+<div class="icon-card" data-name="dashboard"><i class="fi fi-dashboard"></i><span class="icon-name">dashboard</span></div>
+<div class="icon-card" data-name="desktop-wallpaper"><i class="fi fi-desktop-wallpaper"></i><span class="icon-name">desktop-wallpaper</span></div>
+<div class="icon-card" data-name="devices"><i class="fi fi-devices"></i><span class="icon-name">devices</span></div>
+<div class="icon-card" data-name="disabled"><i class="fi fi-disabled"></i><span class="icon-name">disabled</span></div>
+<div class="icon-card" data-name="display-options"><i class="fi fi-display-options"></i><span class="icon-name">display-options</span></div>
+<div class="icon-card" data-name="dollar"><i class="fi fi-dollar"></i><span class="icon-name">dollar</span></div>
+<div class="icon-card" data-name="down-small"><i class="fi fi-down-small"></i><span class="icon-name">down-small</span></div>
+<div class="icon-card" data-name="down"><i class="fi fi-down"></i><span class="icon-name">down</span></div>
+<div class="icon-card" data-name="download"><i class="fi fi-download"></i><span class="icon-name">download</span></div>
+<div class="icon-card" data-name="dribbble"><i class="fi fi-dribbble"></i><span class="icon-name">dribbble</span></div>
+<div class="icon-card" data-name="duplicate"><i class="fi fi-duplicate"></i><span class="icon-name">duplicate</span></div>
+<div class="icon-card" data-name="earnings"><i class="fi fi-earnings"></i><span class="icon-name">earnings</span></div>
+<div class="icon-card" data-name="edit"><i class="fi fi-edit"></i><span class="icon-name">edit</span></div>
+<div class="icon-card" data-name="education"><i class="fi fi-education"></i><span class="icon-name">education</span></div>
+<div class="icon-card" data-name="empty"><i class="fi fi-empty"></i><span class="icon-name">empty</span></div>
+<div class="icon-card" data-name="envelope-solid"><i class="fi fi-envelope-solid"></i><span class="icon-name">envelope-solid</span></div>
+<div class="icon-card" data-name="envelope"><i class="fi fi-envelope"></i><span class="icon-name">envelope</span></div>
+<div class="icon-card" data-name="error-round"><i class="fi fi-error-round"></i><span class="icon-name">error-round</span></div>
+<div class="icon-card" data-name="external-link"><i class="fi fi-external-link"></i><span class="icon-name">external-link</span></div>
+<div class="icon-card" data-name="eye-line-through"><i class="fi fi-eye-line-through"></i><span class="icon-name">eye-line-through</span></div>
+<div class="icon-card" data-name="eye"><i class="fi fi-eye"></i><span class="icon-name">eye</span></div>
+<div class="icon-card" data-name="facebook"><i class="fi fi-facebook"></i><span class="icon-name">facebook</span></div>
+<div class="icon-card" data-name="file"><i class="fi fi-file"></i><span class="icon-name">file</span></div>
+<div class="icon-card" data-name="filter"><i class="fi fi-filter"></i><span class="icon-name">filter</span></div>
+<div class="icon-card" data-name="fiverr"><i class="fi fi-fiverr"></i><span class="icon-name">fiverr</span></div>
+<div class="icon-card" data-name="flag"><i class="fi fi-flag"></i><span class="icon-name">flag</span></div>
+<div class="icon-card" data-name="flame"><i class="fi fi-flame"></i><span class="icon-name">flame</span></div>
+<div class="icon-card" data-name="flaticon-symbol"><i class="fi fi-flaticon-symbol"></i><span class="icon-name">flaticon-symbol</span></div>
+<div class="icon-card" data-name="flaticon-text"><i class="fi fi-flaticon-text"></i><span class="icon-name">flaticon-text</span></div>
+<div class="icon-card" data-name="flaticon"><i class="fi fi-flaticon"></i><span class="icon-name">flaticon</span></div>
+<div class="icon-card" data-name="flip"><i class="fi fi-flip"></i><span class="icon-name">flip</span></div>
+<div class="icon-card" data-name="fold"><i class="fi fi-fold"></i><span class="icon-name">fold</span></div>
+<div class="icon-card" data-name="folder"><i class="fi fi-folder"></i><span class="icon-name">folder</span></div>
+<div class="icon-card" data-name="follow-folder"><i class="fi fi-follow-folder"></i><span class="icon-name">follow-folder</span></div>
+<div class="icon-card" data-name="followcollection"><i class="fi fi-followcollection"></i><span class="icon-name">followcollection</span></div>
+<div class="icon-card" data-name="following"><i class="fi fi-following"></i><span class="icon-name">following</span></div>
+<div class="icon-card" data-name="font"><i class="fi fi-font"></i><span class="icon-name">font</span></div>
+<div class="icon-card" data-name="forwards"><i class="fi fi-forwards"></i><span class="icon-name">forwards</span></div>
+<div class="icon-card" data-name="fullscreen"><i class="fi fi-fullscreen"></i><span class="icon-name">fullscreen</span></div>
+<div class="icon-card" data-name="globe"><i class="fi fi-globe"></i><span class="icon-name">globe</span></div>
+<div class="icon-card" data-name="go-to-page1"><i class="fi fi-go-to-page1"></i><span class="icon-name">go-to-page1</span></div>
+<div class="icon-card" data-name="google"><i class="fi fi-google"></i><span class="icon-name">google</span></div>
+<div class="icon-card" data-name="graphic-style"><i class="fi fi-graphic-style"></i><span class="icon-name">graphic-style</span></div>
+<div class="icon-card" data-name="grid"><i class="fi fi-grid"></i><span class="icon-name">grid</span></div>
+<div class="icon-card" data-name="headphones"><i class="fi fi-headphones"></i><span class="icon-name">headphones</span></div>
+<div class="icon-card" data-name="headquarters"><i class="fi fi-headquarters"></i><span class="icon-name">headquarters</span></div>
+<div class="icon-card" data-name="heart-filled"><i class="fi fi-heart-filled"></i><span class="icon-name">heart-filled</span></div>
+<div class="icon-card" data-name="heart"><i class="fi fi-heart"></i><span class="icon-name">heart</span></div>
+<div class="icon-card" data-name="history"><i class="fi fi-history"></i><span class="icon-name">history</span></div>
+<div class="icon-card" data-name="home"><i class="fi fi-home"></i><span class="icon-name">home</span></div>
+<div class="icon-card" data-name="hourglass"><i class="fi fi-hourglass"></i><span class="icon-name">hourglass</span></div>
+<div class="icon-card" data-name="icon"><i class="fi fi-icon"></i><span class="icon-name">icon</span></div>
+<div class="icon-card" data-name="icons"><i class="fi fi-icons"></i><span class="icon-name">icons</span></div>
+<div class="icon-card" data-name="images"><i class="fi fi-images"></i><span class="icon-name">images</span></div>
+<div class="icon-card" data-name="inbox"><i class="fi fi-inbox"></i><span class="icon-name">inbox</span></div>
+<div class="icon-card" data-name="info"><i class="fi fi-info"></i><span class="icon-name">info</span></div>
+<div class="icon-card" data-name="instagram"><i class="fi fi-instagram"></i><span class="icon-name">instagram</span></div>
+<div class="icon-card" data-name="interactive"><i class="fi fi-interactive"></i><span class="icon-name">interactive</span></div>
+<div class="icon-card" data-name="intermediate"><i class="fi fi-intermediate"></i><span class="icon-name">intermediate</span></div>
+<div class="icon-card" data-name="interogation"><i class="fi fi-interogation"></i><span class="icon-name">interogation</span></div>
+<div class="icon-card" data-name="italic"><i class="fi fi-italic"></i><span class="icon-name">italic</span></div>
+<div class="icon-card" data-name="justify"><i class="fi fi-justify"></i><span class="icon-name">justify</span></div>
+<div class="icon-card" data-name="keyboard"><i class="fi fi-keyboard"></i><span class="icon-name">keyboard</span></div>
+<div class="icon-card" data-name="laptop"><i class="fi fi-laptop"></i><span class="icon-name">laptop</span></div>
+<div class="icon-card" data-name="layers"><i class="fi fi-layers"></i><span class="icon-name">layers</span></div>
+<div class="icon-card" data-name="left-small"><i class="fi fi-left-small"></i><span class="icon-name">left-small</span></div>
+<div class="icon-card" data-name="left"><i class="fi fi-left"></i><span class="icon-name">left</span></div>
+<div class="icon-card" data-name="license"><i class="fi fi-license"></i><span class="icon-name">license</span></div>
+<div class="icon-card" data-name="light-bulb"><i class="fi fi-light-bulb"></i><span class="icon-name">light-bulb</span></div>
+<div class="icon-card" data-name="linkedin"><i class="fi fi-linkedin"></i><span class="icon-name">linkedin</span></div>
+<div class="icon-card" data-name="list"><i class="fi fi-list"></i><span class="icon-name">list</span></div>
+<div class="icon-card" data-name="lock-open-solid"><i class="fi fi-lock-open-solid"></i><span class="icon-name">lock-open-solid</span></div>
+<div class="icon-card" data-name="lock-solid"><i class="fi fi-lock-solid"></i><span class="icon-name">lock-solid</span></div>
+<div class="icon-card" data-name="lock"><i class="fi fi-lock"></i><span class="icon-name">lock</span></div>
+<div class="icon-card" data-name="logo-symbol-old"><i class="fi fi-logo-symbol-old"></i><span class="icon-name">logo-symbol-old</span></div>
+<div class="icon-card" data-name="logo-symbol"><i class="fi fi-logo-symbol"></i><span class="icon-name">logo-symbol</span></div>
+<div class="icon-card" data-name="logo-text-old"><i class="fi fi-logo-text-old"></i><span class="icon-name">logo-text-old</span></div>
+<div class="icon-card" data-name="logo-text"><i class="fi fi-logo-text"></i><span class="icon-name">logo-text</span></div>
+<div class="icon-card" data-name="logout"><i class="fi fi-logout"></i><span class="icon-name">logout</span></div>
+<div class="icon-card" data-name="marker"><i class="fi fi-marker"></i><span class="icon-name">marker</span></div>
+<div class="icon-card" data-name="master-card"><i class="fi fi-master-card"></i><span class="icon-name">master-card</span></div>
+<div class="icon-card" data-name="medical-1"><i class="fi fi-medical-1"></i><span class="icon-name">medical-1</span></div>
+<div class="icon-card" data-name="medical-2"><i class="fi fi-medical-2"></i><span class="icon-name">medical-2</span></div>
+<div class="icon-card" data-name="menuburger"><i class="fi fi-menuburger"></i><span class="icon-name">menuburger</span></div>
+<div class="icon-card" data-name="menudots-vertical"><i class="fi fi-menudots-vertical"></i><span class="icon-name">menudots-vertical</span></div>
+<div class="icon-card" data-name="menudots"><i class="fi fi-menudots"></i><span class="icon-name">menudots</span></div>
+<div class="icon-card" data-name="minimize"><i class="fi fi-minimize"></i><span class="icon-name">minimize</span></div>
+<div class="icon-card" data-name="minus-small"><i class="fi fi-minus-small"></i><span class="icon-name">minus-small</span></div>
+<div class="icon-card" data-name="minus"><i class="fi fi-minus"></i><span class="icon-name">minus</span></div>
+<div class="icon-card" data-name="mockup"><i class="fi fi-mockup"></i><span class="icon-name">mockup</span></div>
+<div class="icon-card" data-name="move-to-folder-2"><i class="fi fi-move-to-folder-2"></i><span class="icon-name">move-to-folder-2</span></div>
+<div class="icon-card" data-name="move-to-folder"><i class="fi fi-move-to-folder"></i><span class="icon-name">move-to-folder</span></div>
+<div class="icon-card" data-name="next-small"><i class="fi fi-next-small"></i><span class="icon-name">next-small</span></div>
+<div class="icon-card" data-name="next"><i class="fi fi-next"></i><span class="icon-name">next</span></div>
+<div class="icon-card" data-name="no-people"><i class="fi fi-no-people"></i><span class="icon-name">no-people</span></div>
+<div class="icon-card" data-name="notification-filled"><i class="fi fi-notification-filled"></i><span class="icon-name">notification-filled</span></div>
+<div class="icon-card" data-name="notification"><i class="fi fi-notification"></i><span class="icon-name">notification</span></div>
+<div class="icon-card" data-name="o-horizontal"><i class="fi fi-o-horizontal"></i><span class="icon-name">o-horizontal</span></div>
+<div class="icon-card" data-name="o-panoramic"><i class="fi fi-o-panoramic"></i><span class="icon-name">o-panoramic</span></div>
+<div class="icon-card" data-name="o-square"><i class="fi fi-o-square"></i><span class="icon-name">o-square</span></div>
+<div class="icon-card" data-name="o-vertical"><i class="fi fi-o-vertical"></i><span class="icon-name">o-vertical</span></div>
+<div class="icon-card" data-name="opacity"><i class="fi fi-opacity"></i><span class="icon-name">opacity</span></div>
+<div class="icon-card" data-name="palette"><i class="fi fi-palette"></i><span class="icon-name">palette</span></div>
+<div class="icon-card" data-name="paper-plane"><i class="fi fi-paper-plane"></i><span class="icon-name">paper-plane</span></div>
+<div class="icon-card" data-name="paper-plane2"><i class="fi fi-paper-plane2"></i><span class="icon-name">paper-plane2</span></div>
+<div class="icon-card" data-name="paste"><i class="fi fi-paste"></i><span class="icon-name">paste</span></div>
+<div class="icon-card" data-name="pattern"><i class="fi fi-pattern"></i><span class="icon-name">pattern</span></div>
+<div class="icon-card" data-name="pause"><i class="fi fi-pause"></i><span class="icon-name">pause</span></div>
+<div class="icon-card" data-name="paypal"><i class="fi fi-paypal"></i><span class="icon-name">paypal</span></div>
+<div class="icon-card" data-name="pencil"><i class="fi fi-pencil"></i><span class="icon-name">pencil</span></div>
+<div class="icon-card" data-name="phone"><i class="fi fi-phone"></i><span class="icon-name">phone</span></div>
+<div class="icon-card" data-name="photo"><i class="fi fi-photo"></i><span class="icon-name">photo</span></div>
+<div class="icon-card" data-name="picpeople-filled"><i class="fi fi-picpeople-filled"></i><span class="icon-name">picpeople-filled</span></div>
+<div class="icon-card" data-name="picpeople"><i class="fi fi-picpeople"></i><span class="icon-name">picpeople</span></div>
+<div class="icon-card" data-name="pinterest"><i class="fi fi-pinterest"></i><span class="icon-name">pinterest</span></div>
+<div class="icon-card" data-name="pixabay"><i class="fi fi-pixabay"></i><span class="icon-name">pixabay</span></div>
+<div class="icon-card" data-name="play"><i class="fi fi-play"></i><span class="icon-name">play</span></div>
+<div class="icon-card" data-name="plus-small"><i class="fi fi-plus-small"></i><span class="icon-name">plus-small</span></div>
+<div class="icon-card" data-name="plus"><i class="fi fi-plus"></i><span class="icon-name">plus</span></div>
+<div class="icon-card" data-name="presentation"><i class="fi fi-presentation"></i><span class="icon-name">presentation</span></div>
+<div class="icon-card" data-name="prev-small"><i class="fi fi-prev-small"></i><span class="icon-name">prev-small</span></div>
+<div class="icon-card" data-name="prev"><i class="fi fi-prev"></i><span class="icon-name">prev</span></div>
+<div class="icon-card" data-name="projects"><i class="fi fi-projects"></i><span class="icon-name">projects</span></div>
+<div class="icon-card" data-name="prompt"><i class="fi fi-prompt"></i><span class="icon-name">prompt</span></div>
+<div class="icon-card" data-name="psd"><i class="fi fi-psd"></i><span class="icon-name">psd</span></div>
+<div class="icon-card" data-name="quote"><i class="fi fi-quote"></i><span class="icon-name">quote</span></div>
+<div class="icon-card" data-name="receipt"><i class="fi fi-receipt"></i><span class="icon-name">receipt</span></div>
+<div class="icon-card" data-name="redo"><i class="fi fi-redo"></i><span class="icon-name">redo</span></div>
+<div class="icon-card" data-name="reflect-horizontal"><i class="fi fi-reflect-horizontal"></i><span class="icon-name">reflect-horizontal</span></div>
+<div class="icon-card" data-name="reflect-vertical"><i class="fi fi-reflect-vertical"></i><span class="icon-name">reflect-vertical</span></div>
+<div class="icon-card" data-name="refresh"><i class="fi fi-refresh"></i><span class="icon-name">refresh</span></div>
+<div class="icon-card" data-name="remove-folder"><i class="fi fi-remove-folder"></i><span class="icon-name">remove-folder</span></div>
+<div class="icon-card" data-name="removecollection"><i class="fi fi-removecollection"></i><span class="icon-name">removecollection</span></div>
+<div class="icon-card" data-name="replace"><i class="fi fi-replace"></i><span class="icon-name">replace</span></div>
+<div class="icon-card" data-name="resources"><i class="fi fi-resources"></i><span class="icon-name">resources</span></div>
+<div class="icon-card" data-name="right-small"><i class="fi fi-right-small"></i><span class="icon-name">right-small</span></div>
+<div class="icon-card" data-name="right"><i class="fi fi-right"></i><span class="icon-name">right</span></div>
+<div class="icon-card" data-name="rotate-inverted"><i class="fi fi-rotate-inverted"></i><span class="icon-name">rotate-inverted</span></div>
+<div class="icon-card" data-name="rotate"><i class="fi fi-rotate"></i><span class="icon-name">rotate</span></div>
+<div class="icon-card" data-name="save"><i class="fi fi-save"></i><span class="icon-name">save</span></div>
+<div class="icon-card" data-name="search-by-image"><i class="fi fi-search-by-image"></i><span class="icon-name">search-by-image</span></div>
+<div class="icon-card" data-name="search-heart"><i class="fi fi-search-heart"></i><span class="icon-name">search-heart</span></div>
+<div class="icon-card" data-name="search"><i class="fi fi-search"></i><span class="icon-name">search</span></div>
+<div class="icon-card" data-name="security"><i class="fi fi-security"></i><span class="icon-name">security</span></div>
+<div class="icon-card" data-name="settings"><i class="fi fi-settings"></i><span class="icon-name">settings</span></div>
+<div class="icon-card" data-name="share"><i class="fi fi-share"></i><span class="icon-name">share</span></div>
+<div class="icon-card" data-name="shield"><i class="fi fi-shield"></i><span class="icon-name">shield</span></div>
+<div class="icon-card" data-name="shopping-cart"><i class="fi fi-shopping-cart"></i><span class="icon-name">shopping-cart</span></div>
+<div class="icon-card" data-name="shuffle"><i class="fi fi-shuffle"></i><span class="icon-name">shuffle</span></div>
+<div class="icon-card" data-name="slidesgo"><i class="fi fi-slidesgo"></i><span class="icon-name">slidesgo</span></div>
+<div class="icon-card" data-name="smiley-comment"><i class="fi fi-smiley-comment"></i><span class="icon-name">smiley-comment</span></div>
+<div class="icon-card" data-name="sortcollection"><i class="fi fi-sortcollection"></i><span class="icon-name">sortcollection</span></div>
+<div class="icon-card" data-name="speaker"><i class="fi fi-speaker"></i><span class="icon-name">speaker</span></div>
+<div class="icon-card" data-name="spinner"><i class="fi fi-spinner"></i><span class="icon-name">spinner</span></div>
+<div class="icon-card" data-name="square-lineal"><i class="fi fi-square-lineal"></i><span class="icon-name">square-lineal</span></div>
+<div class="icon-card" data-name="square"><i class="fi fi-square"></i><span class="icon-name">square</span></div>
+<div class="icon-card" data-name="squares"><i class="fi fi-squares"></i><span class="icon-name">squares</span></div>
+<div class="icon-card" data-name="squircle-lineal"><i class="fi fi-squircle-lineal"></i><span class="icon-name">squircle-lineal</span></div>
+<div class="icon-card" data-name="squircle"><i class="fi fi-squircle"></i><span class="icon-name">squircle</span></div>
+<div class="icon-card" data-name="star-comment"><i class="fi fi-star-comment"></i><span class="icon-name">star-comment</span></div>
+<div class="icon-card" data-name="star-filled"><i class="fi fi-star-filled"></i><span class="icon-name">star-filled</span></div>
+<div class="icon-card" data-name="star"><i class="fi fi-star"></i><span class="icon-name">star</span></div>
+<div class="icon-card" data-name="stats"><i class="fi fi-stats"></i><span class="icon-name">stats</span></div>
+<div class="icon-card" data-name="sticker"><i class="fi fi-sticker"></i><span class="icon-name">sticker</span></div>
+<div class="icon-card" data-name="stop"><i class="fi fi-stop"></i><span class="icon-name">stop</span></div>
+<div class="icon-card" data-name="stroke"><i class="fi fi-stroke"></i><span class="icon-name">stroke</span></div>
+<div class="icon-card" data-name="stumbleupon"><i class="fi fi-stumbleupon"></i><span class="icon-name">stumbleupon</span></div>
+<div class="icon-card" data-name="subtitles"><i class="fi fi-subtitles"></i><span class="icon-name">subtitles</span></div>
+<div class="icon-card" data-name="support"><i class="fi fi-support"></i><span class="icon-name">support</span></div>
+<div class="icon-card" data-name="tablet"><i class="fi fi-tablet"></i><span class="icon-name">tablet</span></div>
+<div class="icon-card" data-name="tag"><i class="fi fi-tag"></i><span class="icon-name">tag</span></div>
+<div class="icon-card" data-name="telegram"><i class="fi fi-telegram"></i><span class="icon-name">telegram</span></div>
+<div class="icon-card" data-name="template-alt"><i class="fi fi-template-alt"></i><span class="icon-name">template-alt</span></div>
+<div class="icon-card" data-name="template"><i class="fi fi-template"></i><span class="icon-name">template</span></div>
+<div class="icon-card" data-name="text-shadow"><i class="fi fi-text-shadow"></i><span class="icon-name">text-shadow</span></div>
+<div class="icon-card" data-name="thumb-down"><i class="fi fi-thumb-down"></i><span class="icon-name">thumb-down</span></div>
+<div class="icon-card" data-name="thumb-up"><i class="fi fi-thumb-up"></i><span class="icon-name">thumb-up</span></div>
+<div class="icon-card" data-name="time"><i class="fi fi-time"></i><span class="icon-name">time</span></div>
+<div class="icon-card" data-name="trash"><i class="fi fi-trash"></i><span class="icon-name">trash</span></div>
+<div class="icon-card" data-name="twitter"><i class="fi fi-twitter"></i><span class="icon-name">twitter</span></div>
+<div class="icon-card" data-name="underline"><i class="fi fi-underline"></i><span class="icon-name">underline</span></div>
+<div class="icon-card" data-name="undo"><i class="fi fi-undo"></i><span class="icon-name">undo</span></div>
+<div class="icon-card" data-name="unfold"><i class="fi fi-unfold"></i><span class="icon-name">unfold</span></div>
+<div class="icon-card" data-name="unlock"><i class="fi fi-unlock"></i><span class="icon-name">unlock</span></div>
+<div class="icon-card" data-name="up-small"><i class="fi fi-up-small"></i><span class="icon-name">up-small</span></div>
+<div class="icon-card" data-name="up"><i class="fi fi-up"></i><span class="icon-name">up</span></div>
+<div class="icon-card" data-name="upload-to-folder"><i class="fi fi-upload-to-folder"></i><span class="icon-name">upload-to-folder</span></div>
+<div class="icon-card" data-name="upload"><i class="fi fi-upload"></i><span class="icon-name">upload</span></div>
+<div class="icon-card" data-name="url"><i class="fi fi-url"></i><span class="icon-name">url</span></div>
+<div class="icon-card" data-name="user"><i class="fi fi-user"></i><span class="icon-name">user</span></div>
+<div class="icon-card" data-name="users"><i class="fi fi-users"></i><span class="icon-name">users</span></div>
+<div class="icon-card" data-name="vector"><i class="fi fi-vector"></i><span class="icon-name">vector</span></div>
+<div class="icon-card" data-name="video-linear"><i class="fi fi-video-linear"></i><span class="icon-name">video-linear</span></div>
+<div class="icon-card" data-name="video"><i class="fi fi-video"></i><span class="icon-name">video</span></div>
+<div class="icon-card" data-name="vimeo"><i class="fi fi-vimeo"></i><span class="icon-name">vimeo</span></div>
+<div class="icon-card" data-name="visa"><i class="fi fi-visa"></i><span class="icon-name">visa</span></div>
+<div class="icon-card" data-name="volume"><i class="fi fi-volume"></i><span class="icon-name">volume</span></div>
+<div class="icon-card" data-name="warning-filled"><i class="fi fi-warning-filled"></i><span class="icon-name">warning-filled</span></div>
+<div class="icon-card" data-name="whatsapp"><i class="fi fi-whatsapp"></i><span class="icon-name">whatsapp</span></div>
+<div class="icon-card" data-name="world"><i class="fi fi-world"></i><span class="icon-name">world</span></div>
+<div class="icon-card" data-name="youtube"><i class="fi fi-youtube"></i><span class="icon-name">youtube</span></div>
+<div class="icon-card" data-name="zoom-in"><i class="fi fi-zoom-in"></i><span class="icon-name">zoom-in</span></div>
+<div class="icon-card" data-name="zoom-out"><i class="fi fi-zoom-out"></i><span class="icon-name">zoom-out</span></div>
+  </div>
+
+  <div class="footer">
+    <span>اضغط على أي أيقونة لنسخ الكود ✦ <strong>maqbali.com</strong></span>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ تم نسخ: <span id="toast-code"></span></div>
+
+<script>
+function filterIcons(q) {
+  const cards = document.querySelectorAll('.icon-card');
+  const query = q.toLowerCase().trim();
+  let visible = 0;
+  cards.forEach(c => {
+    const show = !query || c.dataset.name.includes(query);
+    c.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('count').textContent = visible + ' / 270';
+  document.getElementById('grid-title').textContent = query
+    ? '✦ نتائج البحث: "' + q + '"'
+    : '✦ جميع الأيقونات';
+}
+
+document.querySelectorAll('.icon-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const name = card.dataset.name;
+    const code = `<i class="fi fi-${name}"></i>`;
+    navigator.clipboard.writeText(code).then(() => {
+      card.classList.add('copied');
+      setTimeout(() => card.classList.remove('copied'), 1200);
+      document.getElementById('toast-code').textContent = code;
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+    });
+  });
+});
+</script>
+</body>
+</html>

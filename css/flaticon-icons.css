@@ -1,0 +1,327 @@
+/* =============================================
+   Flaticon Icons (bobjoll font) - 270 Icons
+   =============================================
+   كيفية الاستخدام:
+   <i class="fi fi-search"></i>
+   <i class="fi fi-heart fi-lg"></i>
+   ============================================= */
+
+@font-face {
+  font-family: 'bobjoll';
+  src: url('css/bobjoll.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base icon class */
+.fi {
+  display: inline-block;
+  font-family: 'bobjoll' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  speak: none;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #555;
+  vertical-align: middle;
+}
+
+/* Sizes */
+.fi-xs  { width: 12px; height: 12px; font-size: 12px; line-height: 12px; }
+.fi-sm  { width: 14px; height: 14px; font-size: 14px; line-height: 14px; }
+.fi-md  { width: 16px; height: 16px; font-size: 16px; line-height: 16px; }
+.fi-lg  { width: 20px; height: 20px; font-size: 20px; line-height: 20px; }
+.fi-xl  { width: 24px; height: 24px; font-size: 24px; line-height: 24px; }
+.fi-2x  { width: 32px; height: 32px; font-size: 32px; line-height: 32px; }
+.fi-3x  { width: 48px; height: 48px; font-size: 48px; line-height: 48px; }
+
+/* Colors */
+.fi-white   { color: #ffffff !important; }
+.fi-dark    { color: #121212 !important; }
+.fi-gray    { color: #777777 !important; }
+.fi-primary { color: #336aea !important; }
+.fi-success { color: #44b678 !important; }
+.fi-danger  { color: #ff7d6a !important; }
+.fi-warning { color: #feb602 !important; }
+
+/* =============================================
+   Icon Definitions (270 icons)
+   ============================================= */
+.fi-3d::before { content: "\f101"; }
+.fi-add-to-folder::before { content: "\f102"; }
+.fi-add-user::before { content: "\f103"; }
+.fi-addcollection::before { content: "\f104"; }
+.fi-advanced::before { content: "\f105"; }
+.fi-ai-filter::before { content: "\f106"; }
+.fi-ai-stars::before { content: "\f107"; }
+.fi-ai::before { content: "\f108"; }
+.fi-aligncenter::before { content: "\f109"; }
+.fi-alignleft::before { content: "\f10a"; }
+.fi-alignright::before { content: "\f10b"; }
+.fi-amex::before { content: "\f10c"; }
+.fi-animated-icon::before { content: "\f10d"; }
+.fi-api::before { content: "\f10e"; }
+.fi-archive::before { content: "\f10f"; }
+.fi-attribution-pen::before { content: "\f110"; }
+.fi-attribution-pencil::before { content: "\f111"; }
+.fi-background::before { content: "\f112"; }
+.fi-backwards::before { content: "\f113"; }
+.fi-base-model::before { content: "\f114"; }
+.fi-beacon-lineal::before { content: "\f115"; }
+.fi-beacon::before { content: "\f116"; }
+.fi-beginner::before { content: "\f117"; }
+.fi-behance::before { content: "\f118"; }
+.fi-blog-pencil::before { content: "\f119"; }
+.fi-blog-text::before { content: "\f11a"; }
+.fi-bold::before { content: "\f11b"; }
+.fi-book::before { content: "\f11c"; }
+.fi-bookmark-filled::before { content: "\f11d"; }
+.fi-bookmark::before { content: "\f11e"; }
+.fi-briefcase::before { content: "\f11f"; }
+.fi-broken-image::before { content: "\f120"; }
+.fi-brush::before { content: "\f121"; }
+.fi-bug::before { content: "\f122"; }
+.fi-bullet::before { content: "\f123"; }
+.fi-business-card::before { content: "\f124"; }
+.fi-calendar::before { content: "\f125"; }
+.fi-camera::before { content: "\f126"; }
+.fi-caret-down::before { content: "\f127"; }
+.fi-caret-left::before { content: "\f128"; }
+.fi-caret-right::before { content: "\f129"; }
+.fi-caret-up::before { content: "\f12a"; }
+.fi-check-round::before { content: "\f12b"; }
+.fi-checkbox::before { content: "\f12d"; }
+.fi-circle-filled::before { content: "\f12e"; }
+.fi-circle-lineal-small::before { content: "\f12f"; }
+.fi-circle-lineal::before { content: "\f130"; }
+.fi-circle::before { content: "\f131"; }
+.fi-clean::before { content: "\f132"; }
+.fi-clip::before { content: "\f133"; }
+.fi-cloud::before { content: "\f134"; }
+.fi-collapse::before { content: "\f135"; }
+.fi-collection::before { content: "\f136"; }
+.fi-comment::before { content: "\f137"; }
+.fi-cookie::before { content: "\f138"; }
+.fi-copy-image::before { content: "\f139"; }
+.fi-copyright::before { content: "\f13a"; }
+.fi-coupon::before { content: "\f13b"; }
+.fi-create-folder-filled::before { content: "\f13c"; }
+.fi-create-folder::before { content: "\f13d"; }
+.fi-credit-card::before { content: "\f13e"; }
+.fi-crop::before { content: "\f13f"; }
+.fi-cross-small::before { content: "\f140"; }
+.fi-cross::before { content: "\f141"; }
+.fi-crown-filled::before { content: "\f142"; }
+.fi-crown-lineal::before { content: "\f143"; }
+.fi-crown::before { content: "\f144"; }
+.fi-dashboard::before { content: "\f145"; }
+.fi-desktop-wallpaper::before { content: "\f146"; }
+.fi-devices::before { content: "\f147"; }
+.fi-disabled::before { content: "\f148"; }
+.fi-display-options::before { content: "\f149"; }
+.fi-dollar::before { content: "\f14a"; }
+.fi-down-small::before { content: "\f14b"; }
+.fi-down::before { content: "\f14c"; }
+.fi-download::before { content: "\f14d"; }
+.fi-dribbble::before { content: "\f14e"; }
+.fi-duplicate::before { content: "\f14f"; }
+.fi-earnings::before { content: "\f150"; }
+.fi-edit::before { content: "\f151"; }
+.fi-education::before { content: "\f152"; }
+.fi-empty::before { content: "\f153"; }
+.fi-envelope-solid::before { content: "\f154"; }
+.fi-envelope::before { content: "\f155"; }
+.fi-error-round::before { content: "\f156"; }
+.fi-external-link::before { content: "\f158"; }
+.fi-eye-line-through::before { content: "\f159"; }
+.fi-eye::before { content: "\f15a"; }
+.fi-facebook::before { content: "\f15b"; }
+.fi-file::before { content: "\f15c"; }
+.fi-filter::before { content: "\f15d"; }
+.fi-fiverr::before { content: "\f15e"; }
+.fi-flag::before { content: "\f15f"; }
+.fi-flame::before { content: "\f160"; }
+.fi-flaticon-symbol::before { content: "\f161"; }
+.fi-flaticon-text::before { content: "\f162"; }
+.fi-flaticon::before { content: "\f163"; }
+.fi-flip::before { content: "\f164"; }
+.fi-fold::before { content: "\f165"; }
+.fi-folder::before { content: "\f166"; }
+.fi-follow-folder::before { content: "\f167"; }
+.fi-followcollection::before { content: "\f168"; }
+.fi-following::before { content: "\f169"; }
+.fi-font::before { content: "\f16a"; }
+.fi-forwards::before { content: "\f16b"; }
+.fi-fullscreen::before { content: "\f16c"; }
+.fi-globe::before { content: "\f16d"; }
+.fi-go-to-page1::before { content: "\f16e"; }
+.fi-google::before { content: "\f16f"; }
+.fi-graphic-style::before { content: "\f170"; }
+.fi-grid::before { content: "\f171"; }
+.fi-headphones::before { content: "\f172"; }
+.fi-headquarters::before { content: "\f173"; }
+.fi-heart-filled::before { content: "\f174"; }
+.fi-heart::before { content: "\f175"; }
+.fi-history::before { content: "\f176"; }
+.fi-home::before { content: "\f177"; }
+.fi-hourglass::before { content: "\f178"; }
+.fi-icon::before { content: "\f179"; }
+.fi-icons::before { content: "\f17a"; }
+.fi-images::before { content: "\f17b"; }
+.fi-inbox::before { content: "\f17c"; }
+.fi-info::before { content: "\f17d"; }
+.fi-instagram::before { content: "\f17e"; }
+.fi-interactive::before { content: "\f17f"; }
+.fi-intermediate::before { content: "\f180"; }
+.fi-interogation::before { content: "\f181"; }
+.fi-italic::before { content: "\f182"; }
+.fi-justify::before { content: "\f183"; }
+.fi-keyboard::before { content: "\f184"; }
+.fi-laptop::before { content: "\f185"; }
+.fi-layers::before { content: "\f186"; }
+.fi-left-small::before { content: "\f187"; }
+.fi-left::before { content: "\f188"; }
+.fi-license::before { content: "\f189"; }
+.fi-light-bulb::before { content: "\f18a"; }
+.fi-linkedin::before { content: "\f18b"; }
+.fi-list::before { content: "\f18c"; }
+.fi-lock-open-solid::before { content: "\f18d"; }
+.fi-lock-solid::before { content: "\f18e"; }
+.fi-lock::before { content: "\f18f"; }
+.fi-logo-symbol-old::before { content: "\f190"; }
+.fi-logo-symbol::before { content: "\f191"; }
+.fi-logo-text-old::before { content: "\f192"; }
+.fi-logo-text::before { content: "\f193"; }
+.fi-logout::before { content: "\f194"; }
+.fi-marker::before { content: "\f195"; }
+.fi-master-card::before { content: "\f196"; }
+.fi-medical-1::before { content: "\f197"; }
+.fi-medical-2::before { content: "\f198"; }
+.fi-menuburger::before { content: "\f199"; }
+.fi-menudots-vertical::before { content: "\f19a"; }
+.fi-menudots::before { content: "\f19b"; }
+.fi-minimize::before { content: "\f19c"; }
+.fi-minus-small::before { content: "\f19d"; }
+.fi-minus::before { content: "\f19e"; }
+.fi-mockup::before { content: "\f19f"; }
+.fi-move-to-folder-2::before { content: "\f1a0"; }
+.fi-move-to-folder::before { content: "\f1a1"; }
+.fi-next-small::before { content: "\f1a2"; }
+.fi-next::before { content: "\f1a3"; }
+.fi-no-people::before { content: "\f1a4"; }
+.fi-notification-filled::before { content: "\f1a5"; }
+.fi-notification::before { content: "\f1a6"; }
+.fi-o-horizontal::before { content: "\f1a7"; }
+.fi-o-panoramic::before { content: "\f1a8"; }
+.fi-o-square::before { content: "\f1a9"; }
+.fi-o-vertical::before { content: "\f1aa"; }
+.fi-opacity::before { content: "\f1ab"; }
+.fi-palette::before { content: "\f1ac"; }
+.fi-paper-plane::before { content: "\f1ad"; }
+.fi-paper-plane2::before { content: "\f1ae"; }
+.fi-paste::before { content: "\f1af"; }
+.fi-pattern::before { content: "\f1b0"; }
+.fi-pause::before { content: "\f1b1"; }
+.fi-paypal::before { content: "\f1b2"; }
+.fi-pencil::before { content: "\f1b3"; }
+.fi-phone::before { content: "\f1b4"; }
+.fi-photo::before { content: "\f1b5"; }
+.fi-picpeople-filled::before { content: "\f1b6"; }
+.fi-picpeople::before { content: "\f1b7"; }
+.fi-pinterest::before { content: "\f1b8"; }
+.fi-pixabay::before { content: "\f1b9"; }
+.fi-play::before { content: "\f1ba"; }
+.fi-plus-small::before { content: "\f1bb"; }
+.fi-plus::before { content: "\f1bc"; }
+.fi-presentation::before { content: "\f1bd"; }
+.fi-prev-small::before { content: "\f1be"; }
+.fi-prev::before { content: "\f1bf"; }
+.fi-projects::before { content: "\f1c0"; }
+.fi-prompt::before { content: "\f1c1"; }
+.fi-psd::before { content: "\f1c2"; }
+.fi-quote::before { content: "\f1c3"; }
+.fi-receipt::before { content: "\f1c4"; }
+.fi-redo::before { content: "\f1c5"; }
+.fi-reflect-horizontal::before { content: "\f1c6"; }
+.fi-reflect-vertical::before { content: "\f1c7"; }
+.fi-refresh::before { content: "\f1c8"; }
+.fi-remove-folder::before { content: "\f1c9"; }
+.fi-removecollection::before { content: "\f1ca"; }
+.fi-replace::before { content: "\f1cb"; }
+.fi-resources::before { content: "\f1cc"; }
+.fi-right-small::before { content: "\f1cd"; }
+.fi-right::before { content: "\f1ce"; }
+.fi-rotate-inverted::before { content: "\f1cf"; }
+.fi-rotate::before { content: "\f1d0"; }
+.fi-save::before { content: "\f1d1"; }
+.fi-search-by-image::before { content: "\f1d2"; }
+.fi-search-heart::before { content: "\f1d3"; }
+.fi-search::before { content: "\f1d4"; }
+.fi-security::before { content: "\f1d5"; }
+.fi-settings::before { content: "\f1d6"; }
+.fi-share::before { content: "\f1d7"; }
+.fi-shield::before { content: "\f1d8"; }
+.fi-shopping-cart::before { content: "\f1d9"; }
+.fi-shuffle::before { content: "\f1da"; }
+.fi-slidesgo::before { content: "\f1db"; }
+.fi-smiley-comment::before { content: "\f1dc"; }
+.fi-sortcollection::before { content: "\f1dd"; }
+.fi-speaker::before { content: "\f1de"; }
+.fi-spinner::before { content: "\f1df"; }
+.fi-square-lineal::before { content: "\f1e0"; }
+.fi-square::before { content: "\f1e1"; }
+.fi-squares::before { content: "\f1e2"; }
+.fi-squircle-lineal::before { content: "\f1e3"; }
+.fi-squircle::before { content: "\f1e4"; }
+.fi-star-comment::before { content: "\f1e5"; }
+.fi-star-filled::before { content: "\f1e6"; }
+.fi-star::before { content: "\f1e7"; }
+.fi-stats::before { content: "\f1e8"; }
+.fi-sticker::before { content: "\f1e9"; }
+.fi-stop::before { content: "\f1ea"; }
+.fi-stroke::before { content: "\f1eb"; }
+.fi-stumbleupon::before { content: "\f1ec"; }
+.fi-subtitles::before { content: "\f1ed"; }
+.fi-support::before { content: "\f1ee"; }
+.fi-tablet::before { content: "\f1ef"; }
+.fi-tag::before { content: "\f1f0"; }
+.fi-telegram::before { content: "\f1f1"; }
+.fi-template-alt::before { content: "\f1f2"; }
+.fi-template::before { content: "\f1f3"; }
+.fi-text-shadow::before { content: "\f1f4"; }
+.fi-thumb-down::before { content: "\f1f5"; }
+.fi-thumb-up::before { content: "\f1f6"; }
+.fi-time::before { content: "\f1f7"; }
+.fi-trash::before { content: "\f1f8"; }
+.fi-twitter::before { content: "\f1f9"; }
+.fi-underline::before { content: "\f1fa"; }
+.fi-undo::before { content: "\f1fb"; }
+.fi-unfold::before { content: "\f1fc"; }
+.fi-unlock::before { content: "\f1fd"; }
+.fi-up-small::before { content: "\f1fe"; }
+.fi-up::before { content: "\f1ff"; }
+.fi-upload-to-folder::before { content: "\f200"; }
+.fi-upload::before { content: "\f201"; }
+.fi-url::before { content: "\f202"; }
+.fi-user::before { content: "\f203"; }
+.fi-users::before { content: "\f204"; }
+.fi-vector::before { content: "\f205"; }
+.fi-video-linear::before { content: "\f206"; }
+.fi-video::before { content: "\f207"; }
+.fi-vimeo::before { content: "\f208"; }
+.fi-visa::before { content: "\f209"; }
+.fi-volume::before { content: "\f20a"; }
+.fi-warning-filled::before { content: "\f20b"; }
+.fi-whatsapp::before { content: "\f20c"; }
+.fi-world::before { content: "\f20d"; }
+.fi-youtube::before { content: "\f20e"; }
+.fi-zoom-in::before { content: "\f20f"; }
+.fi-zoom-out::before { content: "\f210"; }
