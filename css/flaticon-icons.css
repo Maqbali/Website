@@ -1,20 +1,11 @@
-/* =============================================
-   Flaticon Icons (bobjoll font) - 270 Icons
-   =============================================
-   كيفية الاستخدام:
-   <i class="fi fi-search"></i>
-   <i class="fi fi-heart fi-lg"></i>
-   ============================================= */
-
 @font-face {
   font-family: 'bobjoll';
-  src: url('../css/bobjoll.woff2') format('woff2');
+  src: url('css/bobjoll.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Base icon class */
 .fi {
   display: inline-block;
   font-family: 'bobjoll' !important;
@@ -26,35 +17,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   speak: none;
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-  line-height: 16px;
-  color: #555;
-  vertical-align: middle;
 }
 
-/* Sizes */
-.fi-xs  { width: 12px; height: 12px; font-size: 12px; line-height: 12px; }
-.fi-sm  { width: 14px; height: 14px; font-size: 14px; line-height: 14px; }
-.fi-md  { width: 16px; height: 16px; font-size: 16px; line-height: 16px; }
-.fi-lg  { width: 20px; height: 20px; font-size: 20px; line-height: 20px; }
-.fi-xl  { width: 24px; height: 24px; font-size: 24px; line-height: 24px; }
-.fi-2x  { width: 32px; height: 32px; font-size: 32px; line-height: 32px; }
-.fi-3x  { width: 48px; height: 48px; font-size: 48px; line-height: 48px; }
+.fi-xs { font-size: 12px; }
+.fi-sm { font-size: 14px; }
+.fi-md { font-size: 16px; }
+.fi-lg { font-size: 20px; }
+.fi-xl { font-size: 24px; }
+.fi-2x { font-size: 32px; }
+.fi-3x { font-size: 48px; }
 
-/* Colors */
-.fi-white   { color: #ffffff !important; }
-.fi-dark    { color: #121212 !important; }
-.fi-gray    { color: #777777 !important; }
-.fi-primary { color: #336aea !important; }
-.fi-success { color: #44b678 !important; }
-.fi-danger  { color: #ff7d6a !important; }
-.fi-warning { color: #feb602 !important; }
-
-/* =============================================
-   Icon Definitions (270 icons)
-   ============================================= */
 .fi-3d::before { content: "\f101"; }
 .fi-add-to-folder::before { content: "\f102"; }
 .fi-add-user::before { content: "\f103"; }
