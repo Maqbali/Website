@@ -332,9 +332,11 @@ function convert() {
 function setBase(code) {
   if (code === base) return;
   const oldBase = base;
-  // Replace clicked currency in list with old base
-  const idx = active.indexOf(code);
-  if (idx !== -1) active[idx] = oldBase;
+  // Remove clicked from list
+  active = active.filter(c => c !== code);
+  // Always keep OMR in list
+  if (oldBase !== 'OMR' && !active.includes(oldBase)) active.push(oldBase);
+  if (!active.includes('OMR') && code !== 'OMR') active.unshift('OMR');
   base = code;
   const c = getC(code);
   document.getElementById('b-flag').src = flagUrl(code);
