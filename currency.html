@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>محوّل العملات</title>
+  <title>محوّل العملات — مقبالي</title>
   <meta name="description" content="محوّل عملات فوري بأسعار السوق العالمي">
   <link rel="icon" href="images/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -27,6 +27,7 @@
       border-bottom: 0.5px solid rgba(200,169,110,0.2);
       position: sticky; top: 0; z-index: 100;
     }
+    .nav-inner { width: 100%; max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { font-size: 13px; font-weight: 700; color: #c8a96e; letter-spacing: 2px; text-decoration: none; }
     .nav-title { font-size: 13px; color: #888; }
     .live-badge {
@@ -37,7 +38,7 @@
     .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #4caf50; animation: blink 2s infinite; }
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:.4} }
 
-    .container { width: 100%; max-width: 480px; padding: 16px; }
+    .container { width: 100%; max-width: 900px; padding: 16px; }
 
     /* TIMER */
     .timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -57,7 +58,7 @@
       box-shadow: 0 4px 20px rgba(200,169,110,0.12);
     }
     .flag { font-size: 28px; flex-shrink: 0; line-height: 1; }
-    .flag-sm { font-size: 24px; flex-shrink: 0; line-height: 1; }
+    .flag-sm { font-size: 26px; flex-shrink: 0; line-height: 1; width: 36px; text-align: center; }
     .base-left { display: flex; align-items: center; gap: 6px; cursor: pointer; }
     .curr-code { font-size: 16px; font-weight: 700; color: #2a1f0a; }
     .chevron { font-size: 11px; color: #c8a96e; }
@@ -68,7 +69,10 @@
       direction: ltr; text-align: right;
       border: none; background: transparent; outline: none;
       font-family: 'Cairo', sans-serif; width: 130px;
+      -moz-appearance: textfield;
     }
+    .base-input::-webkit-outer-spin-button,
+    .base-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .clear-btn {
       width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
       border: 0.5px solid rgba(200,169,110,0.2); background: rgba(200,169,110,0.06);
@@ -164,9 +168,10 @@
 <body>
 
 <nav class="nav">
-  <a href="https://www.maqbali.com" class="nav-logo">Maqbali</a>
-  <span class="nav-title">محوّل العملات</span>
-  <div class="live-badge"><span class="live-dot"></span>مباشر</div>
+  <div class="nav-inner">
+    <span class="nav-title" style="font-size:15px;font-weight:700;color:#2a1f0a">محوّل العملات</span>
+    <div class="live-badge"><span class="live-dot"></span>مباشر</div>
+  </div>
 </nav>
 
 <div class="container">
@@ -186,12 +191,13 @@
   <div class="base-card">
     <div class="select-overlay">
       <div class="base-left">
-        <span class="flag" id="b-flag">🇴🇲</span>
+        <img id="b-flag" src="https://flagcdn.com/w40/om.png" style="width:32px;height:22px;object-fit:cover;border-radius:4px;flex-shrink:0" onerror="this.style.display='none'">
         <span class="curr-code" id="b-code">OMR</span>
         <span class="chevron">▾</span>
       </div>
       <select id="b-select" onchange="setBase(this.value)"></select>
     </div>
+    <div style="flex:1"></div>
     <div class="base-right">
       <span class="base-symbol" id="b-sym">ر.ع</span>
       <input class="base-input" id="b-input" type="number" value="1" min="0" step="any" oninput="convert()">
@@ -226,6 +232,17 @@
 </div>
 
 <script>
+
+const FLAG_MAP = {
+  'USD':'us','EUR':'eu','AED':'ae','SAR':'sa','GBP':'gb','INR':'in',
+  'JPY':'jp','KWD':'kw','BHD':'bh','QAR':'qa','EGP':'eg','PKR':'pk',
+  'PHP':'ph','CHF':'ch','CNY':'cn','CAD':'ca','AUD':'au','TRY':'tr',
+  'MYR':'my','BDT':'bd','SGD':'sg','IDR':'id','OMR':'om'
+};
+function flagUrl(code) {
+  const cc = FLAG_MAP[code] || code.slice(0,2).toLowerCase();
+  return `https://flagcdn.com/w40/${cc}.png`;
+}
 const CURRENCIES = [
   { code:'OMR', name:'ريال عُماني',        flag:'🇴🇲', sym:'ر.ع'  },
   { code:'USD', name:'دولار أمريكي',       flag:'🇺🇸', sym:'$'    },
@@ -297,7 +314,7 @@ function convert() {
     row.className = 'c-row';
     row.style.animationDelay = `${i * 0.04}s`;
     row.innerHTML = `
-      <span class="flag-sm">${c.flag}</span>
+      <img src="${flagUrl(c.code)}" style="width:32px;height:22px;object-fit:cover;border-radius:4px;flex-shrink:0">
       <div class="c-info" onclick="setBase('${code}')">
         <div class="c-code">${c.code}</div>
         <div class="c-name">${c.name}</div>
@@ -315,7 +332,7 @@ function convert() {
 function setBase(code) {
   base = code;
   const c = getC(code);
-  document.getElementById('b-flag').textContent = c.flag;
+  document.getElementById('b-flag').src = flagUrl(code);
   document.getElementById('b-code').textContent = c.code;
   document.getElementById('b-sym').textContent = c.sym;
   document.getElementById('b-select').value = code;
@@ -372,7 +389,7 @@ function renderModal(q) {
   );
   ml.innerHTML = filtered.map(c => `
     <div class="m-item" onclick="addC('${c.code}')">
-      <span style="font-size:22px">${c.flag}</span>
+      <img src="${flagUrl(c.code)}" style="width:28px;height:20px;object-fit:cover;border-radius:3px;flex-shrink:0">
       <div>
         <div class="m-item-code">${c.code}</div>
         <div class="m-item-name">${c.name}</div>
