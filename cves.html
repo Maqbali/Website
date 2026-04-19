@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نشرة الثغرات الأمنية </title>
+  <meta name="description" content="آخر الثغرات الأمنية (CVEs) من NVD الرسمي">
+  <link rel="icon" href="images/cyberattack.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0e;
+      --card: #161616;
+      --card2: #1a1a1a;
+      --border: rgba(201,168,76,0.15);
+      --border2: rgba(201,168,76,0.12);
+      --text: #f0e6c8;
+      --text2: #d4c49a;
+      --muted: #555;
+      --gold: #c9a84c;
+    }
+    body.light {
+      --bg: #f5f0e8;
+      --card: #ffffff;
+      --card2: #f0ebe0;
+      --border: rgba(150,120,40,0.25);
+      --border2: rgba(150,120,40,0.15);
+      --text: #2a1f0a;
+      --text2: #4a3a1a;
+      --muted: #999;
+      --gold: #a07828;
+    }
+
+    body { font-family: 'Cairo', sans-serif; direction: rtl; background: var(--bg); min-height: 100vh; padding: 2rem 1rem; color: var(--text); transition: background 0.3s, color 0.3s; }
+    .page { max-width: 900px; margin: 0 auto; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--card); border: 0.5px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
+    .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--gold); text-decoration: none; transition: all 0.15s; }
+    .nav-btn-action:hover { background: var(--card); border-color: var(--gold); }
+    .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .nav-controls { display: flex; align-items: center; gap: 8px; }
+    .theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--gold); background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; flex-shrink: 0; }
+    .theme-btn svg { width: 16px; height: 16px; }
+
+    .date-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .date-item { text-align: center; }
+    .date-label-sm { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+    .date-value { font-size: 14px; font-weight: 600; color: var(--gold); }
+    .date-sep { color: rgba(201,168,76,0.3); font-size: 18px; }
+
+    .section-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border2); letter-spacing: 0.5px; }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+    .stat-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
+    .stat-label { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.5px; }
+    .stat-card.critical .stat-num { color: #f44336; }
+    .stat-card.high .stat-num { color: #ff9800; }
+    .stat-card.medium .stat-num { color: #ffc107; }
+    .stat-card.total .stat-num { color: var(--gold); }
+
+    /* FILTER */
+    .filter-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 10px 14px; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--card2); font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .filter-btn.active { background: var(--gold); color: #111; border-color: var(--gold); }
+    .filter-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+    .search-input { flex: 1; min-width: 150px; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; padding: 6px 12px; font-family: 'Cairo', sans-serif; font-size: 12px; color: var(--text); outline: none; }
+    .search-input:focus { border-color: var(--gold); }
+
+    /* CVE LIST */
+    .cve-list { display: flex; flex-direction: column; gap: 10px; }
+    .cve-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 14px; transition: border-color 0.2s; }
+    .cve-card:hover { border-color: rgba(201,168,76,0.35); }
+    .cve-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+    .cve-id { font-size: 12px; font-weight: 700; color: var(--gold); font-family: 'Courier New', monospace; }
+    .cve-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .severity-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .sev-critical { background: rgba(244,67,54,0.15); color: #f44336; border: 0.5px solid rgba(244,67,54,0.3); }
+    .sev-high { background: rgba(255,152,0,0.15); color: #ff9800; border: 0.5px solid rgba(255,152,0,0.3); }
+    .sev-medium { background: rgba(255,193,7,0.15); color: #ffc107; border: 0.5px solid rgba(255,193,7,0.3); }
+    .sev-low { background: rgba(76,175,80,0.15); color: #4caf50; border: 0.5px solid rgba(76,175,80,0.3); }
+    .cvss-score { font-size: 11px; font-weight: 700; color: var(--text); background: var(--card2); padding: 2px 8px; border-radius: 6px; border: 0.5px solid var(--border); }
+    .cve-date { font-size: 10px; color: var(--muted); }
+    .cve-desc { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 8px; }
+    .cve-products { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+    .product-tag { font-size: 10px; color: var(--gold); background: rgba(201,168,76,0.08); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 10px; }
+
+    .loading { text-align: center; padding: 3rem 1rem; color: var(--muted); font-size: 13px; }
+    .load-more { display: block; margin: 1.5rem auto 0; padding: 10px 24px; background: var(--card2); border: 0.5px solid var(--border); border-radius: 10px; color: var(--gold); font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .load-more:hover { background: var(--gold); color: #111; border-color: var(--gold); }
+    .load-more:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
+    .footer span { font-size: 12px; color: var(--muted); }
+    .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
+
+    @media (max-width: 580px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav { padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="nav">
+    <div class="date-item">
+      <div class="date-label-sm">اليوم</div>
+      <div class="date-value" id="date-day">-</div>
+    </div>
+    <div class="nav-controls">
+      <button class="nav-btn-action" onclick="loadCVEs()">
+        <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        تحديث
+      </button>
+      <button class="theme-btn" onclick="toggleTheme()" title="تغيير المظهر">
+        <svg viewBox="0 0 24 24" fill="none"><path id="moon-path" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="date-bar">
+    <div class="date-item">
+      <div class="date-label-sm">الساعة الآن</div>
+      <div class="date-value" id="date-clock">-</div>
+    </div>
+    <div class="date-sep">✦</div>
+    <div class="date-item">
+      <div class="date-label-sm">التاريخ الميلادي</div>
+      <div class="date-value" id="date-miladi">-</div>
+    </div>
+    <div class="date-sep">✦</div>
+    <div class="date-item">
+      <div class="date-label-sm">آخر تحديث</div>
+      <div class="date-value" id="last-update">-</div>
+    </div>
+  </div>
+
+  <div class="section-title">✦ حصيلة آخر 3 أيام</div>
+  <div class="stats-grid">
+    <div class="stat-card total">
+      <div class="stat-num" id="stat-total">—</div>
+      <div class="stat-label">إجمالي الثغرات</div>
+    </div>
+    <div class="stat-card critical">
+      <div class="stat-num" id="stat-critical">—</div>
+      <div class="stat-label">حرجة (9.0+)</div>
+    </div>
+    <div class="stat-card high">
+      <div class="stat-num" id="stat-high">—</div>
+      <div class="stat-label">عالية الخطورة</div>
+    </div>
+    <div class="stat-card medium">
+      <div class="stat-num" id="stat-medium">—</div>
+      <div class="stat-label">متوسطة</div>
+    </div>
+  </div>
+
+  <div class="section-title">✦ الثغرات الأخيرة</div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all')" data-f="all">الكل</button>
+    <button class="filter-btn" onclick="setFilter('CRITICAL')" data-f="CRITICAL">حرجة</button>
+    <button class="filter-btn" onclick="setFilter('HIGH')" data-f="HIGH">عالية</button>
+    <button class="filter-btn" onclick="setFilter('MEDIUM')" data-f="MEDIUM">متوسطة</button>
+    <input class="search-input" id="search" placeholder="🔍 ابحث بالمنتج (Windows, Adobe...)" oninput="renderList()">
+  </div>
+
+  <div class="cve-list" id="cve-list">
+    <div class="loading">جاري تحميل الثغرات...</div>
+  </div>
+
+  <button class="load-more" id="load-more" onclick="loadMore()" style="display:none">تحميل المزيد</button>
+
+  <div class="footer">
+    <span style="display:flex;justify-content:space-between;align-items:center;width:100%">
+      <span>جميع الحقوق محفوظة &copy; 2026</span>
+      <span>البيانات من <a href="https://nvd.nist.gov" target="_blank">NVD</a> — صمم ♥ <a href="https://www.maqbali.com">Maqbali</a></span>
+    </span>
+  </div>
+
+</div>
+
+<script>
+// Theme
+const savedTheme = localStorage.getItem('theme') || 'dark';
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  document.querySelector('#moon-path').setAttribute('stroke', '#a07828');
+}
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  document.querySelector('#moon-path').setAttribute('stroke', isLight ? '#a07828' : '#c9a84c');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// Date
+function updateDate() {
+  const now = new Date();
+  const opts = {timeZone:'Asia/Muscat'};
+  document.getElementById('date-clock').textContent = now.toLocaleTimeString('en-US', {...opts, hour:'2-digit', minute:'2-digit', hour12:true});
+  document.getElementById('date-day').textContent = now.toLocaleDateString('ar-OM', {...opts, weekday:'long'});
+  document.getElementById('date-miladi').textContent = now.toLocaleDateString('ar-OM', {...opts, year:'numeric', month:'long', day:'numeric'});
+}
+setInterval(updateDate, 1000);
+
+// Data
+let allCVEs = [];
+let currentFilter = 'all';
+let displayCount = 20;
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  const diffMin = Math.floor((Date.now() - d.getTime()) / 60000);
+  if (diffMin < 60) return `منذ ${diffMin} د`;
+  if (diffMin < 1440) return `منذ ${Math.floor(diffMin / 60)} س`;
+  return `منذ ${Math.floor(diffMin / 1440)} ي`;
+}
+
+function getSeverity(score) {
+  if (score >= 9.0) return { label: 'حرجة', cls: 'sev-critical', key: 'CRITICAL' };
+  if (score >= 7.0) return { label: 'عالية', cls: 'sev-high', key: 'HIGH' };
+  if (score >= 4.0) return { label: 'متوسطة', cls: 'sev-medium', key: 'MEDIUM' };
+  return { label: 'منخفضة', cls: 'sev-low', key: 'LOW' };
+}
+
+async function loadCVEs() {
+  document.getElementById('cve-list').innerHTML = '<div class="loading">جاري تحميل الثغرات...</div>';
+
+  const now = new Date();
+  const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000);
+  const pubStart = threeDaysAgo.toISOString().split('.')[0] + '.000';
+  const pubEnd = now.toISOString().split('.')[0] + '.000';
+
+  try {
+    const url = `https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=${pubStart}&pubEndDate=${pubEnd}&resultsPerPage=200`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    allCVEs = (data.vulnerabilities || []).map(item => {
+      const cve = item.cve;
+      const metrics = cve.metrics?.cvssMetricV31?.[0] || cve.metrics?.cvssMetricV30?.[0] || cve.metrics?.cvssMetricV2?.[0];
+      const score = metrics?.cvssData?.baseScore || 0;
+      const desc = cve.descriptions?.find(d => d.lang === 'en')?.value || '';
+      const products = new Set();
+      cve.configurations?.forEach(cfg => {
+        cfg.nodes?.forEach(node => {
+          node.cpeMatch?.forEach(m => {
+            const parts = m.criteria.split(':');
+            if (parts[3] && parts[4]) products.add(parts[3] + ' ' + parts[4]);
+          });
+        });
+      });
+      return {
+        id: cve.id,
+        desc,
+        score,
+        published: cve.published,
+        products: Array.from(products).slice(0, 4)
+      };
+    });
+
+    allCVEs.sort((a, b) => b.score - a.score);
+    updateStats();
+    renderList();
+    document.getElementById('last-update').textContent = now.toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'});
+  } catch(e) {
+    document.getElementById('cve-list').innerHTML = '<div class="loading">تعذّر تحميل الثغرات. حاول مرة أخرى.</div>';
+  }
+}
+
+function updateStats() {
+  const crit = allCVEs.filter(c => c.score >= 9.0).length;
+  const high = allCVEs.filter(c => c.score >= 7.0 && c.score < 9.0).length;
+  const med = allCVEs.filter(c => c.score >= 4.0 && c.score < 7.0).length;
+  document.getElementById('stat-total').textContent = allCVEs.length;
+  document.getElementById('stat-critical').textContent = crit;
+  document.getElementById('stat-high').textContent = high;
+  document.getElementById('stat-medium').textContent = med;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  displayCount = 20;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.f === f);
+  });
+  renderList();
+}
+
+function renderList() {
+  const q = document.getElementById('search').value.toLowerCase();
+  let filtered = allCVEs;
+
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(c => getSeverity(c.score).key === currentFilter);
+  }
+
+  if (q) {
+    filtered = filtered.filter(c =>
+      c.desc.toLowerCase().includes(q) ||
+      c.products.some(p => p.toLowerCase().includes(q)) ||
+      c.id.toLowerCase().includes(q)
+    );
+  }
+
+  const shown = filtered.slice(0, displayCount);
+  const list = document.getElementById('cve-list');
+
+  if (!shown.length) {
+    list.innerHTML = '<div class="loading">لا توجد ثغرات تطابق البحث</div>';
+    document.getElementById('load-more').style.display = 'none';
+    return;
+  }
+
+  list.innerHTML = shown.map(c => {
+    const sev = getSeverity(c.score);
+    return `<div class="cve-card">
+      <div class="cve-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="cve-id">${c.id}</span>
+          <span class="cve-date">${formatDate(c.published)}</span>
+        </div>
+        <div class="cve-meta">
+          <span class="severity-badge ${sev.cls}">${sev.label}</span>
+          <span class="cvss-score">${c.score.toFixed(1)}</span>
+        </div>
+      </div>
+      <div class="cve-desc">${c.desc.length > 240 ? c.desc.slice(0, 240) + '...' : c.desc}</div>
+      ${c.products.length ? `<div class="cve-products">${c.products.map(p => `<span class="product-tag">${p}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('load-more').style.display = filtered.length > displayCount ? 'block' : 'none';
+}
+
+function loadMore() {
+  displayCount += 20;
+  renderList();
+}
+
+updateDate();
+loadCVEs();
+setInterval(loadCVEs, 10 * 60 * 1000); // refresh every 10 minutes
+</script>
+</body>
+</html>
