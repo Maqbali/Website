@@ -3,44 +3,905 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>العودة للرئيسية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>3Beer Art</title>
+  <meta name="description" content="3Beer Art">
+
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue-deep:   #0d2236;
+      --blue-dark:   #1a3d5c;
+      --blue-main:   #255a85;
+      --blue-bright: #3674a3;
+      --blue-pale:   #a8c5dc;
+      --white:       #ffffff;
+      --cream:       #f0f4f8;
+      --ink:         #0a1825;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    html, body { width: 100%; min-height: 100%; }
     body {
+      overflow-x: hidden;
+      background: var(--blue-deep);
       font-family: 'Cairo', sans-serif;
-      background: #0e0e0e;
+    }
+
+    /* ╔═══════════════════════════════╗
+       ║  WELCOME OVERLAY              ║
+       ╚═══════════════════════════════╝ */
+    #welcome {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      cursor: grab;
+      transition: transform 1s cubic-bezier(.77,0,.175,1), opacity 1s ease;
+      overflow: hidden;
+    }
+    #welcome:active { cursor: grabbing; }
+
+    #bg {
+      position: absolute; inset: -30%;
+      background:
+        radial-gradient(ellipse 90% 60% at 15% 25%, rgba(54, 116, 163, 0.45) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 90% at 85% 65%, var(--blue-dark) 0%, var(--blue-deep) 45%, transparent 70%),
+        radial-gradient(ellipse 80% 55% at 55% 85%, rgba(54, 116, 163, 0.3) 0%, rgba(37, 90, 133, 0.2) 40%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 5% 75%, rgba(54, 116, 163, 0.22) 0%, transparent 50%),
+        linear-gradient(155deg, var(--blue-deep) 0%, #15365a 18%, var(--blue-dark) 48%, var(--blue-deep) 100%);
+      animation: fluidMove 12s ease-in-out infinite alternate;
+    }
+    @keyframes fluidMove {
+      0%   { transform: translate(0%, 0%) rotate(0deg) scale(1.12); }
+      30%  { transform: translate(-2.5%, 3.5%) rotate(1.2deg) scale(1.16); }
+      60%  { transform: translate(3%, -2%) rotate(-1.8deg) scale(1.13); }
+      100% { transform: translate(1.5%, 2%) rotate(-0.8deg) scale(1.18); }
+    }
+
+    #waves { position: absolute; inset: 0; overflow: hidden; }
+    .wv { position: absolute; width: 190%; height: 190%; border-radius: 42%; top: -55%; left: -35%; }
+    .wv1 { background: rgba(54, 116, 163, 0.1); animation: rot 18s linear infinite; }
+    .wv2 { background: rgba(54, 116, 163, 0.06); animation: rot 26s linear infinite reverse; top:-60%; left:-40%; }
+    .wv3 { background: rgba(255,255,255,0.04); animation: rot 34s linear infinite; top:-65%; left:-45%; }
+    @keyframes rot { to { transform: rotate(360deg); } }
+
+    #shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(108deg, transparent 30%, rgba(255, 255, 255, 0.08) 50%, transparent 70%);
+      background-size: 300% 100%;
+      animation: shim 5s ease-in-out infinite;
+    }
+    @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -100% 0; } }
+
+    .home-wrap {
+      position: relative; z-index: 2;
+      opacity: 0;
+      animation: popIn .9s .15s cubic-bezier(.34,1.56,.64,1) forwards;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .home-icon {
+      width: 180px; height: 180px; position: relative;
+      filter: drop-shadow(0 10px 30px rgba(255, 255, 255, 0.15));
+    }
+    .home-icon svg {
+      width: 100%; height: 100%;
+      stroke: var(--white); fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .home-wrap::before {
+      content: ''; position: absolute;
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      animation: pulseRing 4s ease-in-out infinite;
+    }
+    .home-wrap::after {
+      content: ''; position: absolute;
+      width: 320px; height: 320px; border-radius: 50%;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      animation: pulseRing 4s ease-in-out infinite 0.8s;
+    }
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50%      { transform: scale(1.05); opacity: 1; }
+    }
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(.5); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .name {
+      position: relative; z-index: 2;
+      margin-top: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      color: var(--white);
+      letter-spacing: 3px;
+      font-style: italic;
+      opacity: 0; animation: fadeUp .7s .7s ease forwards;
+    }
+
+    #hint {
+      position: absolute; bottom: 56px; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      opacity: 0; animation: fadeUp .9s 2.2s ease forwards;
+    }
+    #hint p {
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'Cairo', sans-serif;
+      font-size: 11px; letter-spacing: .2em;
+    }
+    .mouse {
+      width: 28px; height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 14px;
+      position: relative; display: flex; justify-content: center;
+    }
+    .mdot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--white); position: absolute; top: 7px;
+      animation: mdot 1.8s ease-in-out infinite;
+    }
+    @keyframes mdot {
+      0%   { transform: translateY(0); opacity: 1; }
+      80%  { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ╔═══════════════════════════════╗
+       ║  MAIN SITE                    ║
+       ╚═══════════════════════════════╝ */
+    #site {
+      width: 100%;
       min-height: 100vh;
+      background: var(--blue-deep);
+      opacity: 0; transition: opacity .7s ease .3s;
+      position: relative;
+      color: var(--white);
+    }
+    #site.on { opacity: 1; }
+
+    /* خلفية نجوم */
+    .stars {
+      position: fixed; inset: 0;
+      z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 25% 15%, white, transparent),
+        radial-gradient(1px 1px at 70% 40%, white, transparent),
+        radial-gradient(1.5px 1.5px at 15% 70%, white, transparent),
+        radial-gradient(1px 1px at 85% 85%, white, transparent),
+        radial-gradient(1px 1px at 40% 95%, white, transparent),
+        radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.6), transparent);
+      background-size: 100% 100%;
+      opacity: 0.4;
+      animation: starTwinkle 8s ease-in-out infinite alternate;
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50%      { opacity: 0.7; }
+    }
+
+    /* أمواج في القاع */
+    .waves-bg {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 35vh;
+      z-index: 0; pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* الشريط العلوي */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 2.5rem;
+      font-family: 'Cairo', sans-serif;
+      background: rgba(13, 34, 54, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.3s ease;
+    }
+    .topbar-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--white);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .topbar-nav {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .topbar-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      letter-spacing: 1.5px;
+      position: relative;
+      padding: 4px 0;
+      transition: color 0.3s;
+    }
+    .topbar-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 1px;
+      background: var(--white);
+      transition: width 0.4s cubic-bezier(.2,.8,.2,1);
+    }
+    .topbar-nav a:hover {
+      color: var(--white);
+    }
+    .topbar-nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ━━━━━━━━━━━ HERO ━━━━━━━━━━━ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 13vw, 11rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .hero-title .num { font-weight: 300; font-style: italic; }
+    .hero-title .beer {
+      font-weight: 300;
+      font-style: italic;
+      display: inline-block;
+      position: relative;
+    }
+    .hero-title .art {
+      font-weight: 500;
+      display: block;
+      margin-top: -0.1em;
+    }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0 1rem;
+      opacity: 0.7;
+    }
+    .hero-divider .line {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--white), transparent);
+    }
+    .hero-divider .diamond {
+      width: 6px; height: 6px;
+      background: var(--white);
+      transform: rotate(45deg);
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 300;
+      direction: ltr;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 540px;
+      margin: 2.5rem auto 0;
+      line-height: 1.8;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      opacity: 0.6;
+    }
+    .scroll-indicator .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .scroll-indicator .line {
+      width: 1px; height: 50px;
+      background: linear-gradient(180deg, transparent, var(--white));
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+      50%      { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ━━━━━━━━━━━ GALLERY ━━━━━━━━━━━ */
+    .gallery {
+      padding: 8rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+    .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 300;
+      font-style: italic;
+      direction: ltr;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .section-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--blue-pale);
+    }
+
+    .gallery-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .frame {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: rgba(26, 61, 92, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.6s cubic-bezier(.2, .8, .2, 1);
+    }
+    .frame:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .frame-visual {
+      width: 100%;
+      aspect-ratio: 4/5;
+      position: relative;
+      overflow: hidden;
+      background: var(--blue-dark);
+    }
+    .frame-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(.2, .8, .2, 1), filter 0.6s ease;
+      filter: brightness(0.92) saturate(1.05);
+    }
+    .frame:hover .frame-visual img {
+      transform: scale(1.06);
+      filter: brightness(1) saturate(1.15);
+    }
+
+    .frame-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, transparent 40%, rgba(10, 24, 37, 0.9) 100%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .frame:hover .frame-overlay { opacity: 1; }
+    .frame-overlay h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .frame-overlay p {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      direction: ltr;
+    }
+
+    .frame:nth-child(1) { grid-column: 1 / 6; grid-row: 1 / 3; }
+    .frame:nth-child(2) { grid-column: 6 / 10; }
+    .frame:nth-child(3) { grid-column: 10 / 13; }
+    .frame:nth-child(4) { grid-column: 6 / 9; }
+    .frame:nth-child(5) { grid-column: 9 / 13; grid-row: 2 / 4; }
+    .frame:nth-child(6) { grid-column: 1 / 5; grid-row: 3; }
+    .frame:nth-child(7) { grid-column: 5 / 9; grid-row: 3; }
+
+    /* ━━━━━━━━━━━ PHILOSOPHY ━━━━━━━━━━━ */
+    .philosophy {
+      padding: 10rem 2rem;
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 10rem;
+      line-height: 0.5;
+      color: var(--blue-bright);
+      opacity: 0.3;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .philosophy-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1.5;
+      font-weight: 300;
+      color: var(--white);
+      font-style: italic;
+      letter-spacing: 0.3px;
+    }
+    .philosophy-text strong {
+      color: var(--blue-pale);
+      font-weight: 400;
+    }
+
+    .philosophy-signature {
+      margin-top: 3rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 1rem;
     }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 32px;
-      background: #c9a84c;
-      color: #111;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Cairo', sans-serif;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s;
+    .philosophy-signature .line {
+      width: 40px; height: 1px;
+      background: rgba(255, 255, 255, 0.4);
     }
-    .btn:hover { background: #b8943a; }
-    .btn svg { width: 16px; height: 16px; }
+    .philosophy-signature span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      font-style: italic;
+      direction: ltr;
+    }
+
+    /* ━━━━━━━━━━━ CONNECT ━━━━━━━━━━━ */
+    .connect {
+      padding: 8rem 2rem 6rem;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .connect-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.01em;
+    }
+    .connect-title em {
+      font-style: italic;
+      color: var(--blue-pale);
+    }
+    .connect-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 2px;
+      margin-bottom: 4rem;
+      direction: ltr;
+    }
+
+    .icons {
+      display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center;
+    }
+    .icon-link {
+      width: 60px; height: 60px; border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.03);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; cursor: pointer;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1),
+                  border-color .3s, background .3s, box-shadow .3s;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+    .icon-link:hover {
+      transform: translateY(-6px) scale(1.08);
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    .icon-link svg { width: 22px; height: 22px; fill: rgba(255, 255, 255, 0.8); transition: fill .3s; }
+    .icon-link:hover svg { fill: var(--white); }
+    .icon-link .tip {
+      position: absolute; bottom: -26px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .75rem; letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.85);
+      white-space: nowrap; opacity: 0;
+      transition: opacity .2s;
+      pointer-events: none;
+      font-style: italic;
+    }
+    .icon-link:hover .tip { opacity: 1; }
+
+    /* ━━━━━━━━━━━ FOOTER ━━━━━━━━━━━ */
+    .footer {
+      text-align: center; padding: 2.5rem 2rem 2rem;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--white);
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+    .footer-copy {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.4);
+      direction: ltr;
+    }
+
+    /* ━━━━━━━━━━━ RESPONSIVE ━━━━━━━━━━━ */
+    @media (max-width: 900px) {
+      .topbar { padding: 1rem 1.2rem; }
+      .topbar-brand { font-size: 1rem; letter-spacing: 1.5px; }
+      .topbar-nav { gap: 1.2rem; }
+      .topbar-nav a { font-size: 0.85rem; letter-spacing: 1px; }
+      .gallery-grid { grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+      .frame:nth-child(1) { grid-column: 1 / 7; grid-row: auto; }
+      .frame:nth-child(2) { grid-column: 1 / 4; }
+      .frame:nth-child(3) { grid-column: 4 / 7; }
+      .frame:nth-child(4) { grid-column: 1 / 4; }
+      .frame:nth-child(5) { grid-column: 4 / 7; grid-row: auto; }
+      .frame:nth-child(6) { grid-column: 1 / 4; grid-row: auto; }
+      .frame:nth-child(7) { grid-column: 4 / 7; grid-row: auto; }
+      .gallery, .philosophy, .connect { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .philosophy { padding-top: 6rem; padding-bottom: 6rem; }
+    }
+
+    /* ظهور تدريجي */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
-  <a href="index.html" class="btn">
-    <svg fill="none" viewBox="0 0 24 24">
-      <path d="M19 12H5M12 5l-7 7 7 7" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    العودة للرئيسية
-  </a>
+
+<!-- ═══════ MAIN SITE ═══════ -->
+<div id="site">
+
+  <div class="stars"></div>
+
+  <svg class="waves-bg" viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,200 C240,280 480,120 720,200 C960,280 1200,120 1440,200 L1440,400 L0,400 Z" fill="rgba(54, 116, 163, 0.15)">
+      <animate attributeName="d" dur="10s" repeatCount="indefinite"
+        values="M0,200 C240,280 480,120 720,200 C960,280 1200,120 1440,200 L1440,400 L0,400 Z;
+                M0,200 C240,120 480,280 720,200 C960,120 1200,280 1440,200 L1440,400 L0,400 Z;
+                M0,200 C240,280 480,120 720,200 C960,280 1200,120 1440,200 L1440,400 L0,400 Z" />
+    </path>
+    <path d="M0,240 C300,300 600,180 900,240 C1200,300 1440,180 1440,240 L1440,400 L0,400 Z" fill="rgba(54, 116, 163, 0.25)">
+      <animate attributeName="d" dur="14s" repeatCount="indefinite"
+        values="M0,240 C300,300 600,180 900,240 C1200,300 1440,180 1440,240 L1440,400 L0,400 Z;
+                M0,240 C300,180 600,300 900,240 C1200,180 1440,300 1440,240 L1440,400 L0,400 Z;
+                M0,240 C300,300 600,180 900,240 C1200,300 1440,180 1440,240 L1440,400 L0,400 Z" />
+    </path>
+    <path d="M0,290 C360,340 720,250 1080,290 C1260,310 1440,270 1440,290 L1440,400 L0,400 Z" fill="rgba(37, 90, 133, 0.4)">
+      <animate attributeName="d" dur="8s" repeatCount="indefinite"
+        values="M0,290 C360,340 720,250 1080,290 C1260,310 1440,270 1440,290 L1440,400 L0,400 Z;
+                M0,290 C360,250 720,340 1080,290 C1260,270 1440,310 1440,290 L1440,400 L0,400 Z;
+                M0,290 C360,340 720,250 1080,290 C1260,310 1440,270 1440,290 L1440,400 L0,400 Z" />
+    </path>
+  </svg>
+
+  <div class="topbar">
+    <a href="#top" class="topbar-brand">3Beer Art</a>
+    <ul class="topbar-nav">
+      <li><a href="#gallery">المعرض</a></li>
+      <li><a href="#philosophy">عنّا</a></li>
+      <li><a href="#connect">تواصل</a></li>
+    </ul>
+  </div>
+
+  <!-- ━━━ HERO ━━━ -->
+  <section class="hero" id="top">
+    <div class="hero-sub">A Visual Journey</div>
+
+    <h1 class="hero-title">
+      <span class="beer"><span class="num">3</span>Beer</span>
+      <span class="art">Art</span>
+    </h1>
+
+    <div class="hero-divider">
+      <span class="line"></span>
+      <span class="diamond"></span>
+      <span class="line"></span>
+    </div>
+
+    <p class="hero-quote">
+      حيث يلتقي الأزرق بالضوء، وحيث تتنفّس الصورة حكاياتها الصامتة.
+    </p>
+
+    <div class="scroll-indicator">
+      <span class="label">Scroll</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- ━━━ GALLERY ━━━ -->
+  <section class="gallery" id="gallery">
+    <div class="section-head reveal">
+      <div class="section-label">— Collection One —</div>
+      <h2 class="section-title">أعمالٌ <em>مُختارة</em></h2>
+    </div>
+
+    <div class="gallery-grid">
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="صمتٌ أزرق" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>صمتٌ أزرق</h3>
+          <p>№ 01 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1439405326854-014607f694d7?w=800&q=80" alt="دوائر الوقت" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>دوائر الوقت</h3>
+          <p>№ 02 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&q=80" alt="طبقات البحر" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>طبقات البحر</h3>
+          <p>№ 03 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=800&q=80" alt="قمرٌ وحيد" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>قمرٌ وحيد</h3>
+          <p>№ 04 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="جبالٌ مائية" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>جبالٌ مائية</h3>
+          <p>№ 05 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1502209524164-acea936639a2?w=800&q=80" alt="الهندسة الخفيّة" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>الهندسة الخفيّة</h3>
+          <p>№ 06 · 2026</p>
+        </div>
+      </article>
+
+      <article class="frame reveal">
+        <div class="frame-visual">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80" alt="ضوءٌ عابر" loading="lazy">
+        </div>
+        <div class="frame-overlay">
+          <h3>ضوءٌ عابر</h3>
+          <p>№ 07 · 2026</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ━━━ PHILOSOPHY ━━━ -->
+  <section class="philosophy" id="philosophy">
+    <div class="quote-mark reveal">&ldquo;</div>
+    <p class="philosophy-text reveal">
+      الفنُّ ليس ما نراه،<br>
+      بل ما <strong>نشعرُ</strong> به حين <strong>نُغمضُ عيوننا</strong>،<br>
+      ثم نفتحُها من جديد.
+    </p>
+    <div class="philosophy-signature reveal">
+      <span class="line"></span>
+      <span>3Beer Art</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- ━━━ CONNECT ━━━ -->
+  <section class="connect" id="connect">
+    <div class="reveal">
+      <h2 class="connect-title">تواصل <em>معنا</em></h2>
+      <p class="connect-sub">— Let's Connect —</p>
+    </div>
+
+    <div class="icons reveal">
+      <a class="icon-link" href="#">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span class="tip">Instagram</span>
+      </a>
+
+      <a class="icon-link" href="#">
+        <svg viewBox="0 0 24 24"><path d="M12.166.075c3.039-.047 5.842 1.529 7.43 4.017 1.135 1.771 1.141 3.776 1.146 5.714.005 1.42.031 2.619.218 3.461.22.968.758 1.482 1.444 1.858.33.181.664.354.934.522.176.109.55.346.55.788 0 .613-.524.995-1.026 1.248-.758.384-1.567.514-2.254.638-.195.035-.38.068-.537.105-.196.046-.26.092-.272.102 0 .197-.145.457-.267.639-.292.44-.637.569-1.018.569-.25 0-.456-.048-.632-.088-.179-.042-.355-.083-.63-.083-.351 0-.608.07-1.057.217-.395.133-.842.272-1.39.272-.06 0-.12 0-.18-.005-1.004-.062-1.624-.49-2.232-.907-.59-.403-1.247-.856-2.274-1.028-.134-.022-.266-.033-.4-.033-.717 0-1.288.221-1.787.415-.467.181-.874.34-1.313.34-.44 0-.807-.164-1.111-.497-.111-.121-.22-.251-.35-.34-.228-.154-.452-.229-.686-.274-.198-.037-.404-.06-.623-.099-.397-.072-.854-.199-1.266-.394-.382-.18-.854-.539-.854-.96 0-.43.324-.654.6-.813.26-.152.593-.323.925-.502.687-.376 1.224-.89 1.444-1.858.187-.842.213-2.041.218-3.461.005-1.938.011-3.943 1.146-5.714 1.588-2.488 4.391-4.064 7.43-4.017z"/></svg>
+        <span class="tip">Snapchat</span>
+      </a>
+
+      <a class="icon-link" href="#">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span class="tip">X</span>
+      </a>
+
+      <a class="icon-link" href="#">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <span class="tip">Email</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div class="footer-brand">3Beer Art</div>
+    <div class="footer-copy">© 2026 · All Rights Reserved</div>
+  </div>
+
+</div>
+
+<!-- ═══════ WELCOME OVERLAY ═══════ -->
+<div id="welcome">
+  <div id="bg"></div>
+  <div id="waves">
+    <div class="wv wv1"></div>
+    <div class="wv wv2"></div>
+    <div class="wv wv3"></div>
+  </div>
+  <div id="shimmer"></div>
+
+  <div class="home-wrap">
+    <div class="home-icon">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 64 208 L 64 464 C 64 481.673 78.327 496 96 496 L 416 496 C 433.673 496 448 481.673 448 464 L 448 208 M 32 240 L 231.515 40.485 C 244.814 27.186 267.186 27.186 280.485 40.485 L 480 240 M 192 496 L 192 368 C 192 332.654 220.654 304 256 304 C 291.346 304 320 332.654 320 368 L 320 496" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="name">3Beer Art</div>
+
+  <div id="hint">
+    <p>اسحب للدخول</p>
+    <div class="mouse"><div class="mdot"></div></div>
+  </div>
+</div>
+
+<script>
+  const welcome = document.getElementById('welcome');
+  const site    = document.getElementById('site');
+  let gone = false, startY = null;
+
+  function dismiss() {
+    if (gone) return; gone = true;
+    welcome.style.transition = 'transform .9s cubic-bezier(.77,0,.175,1), opacity .9s ease';
+    welcome.style.transform  = 'translateY(-100%)';
+    welcome.style.opacity    = '0';
+    site.classList.add('on');
+    document.body.style.overflow = 'auto';
+  }
+
+  function drag(dy) {
+    const c = Math.max(-window.innerHeight, Math.min(0, dy));
+    welcome.style.transition = 'none';
+    welcome.style.transform  = `translateY(${c}px)`;
+    welcome.style.opacity    = String(1 + c / window.innerHeight);
+    if (Math.abs(c) > 60) site.classList.add('on');
+    else site.classList.remove('on');
+  }
+
+  function release(dy) {
+    welcome.style.transition = '';
+    if (dy < -90) dismiss();
+    else { welcome.style.transform = ''; welcome.style.opacity = ''; site.classList.remove('on'); }
+  }
+
+  welcome.addEventListener('mousedown',  e => { if (!gone) startY = e.clientY; });
+  window.addEventListener('mousemove',   e => { if (startY != null && !gone) drag(e.clientY - startY); });
+  window.addEventListener('mouseup',     e => { if (startY != null) { release(e.clientY - startY); startY = null; } });
+  welcome.addEventListener('touchstart', e => { if (!gone) startY = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchmove',   e => { if (startY != null && !gone) drag(e.touches[0].clientY - startY); }, {passive:true});
+  window.addEventListener('touchend',    e => { if (startY != null) { release(e.changedTouches[0].clientY - startY); startY = null; } });
+  window.addEventListener('wheel',       e => { if (!gone && e.deltaY > 20) dismiss(); }, {passive:true});
+  window.addEventListener('keydown',     e => { if (!gone && ['ArrowDown','Space','Enter'].includes(e.code)) dismiss(); });
+
+  // ظهور تدريجي عند التمرير
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
 </body>
 </html>
