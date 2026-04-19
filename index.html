@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <!-- SEO Meta Tags -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mohammed Al-Maqbali</title>
-<meta name="description" content="مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.">
-<meta name="keywords" content="محمد المقبالي, مصور عماني, تصوير, عُمان, فوتوغرافي">
-<meta name="author" content="Mohammed Al-Maqbali">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohammed Al-Maqbali</title>
+  <meta name="description" content="مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.">
+  <meta name="keywords" content="محمد المقبالي, مصور عماني, تصوير, عُمان, فوتوغرافي">
+  <meta name="author" content="Mohammed Al-Maqbali">
 
- <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.maqbali.com/">
   <meta property="og:title" content="Mohammed Al-Maqbali">
@@ -17,167 +15,336 @@
   <meta property="og:image" content="https://www.maqbali.com/images/logo_2.png">
   <meta property="og:locale" content="ar_OM">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@maqba1i">
-  <meta name="twitter:title" content="Mohammed Al-Maqbali">
-  <meta name="twitter:description" content="مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.">
-  <meta name="twitter:image" content="https://www.maqbali.com/images/logo_2.png">
-
-  <!-- Canonical -->
   <link rel="canonical" href="https://www.maqbali.com/">
   <link rel="icon" href="images/favicon.png" type="image/png">
-  
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
 
-  
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-body{
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:#0a0a0a;font-family:'Cairo',sans-serif;
-}
-body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse at 30% 40%,rgba(200,169,110,.07) 0%,transparent 55%),
-             radial-gradient(ellipse at 70% 70%,rgba(200,169,110,.04) 0%,transparent 45%);
-  pointer-events:none;
-}
-.card{
-  display:flex;flex-direction:column;align-items:center;
-  gap:1.4rem;padding:3rem 2rem;
-  animation:fadeIn .8s ease forwards;
-}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
 
-/* الشعار */
-.logo-wrap{opacity:0;animation:popIn .7s .15s cubic-bezier(.34,1.56,.64,1) forwards;}
-.logo-ring{
-  width:140px;height:140px;border-radius:50%;
-  border:1.5px solid rgba(200,169,110,.35);padding:5px;position:relative;
-}
-.logo-ring::before{
-  content:'';position:absolute;inset:-8px;border-radius:50%;
-  border:1px solid rgba(200,169,110,.1);
-}
-.logo-inner{
-  width:100%;height:100%;border-radius:50%;
-  background:#181818;display:flex;align-items:center;justify-content:center;
-  font-size:3rem;overflow:hidden;
-}
-.logo-inner img{width:100%;height:100%;object-fit:cover;}
+    /* ── WELCOME OVERLAY ── */
+    #welcome {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      cursor: grab;
+      transition: transform 1s cubic-bezier(.77,0,.175,1), opacity 1s ease;
+    }
+    #welcome:active { cursor: grabbing; }
 
-/* الاسم */
-.name{
-  font-size:1.2rem;font-weight:600;color:#f0ede6;letter-spacing:1px;
-  opacity:0;animation:fadeUp .6s .45s ease forwards;
-}
+    #bg {
+      position: absolute; inset: -30%;
+      background:
+        radial-gradient(ellipse 90% 60% at 15% 25%, rgba(200,169,110,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 90% at 85% 65%, #1a1a1a 0%, #0a0a0a 45%, transparent 70%),
+        radial-gradient(ellipse 80% 55% at 55% 85%, rgba(200,169,110,0.2) 0%, rgba(181,146,88,0.15) 40%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 5% 75%, rgba(200,169,110,0.18) 0%, transparent 50%),
+        linear-gradient(155deg, #0e0e0e 0%, #181818 18%, #1a1410 48%, #0a0a0a 100%);
+      animation: fluidMove 12s ease-in-out infinite alternate;
+    }
+    @keyframes fluidMove {
+      0%   { transform: translate(0%, 0%) rotate(0deg) scale(1.12); }
+      30%  { transform: translate(-2.5%, 3.5%) rotate(1.2deg) scale(1.16); }
+      60%  { transform: translate(3%, -2%) rotate(-1.8deg) scale(1.13); }
+      100% { transform: translate(1.5%, 2%) rotate(-0.8deg) scale(1.18); }
+    }
 
-/* فاصل */
-.line{
-  width:36px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(200,169,110,.4),transparent);
-  opacity:0;animation:fadeIn .6s .75s ease forwards;
-}
+    #waves { position: absolute; inset: 0; overflow: hidden; }
+    .wv { position: absolute; width: 190%; height: 190%; border-radius: 42%; top: -55%; left: -35%; }
+    .wv1 { background: rgba(200,169,110,0.08); animation: rot 18s linear infinite; }
+    .wv2 { background: rgba(200,169,110,0.05); animation: rot 26s linear infinite reverse; top:-60%; left:-40%; }
+    .wv3 { background: rgba(255,255,255,0.03); animation: rot 34s linear infinite; top:-65%; left:-45%; }
+    @keyframes rot { to { transform: rotate(360deg); } }
 
-/* الأيقونات */
-.icons{
-  display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:fadeUp .6s .85s ease forwards;
-}
-.icon-link{
-  width:54px;height:54px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.03);
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none;cursor:pointer;
-  transition:transform .35s cubic-bezier(.34,1.56,.64,1),
-             border-color .3s,background .3s,box-shadow .3s;
-  position:relative;
-}
-.icon-link:hover{
-  transform:translateY(-5px) scale(1.1);
-  border-color:var(--hc,rgba(200,169,110,.5));
-  background:var(--hb,rgba(200,169,110,.08));
-  box-shadow:0 10px 24px rgba(0,0,0,.5);
-}
-.icon-link svg{width:22px;height:22px;fill:rgba(240,237,230,.65);transition:fill .3s;}
-.icon-link:hover svg{fill:#f0ede6;}
-.icon-link .tip{
-  position:absolute;bottom:-22px;
-  font-size:.6rem;letter-spacing:1px;color:rgba(200,169,110,.75);
-  white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;
-}
-.icon-link:hover .tip{opacity:1;}
+    #shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(108deg, transparent 30%, rgba(200,169,110,0.1) 50%, transparent 70%);
+      background-size: 300% 100%;
+      animation: shim 5s ease-in-out infinite;
+    }
+    @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -100% 0; } }
 
-.footer {
-  text-align: center;
-  padding: 1rem;
-  border-top: 0.5px solid rgba(201,168,76,0.12);
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
-.footer span { font-size: 12px; color: #444; }
-.footer strong { color: #c9a84c; font-weight: 600; }
+    /* LOGO */
+    .logo-wrap {
+      position: relative; z-index: 2;
+      opacity: 0;
+      animation: popIn .9s .15s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    .logo-ring {
+      width: 180px; height: 180px; border-radius: 50%;
+      border: 1.5px solid rgba(200,169,110,0.45);
+      padding: 6px; position: relative;
+    }
+    .logo-ring::before {
+      content: ''; position: absolute; inset: -10px; border-radius: 50%;
+      border: 1px solid rgba(200,169,110,0.15);
+    }
+    .logo-ring::after {
+      content: ''; position: absolute; inset: -20px; border-radius: 50%;
+      border: 0.5px solid rgba(200,169,110,0.08);
+    }
+    .logo-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: #181818; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .logo-inner img { width: 100%; height: 100%; object-fit: cover; }
 
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes popIn{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
-</style>
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(.5); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* NAME */
+    .name {
+      position: relative; z-index: 2;
+      margin-top: 1.8rem;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.2rem; font-weight: 600;
+      color: #f0ede6; letter-spacing: 1px;
+      opacity: 0; animation: fadeUp .7s .7s ease forwards;
+    }
+    .tagline {
+      position: relative; z-index: 2;
+      margin-top: 0.4rem;
+      font-family: 'Cairo', sans-serif;
+      font-size: .75rem; color: #c8a96e;
+      letter-spacing: 3px;
+      opacity: 0; animation: fadeUp .7s .9s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HINT */
+    #hint {
+      position: absolute; bottom: 56px; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      opacity: 0; animation: fadeUp .9s 2.2s ease forwards;
+    }
+    #hint p {
+      color: rgba(240,237,230,0.6);
+      font-family: 'Cairo', sans-serif;
+      font-size: 11px; letter-spacing: .2em;
+    }
+    .mouse {
+      width: 28px; height: 44px;
+      border: 1px solid rgba(200,169,110,0.5);
+      border-radius: 14px;
+      position: relative; display: flex; justify-content: center;
+    }
+    .mdot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: #c8a96e; position: absolute; top: 7px;
+      animation: mdot 1.8s ease-in-out infinite;
+    }
+    @keyframes mdot {
+      0%   { transform: translateY(0); opacity: 1; }
+      80%  { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+
+    /* ── MAIN SITE ── */
+    #site {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #0a0a0a;
+      font-family: 'Cairo', sans-serif;
+      opacity: 0; transition: opacity .7s ease .3s;
+      overflow-y: auto;
+    }
+    #site.on { opacity: 1; }
+    #site::before {
+      content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(200,169,110,.07) 0%, transparent 55%),
+                  radial-gradient(ellipse at 70% 70%, rgba(200,169,110,.04) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    .card {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.4rem; padding: 3rem 2rem;
+    }
+    .site-logo-wrap { }
+    .site-logo-ring {
+      width: 140px; height: 140px; border-radius: 50%;
+      border: 1.5px solid rgba(200,169,110,.35); padding: 5px; position: relative;
+    }
+    .site-logo-ring::before {
+      content:''; position:absolute; inset:-8px; border-radius:50%;
+      border:1px solid rgba(200,169,110,.1);
+    }
+    .site-logo-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: #181818; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .site-logo-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .site-name {
+      font-size: 1.2rem; font-weight: 600; color: #f0ede6; letter-spacing: 1px;
+    }
+    .site-tagline {
+      font-size: .75rem; color: #c8a96e; letter-spacing: 3px;
+      text-transform: uppercase; margin-top: -.8rem;
+    }
+    .site-line {
+      width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,.4), transparent);
+    }
+    .icons {
+      display: flex; gap: .9rem; flex-wrap: wrap; justify-content: center;
+    }
+    .icon-link {
+      width: 54px; height: 54px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; cursor: pointer;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1),
+                  border-color .3s, background .3s, box-shadow .3s;
+      position: relative;
+    }
+    .icon-link:hover {
+      transform: translateY(-5px) scale(1.1);
+      border-color: var(--hc, rgba(200,169,110,.5));
+      background: var(--hb, rgba(200,169,110,.08));
+      box-shadow: 0 10px 24px rgba(0,0,0,.5);
+    }
+    .icon-link svg { width: 22px; height: 22px; fill: rgba(240,237,230,.65); transition: fill .3s; }
+    .icon-link:hover svg { fill: #f0ede6; }
+    .icon-link img { transition: filter .3s; }
+    .icon-link .tip {
+      position: absolute; bottom: -22px;
+      font-size: .6rem; letter-spacing: 1px; color: rgba(200,169,110,.75);
+      white-space: nowrap; opacity: 0; transition: opacity .2s; pointer-events: none;
+    }
+    .icon-link:hover .tip { opacity: 1; }
+
+    .footer {
+      text-align: center; padding: 1rem;
+      border-top: 0.5px solid rgba(201,168,76,0.12);
+      width: 100%; position: fixed; bottom: 0;
+    }
+    .footer span { font-size: 12px; color: #444; }
+    .footer strong { color: #c9a84c; font-weight: 600; }
+  </style>
 </head>
 <body>
-<div class="card">
 
-  <!-- ✦ الشعار أو الصورة ✦ -->
+<!-- ── MAIN SITE (بعد التلاشي) ── -->
+<div id="site">
+  <div class="card">
+    <div class="site-logo-wrap">
+      <div class="site-logo-ring">
+        <div class="site-logo-inner">
+          <img src="images/logo_2.png" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="site-name">Mohammed Al-Maqbali</div>
+    <div class="site-tagline">✦ مصور عماني ✦</div>
+    <div class="site-line"></div>
+
+    <div class="icons">
+      <a class="icon-link" href="https://instagram.com/maqba1i" target="_blank"
+         style="--hc:rgba(225,48,108,.5);--hb:rgba(225,48,108,.1)">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span class="tip">Instagram</span>
+      </a>
+
+      <a class="icon-link" href="https://snapchat.com/add/maqba1i" target="_blank"
+         style="--hc:rgba(255,235,0,.6);--hb:rgba(255,235,0,.08)">
+        <img src="images/snapchat.png" width="22" height="22" style="filter: brightness(1);">
+        <span class="tip">Snapchat</span>
+      </a>
+
+      <a class="icon-link" href="https://x.com/maqba1i" target="_blank"
+         style="--hc:rgba(255,255,255,.3);--hb:rgba(255,255,255,.06)">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span class="tip">X</span>
+      </a>
+
+      <a class="icon-link" href="contact.html"
+         style="--hc:rgba(200,169,110,.5);--hb:rgba(200,169,110,.1)">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <span class="tip">تواصل معنا</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
+  </div>
+</div>
+
+<!-- ── WELCOME OVERLAY ── -->
+<div id="welcome">
+  <div id="bg"></div>
+  <div id="waves">
+    <div class="wv wv1"></div>
+    <div class="wv wv2"></div>
+    <div class="wv wv3"></div>
+  </div>
+  <div id="shimmer"></div>
+
   <div class="logo-wrap">
     <div class="logo-ring">
       <div class="logo-inner">
-        <img src="images/logo_2.png" alt="">
-       </div>
+        <img src="images/logo_2.png" alt="Mohammed Al-Maqbali">
+      </div>
     </div>
   </div>
 
   <div class="name">Mohammed Al-Maqbali</div>
-  <div class="line"></div>
 
-  <!-- ✦ أيقونات التواصل ✦ -->
-  <div class="icons">
-
-    <!-- انستقرام -->
-    <a class="icon-link" href="https://instagram.com/maqba1i" target="_blank"
-       style="--hc:rgba(225,48,108,.5);--hb:rgba(225,48,108,.1)">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      <span class="tip">Instagram</span>
-    </a>
-
-    <!-- سناب شات -->
-    <a class="icon-link" href="https://snapchat.com/add/maqba1i" target="_blank"
-       style="--hc:rgba(255,235,0,.6);--hb:rgba(255,235,0,.08)">
-      <img src="images/snapchat.png" width="22" height="22" style="filter: brightness(1);">
-      <span class="tip">Snapchat</span>
-    </a>
-
-    <!-- X (تويتر) -->
-    <a class="icon-link" href="https://x.com/maqba1i" target="_blank"
-       style="--hc:rgba(255,255,255,.3);--hb:rgba(255,255,255,.06)">
-      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      <span class="tip">X</span>
-    </a>
-
-    <!-- تواصل معنا -->
-    <a class="icon-link" href="contact.html"
-       style="--hc:rgba(200,169,110,.5);--hb:rgba(200,169,110,.1)">
-      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      <span class="tip">تواصل معنا</span>
-    </a>
-
+  <div id="hint">
+    <p>اسحب للدخول</p>
+    <div class="mouse"><div class="mdot"></div></div>
   </div>
 </div>
 
-<div class="footer">
-  <span>صُمِّم بواسطة <strong>محمد المقبالي</strong></span>
-</div>
+<script>
+  const welcome = document.getElementById('welcome');
+  const site    = document.getElementById('site');
+  let gone = false, startY = null;
+
+  function dismiss() {
+    if (gone) return; gone = true;
+    welcome.style.transition = 'transform .9s cubic-bezier(.77,0,.175,1), opacity .9s ease';
+    welcome.style.transform  = 'translateY(-100%)';
+    welcome.style.opacity    = '0';
+    site.classList.add('on');
+    document.body.style.overflow = 'auto';
+  }
+
+  function drag(dy) {
+    const c = Math.max(-window.innerHeight, Math.min(0, dy));
+    welcome.style.transition = 'none';
+    welcome.style.transform  = `translateY(${c}px)`;
+    welcome.style.opacity    = String(1 + c / window.innerHeight);
+    if (Math.abs(c) > 60) site.classList.add('on');
+    else site.classList.remove('on');
+  }
+
+  function release(dy) {
+    welcome.style.transition = '';
+    if (dy < -90) dismiss();
+    else { welcome.style.transform = ''; welcome.style.opacity = ''; site.classList.remove('on'); }
+  }
+
+  welcome.addEventListener('mousedown',  e => { if (!gone) startY = e.clientY; });
+  window.addEventListener('mousemove',   e => { if (startY != null && !gone) drag(e.clientY - startY); });
+  window.addEventListener('mouseup',     e => { if (startY != null) { release(e.clientY - startY); startY = null; } });
+  welcome.addEventListener('touchstart', e => { if (!gone) startY = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchmove',   e => { if (startY != null && !gone) drag(e.touches[0].clientY - startY); }, {passive:true});
+  window.addEventListener('touchend',    e => { if (startY != null) { release(e.changedTouches[0].clientY - startY); startY = null; } });
+  window.addEventListener('wheel',       e => { if (!gone && e.deltaY > 20) dismiss(); }, {passive:true});
+  window.addEventListener('keydown',     e => { if (!gone && ['ArrowDown','Space','Enter'].includes(e.code)) dismiss(); });
+</script>
 
 </body>
 </html>
