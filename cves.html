@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نشرة الثغرات الأمنية </title>
+  <title>نشرة الثغرات الأمنية — مقبالي</title>
   <meta name="description" content="آخر الثغرات الأمنية (CVEs) من NVD الرسمي">
-  <link rel="icon" href="images/cyberattack.png" type="image/png">
+  <link rel="icon" href="images/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,6 +45,15 @@
     .theme-btn svg { width: 16px; height: 16px; }
 
     .date-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    .timer-row { display: flex; align-items: center; gap: 14px; margin-bottom: 1.2rem; padding: 0 4px; }
+    .timer-ring { position: relative; width: 42px; height: 42px; flex-shrink: 0; }
+    .timer-ring svg { transform: rotate(-90deg); }
+    .timer-bg { fill: none; stroke: rgba(201,168,76,0.15); stroke-width: 3; }
+    .timer-prog { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+    .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--gold); }
+    .update-time { font-size: 13px; color: var(--muted); }
+    .update-time b { color: var(--text2); font-weight: 600; }
     .date-item { text-align: center; }
     .date-label-sm { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
     .date-value { font-size: 14px; font-weight: 600; color: var(--gold); }
@@ -88,10 +97,64 @@
     .cve-products { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
     .product-tag { font-size: 10px; color: var(--gold); background: rgba(201,168,76,0.08); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 10px; }
 
-    .loading { text-align: center; padding: 3rem 1rem; color: var(--muted); font-size: 13px; }
-    .load-more { display: block; margin: 1.5rem auto 0; padding: 10px 24px; background: var(--card2); border: 0.5px solid var(--border); border-radius: 10px; color: var(--gold); font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .load-more:hover { background: var(--gold); color: #111; border-color: var(--gold); }
-    .load-more:disabled { opacity: 0.5; cursor: not-allowed; }
+    .read-more-btn { margin-top: 10px; background: transparent; border: none; color: var(--gold); font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 0; transition: opacity 0.2s; }
+    .read-more-btn:hover { opacity: 0.7; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px); z-index: 300;
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      width: 100%; max-width: 560px; max-height: 85vh;
+      background: var(--card); border: 0.5px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      display: flex; flex-direction: column;
+      animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-bottom: 0.5px solid var(--border2);
+    }
+    .modal-header .cve-id { font-size: 14px; }
+    .modal-close-x {
+      width: 30px; height: 30px; border-radius: 50%; border: none;
+      background: var(--card2); color: var(--muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: all 0.15s;
+    }
+    .modal-close-x:hover { background: var(--gold); color: #111; }
+    .modal-body {
+      padding: 18px; overflow-y: auto; flex: 1;
+    }
+    .modal-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .modal-desc {
+      font-size: 13px; color: var(--text2); line-height: 1.9;
+      margin-bottom: 14px; white-space: pre-wrap; word-break: break-word;
+    }
+    .modal-section-title { font-size: 11px; color: var(--muted); margin: 12px 0 6px; letter-spacing: 0.5px; }
+    .modal-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; background: rgba(201,168,76,0.1);
+      border: 0.5px solid var(--border); border-radius: 8px;
+      color: var(--gold); text-decoration: none; font-size: 12px; font-weight: 600;
+      transition: all 0.15s; margin-top: 8px;
+    }
+    .modal-link:hover { background: var(--gold); color: #111; border-color: var(--gold); }
+    .modal-footer {
+      padding: 12px 18px; border-top: 0.5px solid var(--border2);
+      display: flex; justify-content: flex-start;
+    }
+    .modal-close-btn {
+      padding: 8px 22px; background: var(--card2); border: 0.5px solid var(--border);
+      border-radius: 8px; color: var(--text); font-family: 'Cairo', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    }
+    .modal-close-btn:hover { background: var(--gold); color: #111; border-color: var(--gold); }
 
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
     .footer span { font-size: 12px; color: var(--muted); }
@@ -122,21 +185,15 @@
     </div>
   </div>
 
-  <div class="date-bar">
-    <div class="date-item">
-      <div class="date-label-sm">الساعة الآن</div>
-      <div class="date-value" id="date-clock">-</div>
+  <div class="timer-row">
+    <div class="timer-ring">
+      <svg width="42" height="42" viewBox="0 0 42 42">
+        <circle class="timer-bg" cx="21" cy="21" r="18"/>
+        <circle class="timer-prog" id="t-prog" cx="21" cy="21" r="18" stroke-dasharray="113" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-num" id="t-num">10:00</div>
     </div>
-    <div class="date-sep">✦</div>
-    <div class="date-item">
-      <div class="date-label-sm">التاريخ الميلادي</div>
-      <div class="date-value" id="date-miladi">-</div>
-    </div>
-    <div class="date-sep">✦</div>
-    <div class="date-item">
-      <div class="date-label-sm">آخر تحديث</div>
-      <div class="date-value" id="last-update">-</div>
-    </div>
+    <div class="update-time">آخر تحديث: <b id="last-update">—</b></div>
   </div>
 
   <div class="section-title">✦ حصيلة آخر 3 أيام</div>
@@ -184,6 +241,34 @@
 
 </div>
 
+<!-- CVE MODAL -->
+<div class="modal-overlay" id="cve-modal" onclick="closeCveModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="cve-id" id="modal-id">—</span>
+      <button class="modal-close-x" onclick="closeCveModal()" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="severity-badge" id="modal-sev">—</span>
+        <span class="cvss-score" id="modal-score">—</span>
+        <span class="cve-date" id="modal-date">—</span>
+      </div>
+      <div class="modal-desc" id="modal-desc">—</div>
+      <div id="modal-products-wrap" style="display:none">
+        <div class="modal-section-title">✦ المنتجات المتأثرة</div>
+        <div class="cve-products" id="modal-products"></div>
+      </div>
+      <a class="modal-link" id="modal-nvd-link" href="#" target="_blank">
+        🔗 عرض في NVD الرسمي
+      </a>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-close-btn" onclick="closeCveModal()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // Theme
 const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -197,15 +282,30 @@ function toggleTheme() {
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 
-// Date
-function updateDate() {
-  const now = new Date();
-  const opts = {timeZone:'Asia/Muscat'};
-  document.getElementById('date-clock').textContent = now.toLocaleTimeString('en-US', {...opts, hour:'2-digit', minute:'2-digit', hour12:true});
-  document.getElementById('date-day').textContent = now.toLocaleDateString('ar-OM', {...opts, weekday:'long'});
-  document.getElementById('date-miladi').textContent = now.toLocaleDateString('ar-OM', {...opts, year:'numeric', month:'long', day:'numeric'});
+// Timer - 10 minutes countdown
+let ticker = 600; // 10 minutes in seconds
+let tickerInt;
+
+function updateTicker() {
+  const prog = document.getElementById('t-prog');
+  const num = document.getElementById('t-num');
+  const circumference = 113;
+  prog.style.strokeDashoffset = circumference * (1 - ticker / 600);
+  const m = Math.floor(ticker / 60);
+  const s = ticker % 60;
+  num.textContent = `${m}:${s.toString().padStart(2,'0')}`;
 }
-setInterval(updateDate, 1000);
+
+function resetTicker() {
+  clearInterval(tickerInt);
+  ticker = 600;
+  updateTicker();
+  tickerInt = setInterval(() => {
+    ticker--;
+    updateTicker();
+    if (ticker <= 0) loadCVEs();
+  }, 1000);
+}
 
 // Data
 let allCVEs = [];
@@ -266,7 +366,11 @@ async function loadCVEs() {
     allCVEs.sort((a, b) => b.score - a.score);
     updateStats();
     renderList();
-    document.getElementById('last-update').textContent = now.toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'});
+    const now2 = new Date();
+    document.getElementById('last-update').textContent =
+      now2.toLocaleDateString('ar-OM',{timeZone:'Asia/Muscat',day:'numeric',month:'long',year:'numeric'}) + ' — ' +
+      now2.toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'});
+    resetTicker();
   } catch(e) {
     document.getElementById('cve-list').innerHTML = '<div class="loading">تعذّر تحميل الثغرات. حاول مرة أخرى.</div>';
   }
@@ -316,8 +420,9 @@ function renderList() {
     return;
   }
 
-  list.innerHTML = shown.map(c => {
+  list.innerHTML = shown.map((c, idx) => {
     const sev = getSeverity(c.score);
+    const isLong = c.desc.length > 240;
     return `<div class="cve-card">
       <div class="cve-header">
         <div style="display:flex;align-items:center;gap:10px">
@@ -329,10 +434,14 @@ function renderList() {
           <span class="cvss-score">${c.score.toFixed(1)}</span>
         </div>
       </div>
-      <div class="cve-desc">${c.desc.length > 240 ? c.desc.slice(0, 240) + '...' : c.desc}</div>
+      <div class="cve-desc">${isLong ? c.desc.slice(0, 240) + '...' : c.desc}</div>
       ${c.products.length ? `<div class="cve-products">${c.products.map(p => `<span class="product-tag">${p}</span>`).join('')}</div>` : ''}
+      ${isLong ? `<button class="read-more-btn" onclick="openCveModal(${idx})">اقرأ المزيد ←</button>` : ''}
     </div>`;
   }).join('');
+
+  // Store currently shown CVEs for modal access
+  window._shownCVEs = shown;
 
   document.getElementById('load-more').style.display = filtered.length > displayCount ? 'block' : 'none';
 }
@@ -342,9 +451,39 @@ function loadMore() {
   renderList();
 }
 
-updateDate();
+// CVE Modal
+function openCveModal(idx) {
+  const c = window._shownCVEs[idx];
+  if (!c) return;
+  const sev = getSeverity(c.score);
+  document.getElementById('modal-id').textContent = c.id;
+  document.getElementById('modal-sev').textContent = sev.label;
+  document.getElementById('modal-sev').className = 'severity-badge ' + sev.cls;
+  document.getElementById('modal-score').textContent = c.score.toFixed(1);
+  document.getElementById('modal-date').textContent = formatDate(c.published);
+  document.getElementById('modal-desc').textContent = c.desc;
+  const wrap = document.getElementById('modal-products-wrap');
+  if (c.products.length) {
+    wrap.style.display = 'block';
+    document.getElementById('modal-products').innerHTML = c.products.map(p => `<span class="product-tag">${p}</span>`).join('');
+  } else {
+    wrap.style.display = 'none';
+  }
+  document.getElementById('modal-nvd-link').href = `https://nvd.nist.gov/vuln/detail/${c.id}`;
+  document.getElementById('cve-modal').classList.add('open');
+}
+
+function closeCveModal(e) {
+  if (e && e.target !== document.getElementById('cve-modal')) return;
+  document.getElementById('cve-modal').classList.remove('open');
+}
+
+// Close on ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('cve-modal').classList.remove('open');
+});
+
 loadCVEs();
-setInterval(loadCVEs, 10 * 60 * 1000); // refresh every 10 minutes
 </script>
 </body>
 </html>
