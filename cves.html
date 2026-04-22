@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نشرة الثغرات الأمنية — مقبالي</title>
+  <title>نشرة الثغرات الأمنية</title>
   <meta name="description" content="آخر الثغرات الأمنية (CVEs) من NVD الرسمي">
-  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="icon" href="images/cyberattack.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -155,6 +155,26 @@
       font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
     }
     .modal-close-btn:hover { background: var(--gold); color: #111; border-color: var(--gold); }
+
+    .load-more {
+      display: block;
+      margin: 1.2rem auto 0;
+      padding: 10px 32px;
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--gold);
+      font-family: 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .load-more:hover {
+      background: var(--gold);
+      color: #111;
+      border-color: var(--gold);
+    }
 
     .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
     .footer span { font-size: 12px; color: var(--muted); }
