@@ -194,6 +194,13 @@
 <script>
 const WORKER = 'https://msx-stocks.al4muqbali.workers.dev/prayer';
 
+function to12h(time) {
+  const [h, m] = time.split(':').map(Number);
+  const period = h >= 12 ? 'م' : 'ص';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${period}`;
+}
+
 const CITY_NAMES = {
   Muscat:     'مسقط',
   Sohar:      'صحار',
@@ -281,12 +288,12 @@ function renderTable(days, month, year) {
     const isToday = isCurrentMonth && parseInt(d.day) === todayDay;
     return `<tr class="${isToday ? 'today' : ''}">
       <td><span class="date-cell">${d.day}/${String(month).padStart(2,'0')}/${year}</span></td>
-      <td><span class="time-val">${d.fajr}</span></td>
-      <td><span class="time-val">${d.sunrise}</span></td>
-      <td><span class="time-val">${d.dhuhr}</span></td>
-      <td><span class="time-val">${d.asr}</span></td>
-      <td><span class="time-val">${d.maghrib}</span></td>
-      <td><span class="time-val">${d.isha}</span></td>
+      <td><span class="time-val">${to12h(d.fajr)}</span></td>
+      <td><span class="time-val">${to12h(d.sunrise)}</span></td>
+      <td><span class="time-val">${to12h(d.dhuhr)}</span></td>
+      <td><span class="time-val">${to12h(d.asr)}</span></td>
+      <td><span class="time-val">${to12h(d.maghrib)}</span></td>
+      <td><span class="time-val">${to12h(d.isha)}</span></td>
     </tr>`;
   }).join('');
 
@@ -312,17 +319,17 @@ function renderTodayCard(days, month, year) {
 
   const nowMin = today.getHours() * 60 + today.getMinutes();
   const prayers = [
-    { name: 'الفجر',  time: d.fajr    },
-    { name: 'الشروق', time: d.sunrise  },
-    { name: 'الظهر',  time: d.dhuhr   },
-    { name: 'العصر',  time: d.asr     },
-    { name: 'المغرب', time: d.maghrib  },
-    { name: 'العشاء', time: d.isha    },
+    { name: 'الفجر',  time: to12h(d.fajr),    raw: d.fajr    },
+    { name: 'الشروق', time: to12h(d.sunrise),  raw: d.sunrise  },
+    { name: 'الظهر',  time: to12h(d.dhuhr),   raw: d.dhuhr   },
+    { name: 'العصر',  time: to12h(d.asr),     raw: d.asr     },
+    { name: 'المغرب', time: to12h(d.maghrib),  raw: d.maghrib  },
+    { name: 'العشاء', time: to12h(d.isha),    raw: d.isha    },
   ];
 
   let nextIdx = -1;
   for (let i = 0; i < prayers.length; i++) {
-    const [h, m] = prayers[i].time.split(':').map(Number);
+    const [h, m] = prayers[i].raw.split(':').map(Number);
     if (h * 60 + m > nowMin) { nextIdx = i; break; }
   }
 
