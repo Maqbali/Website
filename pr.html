@@ -9,13 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: 'Cairo', sans-serif;
-      background: #f5f0e8;
-      min-height: 100vh;
-      color: #2a1f0a;
-      padding-bottom: 3rem;
+      font-family: 'Cairo', sans-serif; background: #f5f0e8;
+      min-height: 100vh; color: #2a1f0a; padding-bottom: 3rem;
     }
     body::before {
       content: ''; position: fixed; inset: 0;
@@ -24,7 +20,6 @@
         radial-gradient(ellipse at 80% 80%, rgba(200,169,110,.04) 0%, transparent 45%);
       pointer-events: none;
     }
-
     .nav {
       width: 100%; padding: 14px 20px;
       display: flex; align-items: center; justify-content: space-between;
@@ -36,90 +31,48 @@
       width: 100%; max-width: 900px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-title { font-size: 15px; font-weight: 700; color: #2a1f0a; }
+    .nav-title  { font-size: 15px; font-weight: 700; color: #2a1f0a; }
     .nav-subtitle { font-size: 11px; color: #c8a96e; font-weight: 600; }
-
     .container { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem; position: relative; }
-
-    /* FILTERS */
     .filters {
-      background: #fff;
-      border: 0.5px solid rgba(200,169,110,0.2);
-      border-radius: 16px;
-      padding: 1rem;
-      margin-bottom: 1.2rem;
+      background: #fff; border: 0.5px solid rgba(200,169,110,0.2);
+      border-radius: 16px; padding: 1rem; margin-bottom: 1.2rem;
       box-shadow: 0 4px 20px rgba(200,169,110,0.06);
     }
-    .filters-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr auto;
-      gap: 10px;
-      align-items: end;
-    }
+    .filters-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; }
     .filter-group { display: flex; flex-direction: column; gap: 5px; }
-    .filter-label {
-      font-size: 10px; color: #888; letter-spacing: 0.5px; font-weight: 600;
-    }
+    .filter-label { font-size: 10px; color: #888; letter-spacing: 0.5px; font-weight: 600; }
     .filter-select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid rgba(200,169,110,0.25);
-      border-radius: 10px;
-      background: #faf7f2;
-      font-family: 'Cairo', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: #2a1f0a;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
+      width: 100%; padding: 10px 14px;
+      border: 1px solid rgba(200,169,110,0.25); border-radius: 10px;
+      background: #faf7f2; font-family: 'Cairo', sans-serif;
+      font-size: 13px; font-weight: 600; color: #2a1f0a;
+      outline: none; cursor: pointer; appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8a96e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: left 10px center;
-      background-size: 14px;
-      padding-left: 30px;
+      background-repeat: no-repeat; background-position: left 10px center;
+      background-size: 14px; padding-left: 30px;
     }
     .filter-select:focus { border-color: #c8a96e; background-color: #fff; }
     .show-btn {
-      padding: 10px 24px;
-      background: #c8a96e;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Cairo', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      height: 42px;
-      white-space: nowrap;
+      padding: 10px 24px; background: #c8a96e; color: #fff; border: none;
+      border-radius: 10px; font-family: 'Cairo', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; height: 42px; white-space: nowrap;
     }
-    .show-btn:hover { background: #a88a4e; }
+    .show-btn:hover    { background: #a88a4e; }
     .show-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* TITLE */
     .page-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      color: #2a1f0a;
-      margin: 1.5rem 0 0.5rem;
+      text-align: center; font-size: 18px; font-weight: 700;
+      color: #2a1f0a; margin: 1.5rem 0 0.5rem;
     }
     .page-subtitle {
-      text-align: center;
-      font-size: 12px;
-      color: #c8a96e;
-      letter-spacing: 2px;
-      margin-bottom: 1.2rem;
+      text-align: center; font-size: 12px; color: #c8a96e;
+      letter-spacing: 2px; margin-bottom: 1.2rem;
     }
-
-    /* TODAY CARD */
     .today-card {
       background: linear-gradient(135deg, #fff 0%, #fdf9f3 100%);
-      border: 1.5px solid #c8a96e;
-      border-radius: 16px;
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
+      border: 1.5px solid #c8a96e; border-radius: 16px;
+      padding: 1.2rem; margin-bottom: 1.5rem;
       box-shadow: 0 4px 20px rgba(200,169,110,0.12);
     }
     .today-header {
@@ -128,91 +81,47 @@
       border-bottom: 0.5px solid rgba(200,169,110,0.2);
     }
     .today-label { font-size: 11px; color: #c8a96e; letter-spacing: 1px; font-weight: 700; }
-    .today-date { font-size: 12px; color: #888; font-weight: 600; }
-    .today-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-    }
+    .today-date  { font-size: 12px; color: #888; font-weight: 600; }
+    .today-grid  { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
     .prayer-item {
-      text-align: center;
-      padding: 8px 4px;
-      background: rgba(200,169,110,0.06);
-      border-radius: 10px;
+      text-align: center; padding: 8px 4px;
+      background: rgba(200,169,110,0.06); border-radius: 10px;
       border: 0.5px solid transparent;
     }
-    .prayer-item.next {
-      background: rgba(200,169,110,0.18);
-      border-color: #c8a96e;
-    }
-    .prayer-name {
-      font-size: 11px; color: #888; margin-bottom: 3px; font-weight: 600;
-    }
+    .prayer-item.next { background: rgba(200,169,110,0.18); border-color: #c8a96e; }
+    .prayer-name { font-size: 11px; color: #888; margin-bottom: 3px; font-weight: 600; }
     .prayer-item.next .prayer-name { color: #2a1f0a; }
-    .prayer-time {
-      font-size: 14px; font-weight: 700; color: #2a1f0a; direction: ltr;
-    }
+    .prayer-time { font-size: 14px; font-weight: 700; color: #2a1f0a; direction: ltr; }
     .prayer-item.next .prayer-time { color: #c8a96e; }
-
-    /* TABLE */
     .table-wrap {
-      background: #fff;
-      border: 0.5px solid rgba(200,169,110,0.2);
-      border-radius: 16px;
-      overflow: hidden;
+      background: #fff; border: 0.5px solid rgba(200,169,110,0.2);
+      border-radius: 16px; overflow: hidden;
       box-shadow: 0 4px 20px rgba(200,169,110,0.06);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    thead {
-      background: linear-gradient(135deg, #c8a96e 0%, #b89860 100%);
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead { background: linear-gradient(135deg, #c8a96e 0%, #b89860 100%); }
     th {
-      padding: 12px 8px;
-      text-align: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.5px;
+      padding: 12px 8px; text-align: center; color: #fff;
+      font-weight: 700; font-size: 12px; letter-spacing: 0.5px;
     }
     td {
-      padding: 12px 8px;
-      text-align: center;
-      border-bottom: 0.5px solid rgba(200,169,110,0.1);
-      color: #2a1f0a;
+      padding: 12px 8px; text-align: center;
+      border-bottom: 0.5px solid rgba(200,169,110,0.1); color: #2a1f0a;
     }
     tbody tr:hover { background: rgba(200,169,110,0.04); }
     tbody tr.today { background: rgba(200,169,110,0.12); }
     tbody tr.today td { font-weight: 700; color: #c8a96e; }
-    .time-val { direction: ltr; display: inline-block; font-weight: 600; font-family: 'Cairo', sans-serif; }
+    .time-val  { direction: ltr; display: inline-block; font-weight: 600; }
     .date-cell { font-weight: 600; direction: ltr; display: inline-block; }
-
-    /* LOADING & EMPTY */
-    .loading, .empty {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: #999;
-      font-size: 13px;
-    }
-
-    /* FOOTER */
+    .loading, .empty { text-align: center; padding: 3rem 1rem; color: #999; font-size: 13px; }
     .footer {
-      text-align: center;
-      margin-top: 2rem;
-      padding-top: 1.2rem;
+      text-align: center; margin-top: 2rem; padding-top: 1.2rem;
       border-top: 0.5px solid rgba(200,169,110,0.15);
-      font-size: 11px;
-      color: #bbb;
+      font-size: 11px; color: #bbb;
     }
     .footer a { color: #c8a96e; text-decoration: none; font-weight: 600; }
-
     @media (max-width: 700px) {
-      .filters-row {
-        grid-template-columns: 1fr 1fr;
-      }
+      .filters-row { grid-template-columns: 1fr 1fr; }
       .show-btn { grid-column: 1 / -1; height: 38px; }
       .today-grid { grid-template-columns: repeat(3, 1fr); }
       table { font-size: 11px; }
@@ -233,16 +142,15 @@
 
 <div class="container">
 
-  <!-- FILTERS -->
   <div class="filters">
     <div class="filters-row">
       <div class="filter-group">
         <label class="filter-label">المدينة</label>
         <select class="filter-select" id="city-select">
-          <option value="muscat">مسقط</option>
-          <option value="sohar" selected>صحار</option>
-          <option value="buraimi">البريمي</option>
-          <option value="khasab">خصب</option>
+          <option value="Muscat">مسقط</option>
+          <option value="Sohar">صحار</option>
+          <option value="Al_Buraimi">البريمي</option>
+          <option value="Musandam">خصب</option>
         </select>
       </div>
       <div class="filter-group">
@@ -257,11 +165,9 @@
     </div>
   </div>
 
-  <!-- TITLE -->
-  <div class="page-title" id="page-title">مدينة صحار — شهر إبريل لسنة 2026</div>
+  <div class="page-title" id="page-title"></div>
   <div class="page-subtitle">✦ توقيت الصلوات ✦</div>
 
-  <!-- TODAY CARD -->
   <div class="today-card" id="today-card" style="display:none">
     <div class="today-header">
       <span class="today-label">◆ اليوم</span>
@@ -270,7 +176,6 @@
     <div class="today-grid" id="today-grid"></div>
   </div>
 
-  <!-- TABLE -->
   <div class="table-wrap">
     <div id="table-container">
       <div class="loading">جاري تحميل المواقيت...</div>
@@ -279,7 +184,7 @@
 
   <div class="footer">
     <div style="margin-bottom:6px">
-      البيانات من <strong style="color:#c8a96e">AlAdhan API</strong> — طريقة دول الخليج
+      البيانات من <strong style="color:#c8a96e">وزارة الأوقاف والشؤون الدينية</strong> — سلطنة عُمان
     </div>
     جميع الحقوق محفوظة © 2026 &nbsp;—&nbsp; صمم ♥ <a href="https://www.maqbali.com">Maqbali</a>
   </div>
@@ -287,97 +192,94 @@
 </div>
 
 <script>
-const CITIES = {
-  muscat:  { name: 'مسقط',   lat: 23.5859, lon: 58.4059, offset: 0 },
-  sohar:   { name: 'صحار',   lat: 24.3463, lon: 56.7297, offset: 2 },  // +2 minutes as requested
-  buraimi: { name: 'البريمي', lat: 24.2503, lon: 55.7856, offset: 0 },
-  khasab:  { name: 'خصب',    lat: 26.1774, lon: 56.2476, offset: 0 },
+const WORKER = 'https://msx-stocks.al4muqbali.workers.dev/prayer';
+
+function to12h(time) {
+  const [h, m] = time.split(':').map(Number);
+  const period = h >= 12 ? 'م' : 'ص';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${period}`;
+}
+
+const CITY_NAMES = {
+  Muscat:     'مسقط',
+  Sohar:      'صحار',
+  Al_Buraimi: 'البريمي',
+  Musandam:   'خصب'
 };
 
 const MONTHS_AR = [
-  'يناير', 'فبراير', 'مارس', 'إبريل', 'مايو', 'يونيو',
-  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+  'يناير','فبراير','مارس','إبريل','مايو','يونيو',
+  'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'
 ];
 
-// Init selects
 const now = new Date();
 const currentMonth = now.getMonth() + 1;
-const currentYear = now.getFullYear();
+const currentYear  = now.getFullYear();
 
 const monthSel = document.getElementById('month-select');
 MONTHS_AR.forEach((m, i) => {
   const o = document.createElement('option');
-  o.value = i + 1;
-  o.textContent = m;
+  o.value = i + 1; o.textContent = m;
   if (i + 1 === currentMonth) o.selected = true;
   monthSel.appendChild(o);
 });
 
 const yearSel = document.getElementById('year-select');
-for (let y = currentYear - 1; y <= currentYear + 2; y++) {
+for (let y = 2026; y <= 2031; y++) {
   const o = document.createElement('option');
-  o.value = y;
-  o.textContent = y;
+  o.value = y; o.textContent = y;
   if (y === currentYear) o.selected = true;
   yearSel.appendChild(o);
 }
 
-function addMinutes(timeStr, mins) {
-  if (!timeStr || mins === 0) return timeStr;
-  const [h, m] = timeStr.split(':').map(Number);
-  const total = h * 60 + m + mins;
-  const nh = Math.floor(total / 60) % 24;
-  const nm = total % 60;
-  return `${String(nh).padStart(2,'0')}:${String(nm).padStart(2,'0')}`;
-}
-
 async function loadTimes() {
-  const cityKey = document.getElementById('city-select').value;
-  const month = parseInt(document.getElementById('month-select').value);
-  const year = parseInt(document.getElementById('year-select').value);
-  const city = CITIES[cityKey];
+  const cityKey  = document.getElementById('city-select').value;
+  const month    = parseInt(document.getElementById('month-select').value);
+  const year     = parseInt(document.getElementById('year-select').value);
+  const cityName = CITY_NAMES[cityKey];
 
   document.getElementById('page-title').textContent =
-    `مدينة ${city.name} — شهر ${MONTHS_AR[month-1]} لسنة ${year}`;
+    `مدينة ${cityName} — شهر ${MONTHS_AR[month-1]} لسنة ${year}`;
 
   const container = document.getElementById('table-container');
   container.innerHTML = '<div class="loading">جاري تحميل المواقيت...</div>';
   document.getElementById('today-card').style.display = 'none';
 
+  const btn = document.getElementById('show-btn');
+  btn.disabled = true;
+
   try {
-    // Method 8 = Gulf Region
-    const url = `https://msx-stocks.al4muqbali.workers.dev/prayer?year=${year}&month=${month}&lat=${city.lat}&lon=${city.lon}`;
-    const res = await fetch(url);
+    const res  = await fetch(`${WORKER}?city=${cityKey}&year=${year}&month=${month}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
+    if (data.error) throw new Error(data.msg);
 
-    if (!data.data || !data.data.length) throw new Error('no data');
+    // data = { "2026-04-01": ["04:47","06:08","12:25","16:06","18:36","19:49"], ... }
+    const days = Object.entries(data)
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([dateStr, times]) => ({
+        dateStr,
+        day:     dateStr.split('-')[2],
+        fajr:    times[0],
+        sunrise: times[1],
+        dhuhr:   times[2],
+        asr:     times[3],
+        maghrib: times[4],
+        isha:    times[5],
+      }));
 
-    const days = data.data.map(d => {
-      const t = d.timings;
-      const fmt = s => addMinutes(s.split(' ')[0], city.offset);
-      return {
-        dateStr: d.date.gregorian.date,
-        day: d.date.gregorian.day,
-        weekday: d.date.hijri.weekday.ar,
-        fajr: fmt(t.Fajr),
-        sunrise: fmt(t.Sunrise),
-        dhuhr: fmt(t.Dhuhr),
-        asr: fmt(t.Asr),
-        maghrib: fmt(t.Maghrib),
-        isha: fmt(t.Isha),
-      };
-    });
-
-    renderTable(days, city, month, year);
-    renderTodayCard(days, city, month, year);
+    renderTable(days, month, year);
+    renderTodayCard(days, month, year);
 
   } catch(e) {
-    container.innerHTML = '<div class="empty">تعذّر تحميل المواقيت. حاول مرة أخرى.</div>';
-    console.error(e);
+    container.innerHTML = `<div class="empty">تعذّر تحميل المواقيت. حاول مرة أخرى.<br><small style="color:#ccc">${e.message}</small></div>`;
+  } finally {
+    btn.disabled = false;
   }
 }
 
-function renderTable(days, city, month, year) {
+function renderTable(days, month, year) {
   const today = new Date();
   const isCurrentMonth = today.getMonth() + 1 === month && today.getFullYear() === year;
   const todayDay = today.getDate();
@@ -385,13 +287,13 @@ function renderTable(days, city, month, year) {
   const rows = days.map(d => {
     const isToday = isCurrentMonth && parseInt(d.day) === todayDay;
     return `<tr class="${isToday ? 'today' : ''}">
-      <td><span class="date-cell">${d.day}/${month}/${year}</span></td>
-      <td><span class="time-val">${d.fajr}</span></td>
-      <td><span class="time-val">${d.sunrise}</span></td>
-      <td><span class="time-val">${d.dhuhr}</span></td>
-      <td><span class="time-val">${d.asr}</span></td>
-      <td><span class="time-val">${d.maghrib}</span></td>
-      <td><span class="time-val">${d.isha}</span></td>
+      <td><span class="date-cell">${d.day}/${String(month).padStart(2,'0')}/${year}</span></td>
+      <td><span class="time-val">${to12h(d.fajr)}</span></td>
+      <td><span class="time-val">${to12h(d.sunrise)}</span></td>
+      <td><span class="time-val">${to12h(d.dhuhr)}</span></td>
+      <td><span class="time-val">${to12h(d.asr)}</span></td>
+      <td><span class="time-val">${to12h(d.maghrib)}</span></td>
+      <td><span class="time-val">${to12h(d.isha)}</span></td>
     </tr>`;
   }).join('');
 
@@ -399,60 +301,50 @@ function renderTable(days, city, month, year) {
     <table>
       <thead>
         <tr>
-          <th>التاريخ</th>
-          <th>الفجر</th>
-          <th>الشروق</th>
-          <th>الظهر</th>
-          <th>العصر</th>
-          <th>المغرب</th>
-          <th>العشاء</th>
+          <th>التاريخ</th><th>الفجر</th><th>الشروق</th>
+          <th>الظهر</th><th>العصر</th><th>المغرب</th><th>العشاء</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
-    </table>
-  `;
+    </table>`;
 }
 
-function renderTodayCard(days, city, month, year) {
+function renderTodayCard(days, month, year) {
   const today = new Date();
   const isCurrentMonth = today.getMonth() + 1 === month && today.getFullYear() === year;
+  if (!isCurrentMonth) return;
 
-  if (!isCurrentMonth) {
-    document.getElementById('today-card').style.display = 'none';
-    return;
-  }
-
-  const todayDay = today.getDate();
-  const d = days.find(x => parseInt(x.day) === todayDay);
+  const d = days.find(x => parseInt(x.day) === today.getDate());
   if (!d) return;
 
-  // Find next prayer
   const nowMin = today.getHours() * 60 + today.getMinutes();
   const prayers = [
-    { name: 'الفجر', key: 'fajr', time: d.fajr },
-    { name: 'الشروق', key: 'sunrise', time: d.sunrise },
-    { name: 'الظهر', key: 'dhuhr', time: d.dhuhr },
-    { name: 'العصر', key: 'asr', time: d.asr },
-    { name: 'المغرب', key: 'maghrib', time: d.maghrib },
-    { name: 'العشاء', key: 'isha', time: d.isha },
+    { name: 'الفجر',  time: to12h(d.fajr),    raw: d.fajr    },
+    { name: 'الشروق', time: to12h(d.sunrise),  raw: d.sunrise  },
+    { name: 'الظهر',  time: to12h(d.dhuhr),   raw: d.dhuhr   },
+    { name: 'العصر',  time: to12h(d.asr),     raw: d.asr     },
+    { name: 'المغرب', time: to12h(d.maghrib),  raw: d.maghrib  },
+    { name: 'العشاء', time: to12h(d.isha),    raw: d.isha    },
   ];
 
   let nextIdx = -1;
   for (let i = 0; i < prayers.length; i++) {
-    const [h, m] = prayers[i].time.split(':').map(Number);
+    const [h, m] = prayers[i].raw.split(':').map(Number);
     if (h * 60 + m > nowMin) { nextIdx = i; break; }
   }
 
-  const grid = document.getElementById('today-grid');
-  grid.innerHTML = prayers.map((p, i) => `
+  document.getElementById('today-grid').innerHTML = prayers.map((p, i) => `
     <div class="prayer-item ${i === nextIdx ? 'next' : ''}">
       <div class="prayer-name">${p.name}</div>
       <div class="prayer-time">${p.time}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 
   document.getElementById('today-date').textContent =
-    today.toLocaleDateString('ar-OM', {timeZone:'Asia/Muscat', weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    today.toLocaleDateString('ar-OM', {
+      timeZone: 'Asia/Muscat',
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
   document.getElementById('today-card').style.display = 'block';
 }
 
