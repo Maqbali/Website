@@ -108,38 +108,43 @@
     }
     .deco-icon {
       position: absolute;
-      width: 65px; height: 65px;
+      width: 70px; height: 70px;
     }
-    .deco-icon svg {
+    .deco-icon img {
       width: 100%; height: 100%;
-      stroke: var(--sketch-ink);
-      fill: none;
-      stroke-width: 1.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      object-fit: contain;
+      display: block;
     }
 
-    .ic-book1    { top: 4%;  left: 10%; }
-    .ic-melon1   { top: 6%;  left: 22%; }
-    .ic-dollar1  { top: 2%;  left: 36%; transform: rotate(-5deg); }
-    .ic-head1    { top: 4%;  right: 16%; transform: rotate(3deg); }
-    .ic-melon2   { top: 6%;  right: 28%; }
-    .ic-book2    { top: 3%;  right: 5%; transform: rotate(5deg); }
-    .ic-plant    { top: 30%; left: 4%; }
-    .ic-hands1   { top: 32%; left: 18%; }
-    .ic-face1    { top: 52%; left: 22%; }
-    .ic-chat1    { top: 55%; left: 9%; }
-    .ic-check    { top: 48%; left: 1%; }
-    .ic-target   { bottom: 18%; left: 4%; }
-    .ic-calendar { bottom: 6%;  left: 15%; }
-    .ic-bulb1    { bottom: 14%; left: 30%; }
-    .ic-heart    { top: 30%; right: 18%; }
-    .ic-hands2   { top: 34%; right: 5%; }
-    .ic-palette  { top: 44%; right: 1%; }
-    .ic-chat2    { top: 52%; right: 20%; }
-    .ic-dollar2  { top: 58%; right: 5%; transform: rotate(3deg); }
-    .ic-bulb2    { bottom: 16%; right: 20%; }
-    .ic-globe    { bottom: 6%;  right: 8%; }
+    /* مواقع الأيقونات حسب السكتش */
+    /* الصف العلوي (من اليسار لليمين بالنسبة للشاشة) */
+    .ic-book-l    { top: 2%;  left: 8%; }       /* كتاب يسار */
+    .ic-melon-l   { top: 6%;  left: 22%; }      /* بطيخة يسار */
+    .ic-bulb-l    { top: 2%;  left: 36%; transform: rotate(-8deg); } /* مصباح يسار */
+    .ic-dollar-c  { top: 0%;  left: 50%; transform: translateX(-50%); } /* دولار في رأس - فوق المنتصف */
+    .ic-bulb-r    { top: 2%;  right: 36%; transform: rotate(8deg); }  /* مصباح يمين */
+    .ic-head-r    { top: 4%;  right: 18%; }     /* رأس بدولار */
+    .ic-melon-r   { top: 6%;  right: 22%; }     /* بطيخة يمين */
+    .ic-book-r    { top: 2%;  right: 5%; transform: rotate(4deg); }   /* كتاب يمين */
+
+    /* الصف الأوسط */
+    .ic-plant     { top: 30%; left: 4%; }       /* نبتة في دائرة */
+    .ic-hands-l   { top: 32%; left: 18%; }      /* مصافحة يسار */
+    .ic-heart     { top: 28%; right: 18%; }     /* قلب (نستخدم لوحة ألوان كبديل أنسب) */
+    .ic-palette   { top: 32%; right: 4%; }      /* لوحة ألوان */
+
+    /* الصف السفلي الأوسط */
+    .ic-check     { top: 50%; left: 1%; }       /* علامة صح */
+    .ic-face      { top: 52%; left: 22%; }      /* وجه مبتسم يسار */
+    .ic-chat-bubble { top: 52%; right: 22%; }   /* فقاعة كلام يمين */
+    .ic-dollar-r  { top: 50%; right: 5%; }      /* دولار يمين */
+
+    /* الصف السفلي */
+    .ic-target    { bottom: 18%; left: 4%; }    /* هدف */
+    .ic-chat-whats { bottom: 14%; left: 22%; }  /* فقاعة واتساب */
+    .ic-calendar  { bottom: 4%;  left: 18%; }   /* تقويم */
+    .ic-bulb-bot  { bottom: 14%; right: 28%; }  /* مصباح أسفل */
+    .ic-globe     { bottom: 6%;  right: 8%; }   /* كرة أرضية */
 
     .welcome-final {
       position: absolute;
@@ -429,169 +434,34 @@
 <div id="welcome">
 
   <div class="icons-layer" id="iconsLayer">
-    <div class="deco-icon ic-book1">
-      <svg viewBox="0 0 64 64">
-        <path d="M6 14 L30 18 L30 52 L6 48 Z"/>
-        <path d="M58 14 L34 18 L34 52 L58 48 Z"/>
-        <path d="M30 18 L32 16 L34 18"/>
-        <path d="M10 22 L26 25 M10 28 L26 31 M10 34 L26 37"/>
-        <path d="M38 22 L54 25 M38 28 L54 31 M38 34 L54 37"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-melon1">
-      <svg viewBox="0 0 64 64">
-        <path d="M8 48 A 32 28 0 0 1 56 48 Z"/>
-        <path d="M14 48 A 24 20 0 0 1 50 48"/>
-        <circle cx="22" cy="42" r="1.5" fill="currentColor"/>
-        <circle cx="32" cy="44" r="1.5" fill="currentColor"/>
-        <circle cx="42" cy="42" r="1.5" fill="currentColor"/>
-        <path d="M16 10 L20 4 M32 8 L32 2 M48 10 L44 4"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-dollar1">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="20"/>
-        <path d="M32 18 L32 46 M26 24 Q26 20 32 20 Q38 20 38 24 Q38 28 32 28 Q26 28 26 32 Q26 36 32 36 Q38 36 38 40 Q38 44 32 44 Q26 44 26 40"/>
-        <path d="M8 14 L14 10 M8 22 L4 18"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-head1">
-      <svg viewBox="0 0 64 64">
-        <path d="M44 52 L44 40 Q52 36 52 28 Q52 14 38 14 Q22 14 22 30 L22 44 L14 44 L14 52 Z"/>
-        <circle cx="38" cy="28" r="1.5" fill="currentColor"/>
-        <path d="M30 34 Q32 36 34 34"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-melon2">
-      <svg viewBox="0 0 64 64">
-        <path d="M8 48 A 32 28 0 0 1 56 48 Z"/>
-        <path d="M14 48 A 24 20 0 0 1 50 48"/>
-        <circle cx="22" cy="42" r="1.5" fill="currentColor"/>
-        <circle cx="32" cy="44" r="1.5" fill="currentColor"/>
-        <circle cx="42" cy="42" r="1.5" fill="currentColor"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-book2">
-      <svg viewBox="0 0 64 64">
-        <path d="M6 14 L30 18 L30 52 L6 48 Z"/>
-        <path d="M58 14 L34 18 L34 52 L58 48 Z"/>
-        <path d="M30 18 L32 16 L34 18"/>
-        <path d="M10 22 L26 25 M10 28 L26 31"/>
-        <path d="M38 22 L54 25 M38 28 L54 31"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-plant">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="22"/>
-        <path d="M32 42 L32 26"/>
-        <path d="M32 32 Q24 28 22 20 Q28 22 32 28"/>
-        <path d="M32 32 Q40 28 42 20 Q36 22 32 28"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-hands1">
-      <svg viewBox="0 0 64 64">
-        <path d="M6 24 L18 20 L28 28 L32 36 L24 40 L12 36 Z"/>
-        <path d="M58 24 L46 20 L36 28 L32 36 L40 40 L52 36 Z"/>
-        <path d="M8 22 L4 30 M56 22 L60 30"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-face1">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="20"/>
-        <path d="M24 28 L24 30 M40 28 L40 30"/>
-        <path d="M22 38 Q32 46 42 38"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-chat1">
-      <svg viewBox="0 0 64 64">
-        <path d="M10 16 L52 16 Q56 16 56 20 L56 40 Q56 44 52 44 L28 44 L18 52 L20 44 L12 44 Q8 44 8 40 L8 20 Q8 16 12 16 Z"/>
-        <path d="M18 28 L46 28 M18 36 L38 36"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-check">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="22"/>
-        <path d="M20 32 L28 40 L44 24"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-target">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="24"/>
-        <circle cx="32" cy="32" r="16"/>
-        <circle cx="32" cy="32" r="8"/>
-        <circle cx="32" cy="32" r="2" fill="currentColor"/>
-        <path d="M44 20 L52 12 M20 44 L12 52"/>
-        <path d="M8 10 L14 12 L12 18"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-calendar">
-      <svg viewBox="0 0 64 64">
-        <path d="M10 18 L54 18 L54 52 L10 52 Z"/>
-        <path d="M10 26 L54 26"/>
-        <path d="M20 14 L20 22 M44 14 L44 22"/>
-        <circle cx="22" cy="34" r="1.5" fill="currentColor"/>
-        <circle cx="32" cy="34" r="1.5" fill="currentColor"/>
-        <circle cx="42" cy="34" r="1.5" fill="currentColor"/>
-        <circle cx="22" cy="42" r="1.5" fill="currentColor"/>
-        <circle cx="32" cy="42" r="1.5" fill="currentColor"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-bulb1">
-      <svg viewBox="0 0 64 64">
-        <path d="M32 10 Q20 10 18 22 Q17 30 24 36 L24 44 L40 44 L40 36 Q47 30 46 22 Q44 10 32 10 Z"/>
-        <path d="M26 48 L38 48 M28 52 L36 52"/>
-        <path d="M10 20 L4 22 M54 20 L60 22 M14 34 L8 38"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-heart">
-      <svg viewBox="0 0 64 64">
-        <path d="M32 52 Q10 38 10 22 Q10 12 20 12 Q28 12 32 20 Q36 12 44 12 Q54 12 54 22 Q54 38 32 52 Z"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-hands2">
-      <svg viewBox="0 0 64 64">
-        <path d="M6 24 L18 20 L28 28 L32 36 L24 40 L12 36 Z"/>
-        <path d="M58 24 L46 20 L36 28 L32 36 L40 40 L52 36 Z"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-palette">
-      <svg viewBox="0 0 64 64">
-        <path d="M32 8 Q10 8 10 30 Q10 46 24 48 Q28 48 28 44 Q28 40 32 40 Q44 40 50 34 Q56 28 54 20 Q50 8 32 8 Z"/>
-        <circle cx="18" cy="24" r="2" fill="currentColor"/>
-        <circle cx="26" cy="16" r="2" fill="currentColor"/>
-        <circle cx="40" cy="16" r="2" fill="currentColor"/>
-        <circle cx="44" cy="28" r="2" fill="currentColor"/>
-        <path d="M48 42 L56 54 M52 42 L52 48"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-chat2">
-      <svg viewBox="0 0 64 64">
-        <path d="M10 16 L52 16 Q56 16 56 20 L56 40 Q56 44 52 44 L28 44 L18 52 L20 44 L12 44 Q8 44 8 40 L8 20 Q8 16 12 16 Z"/>
-        <circle cx="22" cy="30" r="2" fill="currentColor"/>
-        <circle cx="32" cy="30" r="2" fill="currentColor"/>
-        <circle cx="42" cy="30" r="2" fill="currentColor"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-dollar2">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="22"/>
-        <path d="M32 16 L32 48 M24 24 Q24 20 32 20 Q40 20 40 24 Q40 28 32 30 Q24 32 24 36 Q24 40 32 40 Q40 40 40 44 Q40 48 32 48"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-bulb2">
-      <svg viewBox="0 0 64 64">
-        <path d="M32 10 Q20 10 18 22 Q17 30 24 36 L24 44 L40 44 L40 36 Q47 30 46 22 Q44 10 32 10 Z"/>
-        <path d="M26 48 L38 48 M28 52 L36 52"/>
-      </svg>
-    </div>
-    <div class="deco-icon ic-globe">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="22"/>
-        <ellipse cx="32" cy="32" rx="10" ry="22"/>
-        <path d="M10 32 L54 32"/>
-        <path d="M14 20 L50 20 M14 44 L50 44"/>
-      </svg>
-    </div>
+    <!-- الصف العلوي -->
+    <div class="deco-icon ic-book-l"><img src="icons/5.png" alt=""></div>        <!-- كتاب يسار -->
+    <div class="deco-icon ic-melon-l"><img src="icons/6.png" alt=""></div>       <!-- بطيخة يسار -->
+    <div class="deco-icon ic-bulb-l"><img src="icons/10.png" alt=""></div>       <!-- مصباح يسار -->
+    <div class="deco-icon ic-dollar-c"><img src="icons/15.png" alt=""></div>     <!-- رأس بدولار - وسط فوق -->
+    <div class="deco-icon ic-bulb-r"><img src="icons/10.png" alt=""></div>       <!-- مصباح يمين -->
+    <div class="deco-icon ic-head-r"><img src="icons/15.png" alt=""></div>       <!-- رأس بدولار يمين -->
+    <div class="deco-icon ic-melon-r"><img src="icons/6.png" alt=""></div>       <!-- بطيخة يمين -->
+    <div class="deco-icon ic-book-r"><img src="icons/5.png" alt=""></div>        <!-- كتاب يمين -->
+
+    <!-- الصف الأوسط -->
+    <div class="deco-icon ic-plant"><img src="icons/7.png" alt=""></div>         <!-- نبتة في دائرة -->
+    <div class="deco-icon ic-hands-l"><img src="icons/3.png" alt=""></div>       <!-- مصافحة يسار -->
+    <div class="deco-icon ic-heart"><img src="icons/3.png" alt=""></div>         <!-- مصافحة يمين -->
+    <div class="deco-icon ic-palette"><img src="icons/14.png" alt=""></div>      <!-- لوحة ألوان -->
+
+    <!-- الصف الأوسط السفلي -->
+    <div class="deco-icon ic-check"><img src="icons/2.png" alt=""></div>         <!-- علامة صح -->
+    <div class="deco-icon ic-face"><img src="icons/12.png" alt=""></div>         <!-- وجه مبتسم -->
+    <div class="deco-icon ic-chat-bubble"><img src="icons/4.png" alt=""></div>   <!-- فقاعة كلام -->
+    <div class="deco-icon ic-dollar-r"><img src="icons/13.png" alt=""></div>     <!-- دولار -->
+
+    <!-- الصف السفلي -->
+    <div class="deco-icon ic-target"><img src="icons/9.png" alt=""></div>        <!-- هدف بسهم -->
+    <div class="deco-icon ic-chat-whats"><img src="icons/1.png" alt=""></div>    <!-- فقاعة واتساب -->
+    <div class="deco-icon ic-calendar"><img src="icons/8.png" alt=""></div>      <!-- تقويم -->
+    <div class="deco-icon ic-bulb-bot"><img src="icons/10.png" alt=""></div>     <!-- مصباح أسفل -->
+    <div class="deco-icon ic-globe"><img src="icons/11.png" alt=""></div>        <!-- كرة أرضية -->
   </div>
 
   <!-- الدائرة الكحلية -->
