@@ -10,6 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
   <style>
+    /* خط SST Arabic Medium */
+    @font-face {
+      font-family: 'SST Arabic';
+      src: url('fonts/SST-Arabic-Medium.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --blue-deep:   #0d2236;
       --blue-dark:   #1a3d5c;
@@ -254,44 +263,24 @@
     .logo-placeholder {
       width: 180px;
       height: 180px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(255, 255, 255, 0.03);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      backdrop-filter: blur(10px);
-    }
-    .logo-placeholder::before {
-      content: '';
-      position: absolute;
-      inset: -10px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .logo-placeholder::after {
-      content: '';
-      position: absolute;
-      inset: -22px;
-      border-radius: 50%;
-      border: 0.5px solid rgba(255, 255, 255, 0.05);
     }
     .logo-placeholder img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
+      object-fit: contain;
     }
 
     .connect-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      font-style: italic;
-      color: rgba(255, 255, 255, 0.75);
-      letter-spacing: 4px;
-      direction: ltr;
+      font-family: 'SST Arabic', 'Cairo', sans-serif;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 2px;
       margin-top: 1rem;
+      font-weight: 500;
     }
 
     .intro-text {
