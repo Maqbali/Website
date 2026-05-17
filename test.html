@@ -115,51 +115,57 @@
       display: block;
     }
 
-    /* ━━━━━━━ مجموعة اليسار ━━━━━━━ */
+    /* الدائرة بعرض 440px، نصف الشاشة = 50vw
+       فالمنطقة بين الحافة اليسرى للدائرة وحافة الشاشة:
+       تبدأ من calc(50% - 220px) للداخل
+       
+       نخلي الأيقونات في شريط ضيق بمحاذاة الدائرة */
+
+    /* ━━━━━━━ مجموعة اليسار (بجانب الدائرة) ━━━━━━━ */
     /* الصف 1 - الأعلى */
-    .ic-l-book      { top: 5%;  left: 3%; }
-    .ic-l-melon     { top: 5%;  left: 14%; }
-    .ic-l-head      { top: 5%;  left: 25%; }
+    .ic-l-book      { top: 12%; left: calc(50% - 380px); }
+    .ic-l-melon     { top: 12%; left: calc(50% - 305px); }
+    .ic-l-head      { top: 12%; left: calc(50% - 235px); }
 
     /* الصف 2 */
-    .ic-l-plant     { top: 24%; left: 3%; }
-    .ic-l-hands     { top: 24%; left: 14%; width: 80px; height: 80px; }
-    .ic-l-palette   { top: 24%; left: 27%; }
+    .ic-l-plant     { top: 30%; left: calc(50% - 380px); }
+    .ic-l-hands     { top: 30%; left: calc(50% - 310px); width: 80px; height: 80px; }
+    .ic-l-palette   { top: 30%; left: calc(50% - 235px); }
 
     /* الصف 3 */
-    .ic-l-check     { top: 44%; left: 3%; }
-    .ic-l-face      { top: 44%; left: 14%; width: 55px; height: 55px; }
-    .ic-l-chat      { top: 48%; left: 22%; }
-    .ic-l-dollar    { top: 48%; left: 32%; }
+    .ic-l-check     { top: 48%; left: calc(50% - 380px); }
+    .ic-l-face      { top: 48%; left: calc(50% - 310px); width: 55px; height: 55px; }
+    .ic-l-chat      { top: 50%; left: calc(50% - 245px); }
+    .ic-l-dollar    { top: 70%; left: calc(50% - 235px); }
 
     /* الصف 4 - الأسفل */
-    .ic-l-target    { bottom: 5%; left: 3%; }
-    .ic-l-calendar  { bottom: 5%; left: 14%; width: 80px; height: 80px; }
-    .ic-l-bulb      { bottom: 5%; left: 27%; }
-    .ic-l-globe     { bottom: 5%; left: 38%; }
+    .ic-l-target    { bottom: 12%; left: calc(50% - 380px); }
+    .ic-l-calendar  { bottom: 10%; left: calc(50% - 315px); width: 80px; height: 80px; }
+    .ic-l-bulb      { bottom: 12%; left: calc(50% - 240px); }
+    .ic-l-globe     { top: 70%; left: calc(50% - 310px); }
 
     /* ━━━━━━━ مجموعة اليمين (مرآة) ━━━━━━━ */
     /* الصف 1 */
-    .ic-r-book      { top: 5%;  right: 3%; }
-    .ic-r-melon     { top: 5%;  right: 14%; }
-    .ic-r-head      { top: 5%;  right: 25%; }
+    .ic-r-book      { top: 12%; right: calc(50% - 380px); }
+    .ic-r-melon     { top: 12%; right: calc(50% - 305px); }
+    .ic-r-head      { top: 12%; right: calc(50% - 235px); }
 
     /* الصف 2 */
-    .ic-r-plant     { top: 24%; right: 3%; }
-    .ic-r-hands     { top: 24%; right: 14%; width: 80px; height: 80px; }
-    .ic-r-palette   { top: 24%; right: 27%; }
+    .ic-r-plant     { top: 30%; right: calc(50% - 380px); }
+    .ic-r-hands     { top: 30%; right: calc(50% - 310px); width: 80px; height: 80px; }
+    .ic-r-palette   { top: 30%; right: calc(50% - 235px); }
 
     /* الصف 3 */
-    .ic-r-check     { top: 44%; right: 3%; }
-    .ic-r-face      { top: 44%; right: 14%; width: 55px; height: 55px; }
-    .ic-r-chat      { top: 48%; right: 22%; }
-    .ic-r-dollar    { top: 48%; right: 32%; }
+    .ic-r-check     { top: 48%; right: calc(50% - 380px); }
+    .ic-r-face      { top: 48%; right: calc(50% - 310px); width: 55px; height: 55px; }
+    .ic-r-chat      { top: 50%; right: calc(50% - 245px); }
+    .ic-r-dollar    { top: 70%; right: calc(50% - 235px); }
 
     /* الصف 4 */
-    .ic-r-target    { bottom: 5%; right: 3%; }
-    .ic-r-calendar  { bottom: 5%; right: 14%; width: 80px; height: 80px; }
-    .ic-r-bulb      { bottom: 5%; right: 27%; }
-    .ic-r-globe     { bottom: 5%; right: 38%; }
+    .ic-r-target    { bottom: 12%; right: calc(50% - 380px); }
+    .ic-r-calendar  { bottom: 10%; right: calc(50% - 315px); width: 80px; height: 80px; }
+    .ic-r-bulb      { bottom: 12%; right: calc(50% - 240px); }
+    .ic-r-globe     { top: 70%; right: calc(50% - 310px); }
 
     .welcome-final {
       position: absolute;
