@@ -115,57 +115,59 @@
       display: block;
     }
 
-    /* الدائرة بعرض 440px، نصف الشاشة = 50vw
-       فالمنطقة بين الحافة اليسرى للدائرة وحافة الشاشة:
-       تبدأ من calc(50% - 220px) للداخل
-       
-       نخلي الأيقونات في شريط ضيق بمحاذاة الدائرة */
+    /* الدائرة 440px = نصف قطر 220px في المنتصف
+       الأيقونات تتوزع كعناقيد على الجهتين قريبة من الدائرة */
 
-    /* ━━━━━━━ مجموعة اليسار (بجانب الدائرة) ━━━━━━━ */
-    /* الصف 1 - الأعلى */
-    .ic-l-book      { top: 12%; left: calc(50% - 380px); }
-    .ic-l-melon     { top: 12%; left: calc(50% - 305px); }
-    .ic-l-head      { top: 12%; left: calc(50% - 235px); }
+    /* ━━━━━━━ مجموعة اليسار (10 أيقونات) ━━━━━━━ */
+    /* الصف 1 - الأعلى: كتاب، بطيخة، رأس بدولار */
+    .ic-l-book      { top: 14%; left: calc(50% - 480px); }
+    .ic-l-melon     { top: 14%; left: calc(50% - 380px); }
+    .ic-l-head      { top: 14%; left: calc(50% - 290px); }
 
-    /* الصف 2 */
-    .ic-l-plant     { top: 30%; left: calc(50% - 380px); }
-    .ic-l-hands     { top: 30%; left: calc(50% - 310px); width: 80px; height: 80px; }
-    .ic-l-palette   { top: 30%; left: calc(50% - 235px); }
+    /* الصف 2: نبتة في دائرة، مصافحة */
+    .ic-l-plant     { top: 32%; left: calc(50% - 485px); }
+    .ic-l-hands     { top: 32%; left: calc(50% - 395px); width: 95px; height: 95px; }
 
-    /* الصف 3 */
-    .ic-l-check     { top: 48%; left: calc(50% - 380px); }
-    .ic-l-face      { top: 48%; left: calc(50% - 310px); width: 55px; height: 55px; }
-    .ic-l-chat      { top: 50%; left: calc(50% - 245px); }
-    .ic-l-dollar    { top: 70%; left: calc(50% - 235px); }
+    /* الصف 3: علامة صح، وجه مبتسم، فقاعة كلام */
+    .ic-l-check     { top: 50%; left: calc(50% - 490px); }
+    .ic-l-face      { top: 48%; left: calc(50% - 405px); width: 55px; height: 55px; }
+    .ic-l-chat      { top: 54%; left: calc(50% - 335px); }
 
-    /* الصف 4 - الأسفل */
-    .ic-l-target    { bottom: 12%; left: calc(50% - 380px); }
-    .ic-l-calendar  { bottom: 10%; left: calc(50% - 315px); width: 80px; height: 80px; }
-    .ic-l-bulb      { bottom: 12%; left: calc(50% - 240px); }
-    .ic-l-globe     { top: 70%; left: calc(50% - 310px); }
+    /* لوحة ألوان - على اليمين فوق */
+    .ic-l-palette   { top: 30%; left: calc(50% - 300px); }
+
+    /* دولار - على اليمين تحت */
+    .ic-l-dollar    { top: 53%; left: calc(50% - 250px); }
+
+    /* الصف 4 - الأسفل: هدف، تقويم، مصباح، كرة أرضية */
+    .ic-l-target    { bottom: 14%; left: calc(50% - 490px); }
+    .ic-l-calendar  { bottom: 10%; left: calc(50% - 405px); width: 95px; height: 95px; }
+    .ic-l-bulb      { bottom: 14%; left: calc(50% - 305px); }
+    .ic-l-globe     { bottom: 14%; left: calc(50% - 230px); }
 
     /* ━━━━━━━ مجموعة اليمين (مرآة) ━━━━━━━ */
     /* الصف 1 */
-    .ic-r-book      { top: 12%; right: calc(50% - 380px); }
-    .ic-r-melon     { top: 12%; right: calc(50% - 305px); }
-    .ic-r-head      { top: 12%; right: calc(50% - 235px); }
+    .ic-r-book      { top: 14%; right: calc(50% - 480px); }
+    .ic-r-melon     { top: 14%; right: calc(50% - 380px); }
+    .ic-r-head      { top: 14%; right: calc(50% - 290px); }
 
     /* الصف 2 */
-    .ic-r-plant     { top: 30%; right: calc(50% - 380px); }
-    .ic-r-hands     { top: 30%; right: calc(50% - 310px); width: 80px; height: 80px; }
-    .ic-r-palette   { top: 30%; right: calc(50% - 235px); }
+    .ic-r-plant     { top: 32%; right: calc(50% - 485px); }
+    .ic-r-hands     { top: 32%; right: calc(50% - 395px); width: 95px; height: 95px; }
 
     /* الصف 3 */
-    .ic-r-check     { top: 48%; right: calc(50% - 380px); }
-    .ic-r-face      { top: 48%; right: calc(50% - 310px); width: 55px; height: 55px; }
-    .ic-r-chat      { top: 50%; right: calc(50% - 245px); }
-    .ic-r-dollar    { top: 70%; right: calc(50% - 235px); }
+    .ic-r-check     { top: 50%; right: calc(50% - 490px); }
+    .ic-r-face      { top: 48%; right: calc(50% - 405px); width: 55px; height: 55px; }
+    .ic-r-chat      { top: 54%; right: calc(50% - 335px); }
+
+    .ic-r-palette   { top: 30%; right: calc(50% - 300px); }
+    .ic-r-dollar    { top: 53%; right: calc(50% - 250px); }
 
     /* الصف 4 */
-    .ic-r-target    { bottom: 12%; right: calc(50% - 380px); }
-    .ic-r-calendar  { bottom: 10%; right: calc(50% - 315px); width: 80px; height: 80px; }
-    .ic-r-bulb      { bottom: 12%; right: calc(50% - 240px); }
-    .ic-r-globe     { top: 70%; right: calc(50% - 310px); }
+    .ic-r-target    { bottom: 14%; right: calc(50% - 490px); }
+    .ic-r-calendar  { bottom: 10%; right: calc(50% - 405px); width: 95px; height: 95px; }
+    .ic-r-bulb      { bottom: 14%; right: calc(50% - 305px); }
+    .ic-r-globe     { bottom: 14%; right: calc(50% - 230px); }
 
     .welcome-final {
       position: absolute;
