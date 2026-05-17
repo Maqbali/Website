@@ -98,10 +98,9 @@
 
     .icons-layer {
       position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 1000px;
-      height: 600px;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 1;
       pointer-events: none;
       transition: opacity 0.6s ease;
@@ -116,35 +115,51 @@
       display: block;
     }
 
-    /* مواقع الأيقونات حسب السكتش */
-    /* الصف العلوي (من اليسار لليمين بالنسبة للشاشة) */
-    .ic-book-l    { top: 2%;  left: 8%; }       /* كتاب يسار */
-    .ic-melon-l   { top: 6%;  left: 22%; }      /* بطيخة يسار */
-    .ic-bulb-l    { top: 2%;  left: 36%; transform: rotate(-8deg); } /* مصباح يسار */
-    .ic-dollar-c  { top: 0%;  left: 50%; transform: translateX(-50%); } /* دولار في رأس - فوق المنتصف */
-    .ic-bulb-r    { top: 2%;  right: 36%; transform: rotate(8deg); }  /* مصباح يمين */
-    .ic-head-r    { top: 4%;  right: 18%; }     /* رأس بدولار */
-    .ic-melon-r   { top: 6%;  right: 22%; }     /* بطيخة يمين */
-    .ic-book-r    { top: 2%;  right: 5%; transform: rotate(4deg); }   /* كتاب يمين */
+    /* ━━━━━━━ مجموعة اليسار ━━━━━━━ */
+    /* الصف 1 - الأعلى */
+    .ic-l-book      { top: 5%;  left: 3%; }
+    .ic-l-melon     { top: 5%;  left: 14%; }
+    .ic-l-head      { top: 5%;  left: 25%; }
 
-    /* الصف الأوسط */
-    .ic-plant     { top: 30%; left: 4%; }       /* نبتة في دائرة */
-    .ic-hands-l   { top: 32%; left: 18%; }      /* مصافحة يسار */
-    .ic-heart     { top: 28%; right: 18%; }     /* قلب (نستخدم لوحة ألوان كبديل أنسب) */
-    .ic-palette   { top: 32%; right: 4%; }      /* لوحة ألوان */
+    /* الصف 2 */
+    .ic-l-plant     { top: 24%; left: 3%; }
+    .ic-l-hands     { top: 24%; left: 14%; width: 80px; height: 80px; }
+    .ic-l-palette   { top: 24%; left: 27%; }
 
-    /* الصف السفلي الأوسط */
-    .ic-check     { top: 50%; left: 1%; }       /* علامة صح */
-    .ic-face      { top: 52%; left: 22%; }      /* وجه مبتسم يسار */
-    .ic-chat-bubble { top: 52%; right: 22%; }   /* فقاعة كلام يمين */
-    .ic-dollar-r  { top: 50%; right: 5%; }      /* دولار يمين */
+    /* الصف 3 */
+    .ic-l-check     { top: 44%; left: 3%; }
+    .ic-l-face      { top: 44%; left: 14%; width: 55px; height: 55px; }
+    .ic-l-chat      { top: 48%; left: 22%; }
+    .ic-l-dollar    { top: 48%; left: 32%; }
 
-    /* الصف السفلي */
-    .ic-target    { bottom: 18%; left: 4%; }    /* هدف */
-    .ic-chat-whats { bottom: 14%; left: 22%; }  /* فقاعة واتساب */
-    .ic-calendar  { bottom: 4%;  left: 18%; }   /* تقويم */
-    .ic-bulb-bot  { bottom: 14%; right: 28%; }  /* مصباح أسفل */
-    .ic-globe     { bottom: 6%;  right: 8%; }   /* كرة أرضية */
+    /* الصف 4 - الأسفل */
+    .ic-l-target    { bottom: 5%; left: 3%; }
+    .ic-l-calendar  { bottom: 5%; left: 14%; width: 80px; height: 80px; }
+    .ic-l-bulb      { bottom: 5%; left: 27%; }
+    .ic-l-globe     { bottom: 5%; left: 38%; }
+
+    /* ━━━━━━━ مجموعة اليمين (مرآة) ━━━━━━━ */
+    /* الصف 1 */
+    .ic-r-book      { top: 5%;  right: 3%; }
+    .ic-r-melon     { top: 5%;  right: 14%; }
+    .ic-r-head      { top: 5%;  right: 25%; }
+
+    /* الصف 2 */
+    .ic-r-plant     { top: 24%; right: 3%; }
+    .ic-r-hands     { top: 24%; right: 14%; width: 80px; height: 80px; }
+    .ic-r-palette   { top: 24%; right: 27%; }
+
+    /* الصف 3 */
+    .ic-r-check     { top: 44%; right: 3%; }
+    .ic-r-face      { top: 44%; right: 14%; width: 55px; height: 55px; }
+    .ic-r-chat      { top: 48%; right: 22%; }
+    .ic-r-dollar    { top: 48%; right: 32%; }
+
+    /* الصف 4 */
+    .ic-r-target    { bottom: 5%; right: 3%; }
+    .ic-r-calendar  { bottom: 5%; right: 14%; width: 80px; height: 80px; }
+    .ic-r-bulb      { bottom: 5%; right: 27%; }
+    .ic-r-globe     { bottom: 5%; right: 38%; }
 
     .welcome-final {
       position: absolute;
@@ -202,8 +217,15 @@
 
     @media (max-width: 700px) {
       .circle-bg { width: 280px; height: 280px; }
-      .icons-layer { width: 100%; height: 500px; }
-      .deco-icon { width: 44px; height: 44px; }
+      .icons-layer { width: 100%; height: 100%; }
+      .deco-icon { width: 40px; height: 40px; }
+      .deco-icon[class*="ic-l-hands"], .deco-icon[class*="ic-r-hands"],
+      .deco-icon[class*="ic-l-calendar"], .deco-icon[class*="ic-r-calendar"] {
+        width: 48px !important; height: 48px !important;
+      }
+      .deco-icon[class*="ic-l-face"], .deco-icon[class*="ic-r-face"] {
+        width: 34px !important; height: 34px !important;
+      }
     }
 
     /* ╔═══════════════════════════════╗
@@ -434,34 +456,47 @@
 <div id="welcome">
 
   <div class="icons-layer" id="iconsLayer">
-    <!-- الصف العلوي -->
-    <div class="deco-icon ic-book-l"><img src="icons/5.png" alt=""></div>        <!-- كتاب يسار -->
-    <div class="deco-icon ic-melon-l"><img src="icons/6.png" alt=""></div>       <!-- بطيخة يسار -->
-    <div class="deco-icon ic-bulb-l"><img src="icons/10.png" alt=""></div>       <!-- مصباح يسار -->
-    <div class="deco-icon ic-dollar-c"><img src="icons/15.png" alt=""></div>     <!-- رأس بدولار - وسط فوق -->
-    <div class="deco-icon ic-bulb-r"><img src="icons/10.png" alt=""></div>       <!-- مصباح يمين -->
-    <div class="deco-icon ic-head-r"><img src="icons/15.png" alt=""></div>       <!-- رأس بدولار يمين -->
-    <div class="deco-icon ic-melon-r"><img src="icons/6.png" alt=""></div>       <!-- بطيخة يمين -->
-    <div class="deco-icon ic-book-r"><img src="icons/5.png" alt=""></div>        <!-- كتاب يمين -->
 
-    <!-- الصف الأوسط -->
-    <div class="deco-icon ic-plant"><img src="icons/7.png" alt=""></div>         <!-- نبتة في دائرة -->
-    <div class="deco-icon ic-hands-l"><img src="icons/3.png" alt=""></div>       <!-- مصافحة يسار -->
-    <div class="deco-icon ic-heart"><img src="icons/3.png" alt=""></div>         <!-- مصافحة يمين -->
-    <div class="deco-icon ic-palette"><img src="icons/14.png" alt=""></div>      <!-- لوحة ألوان -->
+    <!-- ━━━ مجموعة اليسار ━━━ -->
+    <!-- الصف 1 -->
+    <div class="deco-icon ic-l-book"><img src="icons/5.png" alt=""></div>
+    <div class="deco-icon ic-l-melon"><img src="icons/6.png" alt=""></div>
+    <div class="deco-icon ic-l-head"><img src="icons/15.png" alt=""></div>
+    <!-- الصف 2 -->
+    <div class="deco-icon ic-l-plant"><img src="icons/7.png" alt=""></div>
+    <div class="deco-icon ic-l-hands"><img src="icons/3.png" alt=""></div>
+    <div class="deco-icon ic-l-palette"><img src="icons/14.png" alt=""></div>
+    <!-- الصف 3 -->
+    <div class="deco-icon ic-l-check"><img src="icons/2.png" alt=""></div>
+    <div class="deco-icon ic-l-face"><img src="icons/12.png" alt=""></div>
+    <div class="deco-icon ic-l-chat"><img src="icons/4.png" alt=""></div>
+    <div class="deco-icon ic-l-dollar"><img src="icons/13.png" alt=""></div>
+    <!-- الصف 4 -->
+    <div class="deco-icon ic-l-target"><img src="icons/9.png" alt=""></div>
+    <div class="deco-icon ic-l-calendar"><img src="icons/8.png" alt=""></div>
+    <div class="deco-icon ic-l-bulb"><img src="icons/10.png" alt=""></div>
+    <div class="deco-icon ic-l-globe"><img src="icons/11.png" alt=""></div>
 
-    <!-- الصف الأوسط السفلي -->
-    <div class="deco-icon ic-check"><img src="icons/2.png" alt=""></div>         <!-- علامة صح -->
-    <div class="deco-icon ic-face"><img src="icons/12.png" alt=""></div>         <!-- وجه مبتسم -->
-    <div class="deco-icon ic-chat-bubble"><img src="icons/4.png" alt=""></div>   <!-- فقاعة كلام -->
-    <div class="deco-icon ic-dollar-r"><img src="icons/13.png" alt=""></div>     <!-- دولار -->
+    <!-- ━━━ مجموعة اليمين (مرآة) ━━━ -->
+    <!-- الصف 1 -->
+    <div class="deco-icon ic-r-book"><img src="icons/5.png" alt=""></div>
+    <div class="deco-icon ic-r-melon"><img src="icons/6.png" alt=""></div>
+    <div class="deco-icon ic-r-head"><img src="icons/15.png" alt=""></div>
+    <!-- الصف 2 -->
+    <div class="deco-icon ic-r-plant"><img src="icons/7.png" alt=""></div>
+    <div class="deco-icon ic-r-hands"><img src="icons/3.png" alt=""></div>
+    <div class="deco-icon ic-r-palette"><img src="icons/14.png" alt=""></div>
+    <!-- الصف 3 -->
+    <div class="deco-icon ic-r-check"><img src="icons/2.png" alt=""></div>
+    <div class="deco-icon ic-r-face"><img src="icons/12.png" alt=""></div>
+    <div class="deco-icon ic-r-chat"><img src="icons/4.png" alt=""></div>
+    <div class="deco-icon ic-r-dollar"><img src="icons/13.png" alt=""></div>
+    <!-- الصف 4 -->
+    <div class="deco-icon ic-r-target"><img src="icons/9.png" alt=""></div>
+    <div class="deco-icon ic-r-calendar"><img src="icons/8.png" alt=""></div>
+    <div class="deco-icon ic-r-bulb"><img src="icons/10.png" alt=""></div>
+    <div class="deco-icon ic-r-globe"><img src="icons/11.png" alt=""></div>
 
-    <!-- الصف السفلي -->
-    <div class="deco-icon ic-target"><img src="icons/9.png" alt=""></div>        <!-- هدف بسهم -->
-    <div class="deco-icon ic-chat-whats"><img src="icons/1.png" alt=""></div>    <!-- فقاعة واتساب -->
-    <div class="deco-icon ic-calendar"><img src="icons/8.png" alt=""></div>      <!-- تقويم -->
-    <div class="deco-icon ic-bulb-bot"><img src="icons/10.png" alt=""></div>     <!-- مصباح أسفل -->
-    <div class="deco-icon ic-globe"><img src="icons/11.png" alt=""></div>        <!-- كرة أرضية -->
   </div>
 
   <!-- الدائرة الكحلية -->
