@@ -6,7 +6,11 @@
   <title>3BeerArt</title>
   <meta name="description" content="3Beer Art">
 
-  <link rel="icon" href="images/art/favicon.png" type="image/png">
+  <!-- Favicon ديناميكي حسب ثيم الجهاز -->
+  <link rel="icon" href="images/art/favicon-dark.png" media="(prefers-color-scheme: light)" type="image/png">
+  <link rel="icon" href="images/art/favicon-light.png" media="(prefers-color-scheme: dark)" type="image/png">
+  <!-- احتياطي للمتصفحات القديمة -->
+  <link rel="alternate icon" href="images/art/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
   <style>
@@ -116,54 +120,45 @@
     }
 
     /* الدائرة 440px = نصف قطر 220px في المنتصف
-       الأيقونات تتوزع كعناقيد على الجهتين قريبة من الدائرة */
+       12 أيقونة في كل جهة - توزيع 3-3-3-3 */
 
-    /* ━━━━━━━ مجموعة اليسار (10 أيقونات) ━━━━━━━ */
-    /* الصف 1 - الأعلى */
+    /* ━━━━━━━ مجموعة اليسار (12 أيقونة) ━━━━━━━ */
+    /* الصف 1 - الأعلى: كتاب، بطيخة، رأس بدولار */
     .ic-l-book      { top: 18%; left: calc(50% - 480px); }
     .ic-l-melon     { top: 18%; left: calc(50% - 380px); }
     .ic-l-head      { top: 18%; left: calc(50% - 290px); }
 
-    /* الصف 2 */
-    .ic-l-plant     { top: 33%; left: calc(50% - 485px); }
-    .ic-l-hands     { top: 33%; left: calc(50% - 395px); width: 95px; height: 95px; }
+    /* الصف 2: نبتة، مصافحة، لوحة ألوان */
+    .ic-l-plant     { top: 35%; left: calc(50% - 485px); }
+    .ic-l-hands     { top: 35%; left: calc(50% - 395px); width: 95px; height: 95px; }
+    .ic-l-palette   { top: 35%; left: calc(50% - 290px); }
 
-    /* الصف 3 */
-    .ic-l-check     { top: 48%; left: calc(50% - 490px); }
-    .ic-l-face      { top: 47%; left: calc(50% - 405px); width: 55px; height: 55px; }
-    .ic-l-chat      { top: 52%; left: calc(50% - 335px); }
+    /* الصف 3: هدف، فقاعة كلام، دولار */
+    .ic-l-target    { top: 52%; left: calc(50% - 490px); }
+    .ic-l-chat      { top: 52%; left: calc(50% - 385px); }
+    .ic-l-dollar    { top: 52%; left: calc(50% - 290px); }
 
-    /* لوحة ألوان - على اليمين فوق */
-    .ic-l-palette   { top: 32%; left: calc(50% - 300px); }
-
-    /* دولار - على اليمين تحت */
-    .ic-l-dollar    { top: 50%; left: calc(50% - 250px); }
-
-    /* الصف 4 - الأسفل */
-    .ic-l-target    { top: 65%; left: calc(50% - 490px); }
-    .ic-l-calendar  { top: 64%; left: calc(50% - 405px); width: 95px; height: 95px; }
-    .ic-l-bulb      { top: 65%; left: calc(50% - 305px); }
-    .ic-l-globe     { top: 65%; left: calc(50% - 230px); }
+    /* الصف 4 - الأسفل: تقويم، مصباح، كرة أرضية */
+    .ic-l-calendar  { top: 68%; left: calc(50% - 490px); width: 95px; height: 95px; }
+    .ic-l-bulb      { top: 70%; left: calc(50% - 385px); }
+    .ic-l-globe     { top: 70%; left: calc(50% - 290px); }
 
     /* ━━━━━━━ مجموعة اليمين (مرآة) ━━━━━━━ */
     .ic-r-book      { top: 18%; right: calc(50% - 480px); }
     .ic-r-melon     { top: 18%; right: calc(50% - 380px); }
     .ic-r-head      { top: 18%; right: calc(50% - 290px); }
 
-    .ic-r-plant     { top: 33%; right: calc(50% - 485px); }
-    .ic-r-hands     { top: 33%; right: calc(50% - 395px); width: 95px; height: 95px; }
+    .ic-r-plant     { top: 35%; right: calc(50% - 485px); }
+    .ic-r-hands     { top: 35%; right: calc(50% - 395px); width: 95px; height: 95px; }
+    .ic-r-palette   { top: 35%; right: calc(50% - 290px); }
 
-    .ic-r-check     { top: 48%; right: calc(50% - 490px); }
-    .ic-r-face      { top: 47%; right: calc(50% - 405px); width: 55px; height: 55px; }
-    .ic-r-chat      { top: 52%; right: calc(50% - 335px); }
+    .ic-r-target    { top: 52%; right: calc(50% - 490px); }
+    .ic-r-chat      { top: 52%; right: calc(50% - 385px); }
+    .ic-r-dollar    { top: 52%; right: calc(50% - 290px); }
 
-    .ic-r-palette   { top: 32%; right: calc(50% - 300px); }
-    .ic-r-dollar    { top: 50%; right: calc(50% - 250px); }
-
-    .ic-r-target    { top: 65%; right: calc(50% - 490px); }
-    .ic-r-calendar  { top: 64%; right: calc(50% - 405px); width: 95px; height: 95px; }
-    .ic-r-bulb      { top: 65%; right: calc(50% - 305px); }
-    .ic-r-globe     { top: 65%; right: calc(50% - 230px); }
+    .ic-r-calendar  { top: 68%; right: calc(50% - 490px); width: 95px; height: 95px; }
+    .ic-r-bulb      { top: 70%; right: calc(50% - 385px); }
+    .ic-r-globe     { top: 70%; right: calc(50% - 290px); }
 
     .welcome-final {
       position: absolute;
@@ -506,12 +501,10 @@
     <div class="deco-icon ic-l-hands"><img src="icons/3.png" alt=""></div>
     <div class="deco-icon ic-l-palette"><img src="icons/14.png" alt=""></div>
     <!-- الصف 3 -->
-    <div class="deco-icon ic-l-check"><img src="icons/2.png" alt=""></div>
-    <div class="deco-icon ic-l-face"><img src="icons/12.png" alt=""></div>
+    <div class="deco-icon ic-l-target"><img src="icons/9.png" alt=""></div>
     <div class="deco-icon ic-l-chat"><img src="icons/4.png" alt=""></div>
     <div class="deco-icon ic-l-dollar"><img src="icons/13.png" alt=""></div>
     <!-- الصف 4 -->
-    <div class="deco-icon ic-l-target"><img src="icons/9.png" alt=""></div>
     <div class="deco-icon ic-l-calendar"><img src="icons/8.png" alt=""></div>
     <div class="deco-icon ic-l-bulb"><img src="icons/10.png" alt=""></div>
     <div class="deco-icon ic-l-globe"><img src="icons/11.png" alt=""></div>
@@ -526,12 +519,10 @@
     <div class="deco-icon ic-r-hands"><img src="icons/3.png" alt=""></div>
     <div class="deco-icon ic-r-palette"><img src="icons/14.png" alt=""></div>
     <!-- الصف 3 -->
-    <div class="deco-icon ic-r-check"><img src="icons/2.png" alt=""></div>
-    <div class="deco-icon ic-r-face"><img src="icons/12.png" alt=""></div>
+    <div class="deco-icon ic-r-target"><img src="icons/9.png" alt=""></div>
     <div class="deco-icon ic-r-chat"><img src="icons/4.png" alt=""></div>
     <div class="deco-icon ic-r-dollar"><img src="icons/13.png" alt=""></div>
     <!-- الصف 4 -->
-    <div class="deco-icon ic-r-target"><img src="icons/9.png" alt=""></div>
     <div class="deco-icon ic-r-calendar"><img src="icons/8.png" alt=""></div>
     <div class="deco-icon ic-r-bulb"><img src="icons/10.png" alt=""></div>
     <div class="deco-icon ic-r-globe"><img src="icons/11.png" alt=""></div>
