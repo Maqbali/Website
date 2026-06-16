@@ -156,6 +156,29 @@
   .speed-note a{color:var(--brand);text-decoration:none}
   .speed-note a:hover{text-decoration:underline}
 
+  /* ---------- History / chart ---------- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+  .stat{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+  .stat .s-num{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600}
+  .stat .s-lab{font-size:11px;color:var(--muted);font-weight:300;margin-top:3px}
+  .chart-wrap{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 12px 10px;margin-bottom:16px}
+  .legend{display:flex;gap:18px;justify-content:center;margin-bottom:10px;font-size:12px;color:var(--muted)}
+  .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-start:6px}
+  .empty{color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:34px 10px}
+  .log{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .log-item{display:grid;grid-template-columns:auto 1fr 1fr 1fr auto;gap:10px;align-items:center;
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px}
+  .log-item .t{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
+  .log-item .v{font-family:"IBM Plex Mono",monospace;font-weight:600}
+  .log-item .v small{color:var(--muted);font-weight:400;font-size:10px}
+  .log-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:2px 7px;border-radius:6px;font-family:inherit}
+  .log-del:hover{color:var(--poor);background:rgba(251,113,133,.1)}
+  @media(max-width:520px){
+    .stats{grid-template-columns:1fr 1fr 1fr}
+    .log-item{grid-template-columns:1fr 1fr 1fr auto;font-size:12px}
+    .log-item .t{grid-column:1/-1}
+  }
+
   footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px;font-weight:300;line-height:1.9}
   footer a{color:var(--brand);text-decoration:none}
 
@@ -253,6 +276,30 @@ NR RSSI  -45"></textarea>
         <a href="https://speed.cloudflare.com/" target="_blank" rel="noopener">speed.cloudflare.com</a>
         مباشرةً. القياس يستهلك بيانات (حتى ~50 ميغابايت تقريبًا).</span>
     </div>
+  </section>
+
+  <!-- ============ History + chart ============ -->
+  <section class="card">
+    <div class="card-head">
+      <span class="num">٣</span>
+      <div>
+        <h2>سجل القياسات</h2>
+        <p>يُحفظ تلقائيًا في متصفحك · رسم بياني للسرعة عبر الوقت</p>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="chart-wrap">
+      <div class="legend">
+        <span>التنزيل<i style="background:#2DD4BF"></i></span>
+        <span>الرفع<i style="background:#38BDF8"></i></span>
+      </div>
+      <div id="chart"></div>
+    </div>
+
+    <div class="row"><button class="btn-ghost" id="clearHist">مسح السجل</button></div>
+    <div class="log" id="log"></div>
   </section>
 
   <footer>
@@ -497,6 +544,7 @@ NR RSSI  -45`;
     if(up===null){ failSpeed(btn); return; }
     setProgress(100);
 
+    addResult(down, up, Math.round(ping));
     btn.disabled=false; btn.textContent="أعد القياس"; running=false;
     setTimeout(()=>$("progress").classList.remove("show"),700);
   };
@@ -510,6 +558,81 @@ NR RSSI  -45`;
       '<a href="https://speed.cloudflare.com/" target="_blank" rel="noopener">speed.cloudflare.com</a> مباشرةً.';
     note.style.color="var(--fair)";
   }
+
+  /* ============ History + chart ============ */
+  let history = loadHistory();
+
+  function loadHistory(){ try{ return JSON.parse(localStorage.getItem("speedHistory")||"[]"); }catch(e){ return []; } }
+  function saveHistory(){ try{ localStorage.setItem("speedHistory",JSON.stringify(history)); }catch(e){} }
+
+  function addResult(down,up,ping){
+    history.push({t:Date.now(),down:+down.toFixed(1),up:+up.toFixed(1),ping:ping});
+    if(history.length>50) history=history.slice(-50);
+    saveHistory(); renderHistory();
+  }
+  function fmtTime(ts){
+    return new Date(ts).toLocaleString("ar",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }
+
+  function renderStats(){
+    const el=$("stats");
+    if(!history.length){ el.innerHTML=""; return; }
+    const avg=k=>history.reduce((s,r)=>s+r[k],0)/history.length;
+    el.innerHTML=`
+      <div class="stat"><div class="s-num sc-excellent">${avg("down").toFixed(1)}</div><div class="s-lab">متوسط التنزيل · Mbps</div></div>
+      <div class="stat"><div class="s-num" style="color:var(--brand)">${avg("up").toFixed(1)}</div><div class="s-lab">متوسط الرفع · Mbps</div></div>
+      <div class="stat"><div class="s-num">${history.length}</div><div class="s-lab">عدد القياسات</div></div>`;
+  }
+
+  function renderChart(){
+    const host=$("chart");
+    if(!history.length){ host.innerHTML='<div class="empty">لا توجد قياسات بعد — ابدأ اختبار سرعة وسيظهر الرسم هنا.</div>'; return; }
+    const data=history.slice(-20);
+    const W=600,H=200,pad={t:14,r:14,b:16,l:38};
+    const maxY=Math.max(10,...data.map(d=>Math.max(d.down,d.up)));
+    const niceMax=Math.ceil(maxY/10)*10;
+    const x=i=>pad.l+(data.length<=1?(W-pad.l-pad.r)/2:(i/(data.length-1))*(W-pad.l-pad.r));
+    const y=v=>pad.t+(1-v/niceMax)*(H-pad.t-pad.b);
+    const path=key=>data.map((d,i)=>`${i?"L":"M"}${x(i).toFixed(1)} ${y(d[key]).toFixed(1)}`).join(" ");
+    const dots=(key,col)=>data.map((d,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(d[key]).toFixed(1)}" r="3" fill="${col}"/>`).join("");
+    let grid="";
+    for(let g=0;g<=2;g++){
+      const v=niceMax*g/2, yy=y(v);
+      grid+=`<line x1="${pad.l}" y1="${yy.toFixed(1)}" x2="${W-pad.r}" y2="${yy.toFixed(1)}" stroke="#26304A" stroke-width="1"/>`
+          +`<text x="${pad.l-6}" y="${(yy+4).toFixed(1)}" fill="#7C89A6" font-size="10" text-anchor="end">${v}</text>`;
+    }
+    host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" font-family="IBM Plex Mono, monospace">
+      ${grid}
+      <path d="${path("down")}" fill="none" stroke="#2DD4BF" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${path("up")}" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots("down","#2DD4BF")}${dots("up","#38BDF8")}
+    </svg>`;
+  }
+
+  function renderLog(){
+    const el=$("log");
+    el.innerHTML=history.slice().reverse().map((r,ri)=>{
+      const realIndex=history.length-1-ri;
+      return `<div class="log-item">
+        <span class="t">${fmtTime(r.t)}</span>
+        <span class="v sc-excellent">${r.down}<small> ↓Mbps</small></span>
+        <span class="v" style="color:var(--brand)">${r.up}<small> ↑Mbps</small></span>
+        <span class="v">${r.ping}<small> ms</small></span>
+        <button class="log-del" data-i="${realIndex}" aria-label="حذف القياس">✕</button>
+      </div>`;
+    }).join("");
+    el.querySelectorAll(".log-del").forEach(b=>b.onclick=()=>{
+      history.splice(+b.dataset.i,1); saveHistory(); renderHistory();
+    });
+  }
+
+  function renderHistory(){ renderStats(); renderChart(); renderLog(); }
+
+  $("clearHist").onclick=()=>{
+    if(history.length && confirm("مسح كل سجل القياسات؟")){ history=[]; saveHistory(); renderHistory(); }
+  };
+
+  renderHistory();
 })();
 </script>
 </body>
