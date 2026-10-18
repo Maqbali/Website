@@ -1,0 +1,9 @@
+/quran/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://everyayah.com https://datasets-server.huggingface.co blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'
+/quran/assets/*
+  Cache-Control: public, max-age=604800
+/quran/assets/ffmpeg/*.bin
+  Content-Type: application/octet-stream
