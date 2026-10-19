@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
 <script src="../theme.js?v=0.2.0"></script>
-<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.2.0"><link rel="stylesheet" href="theme.css?v=0.2.0">
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.4"><link rel="stylesheet" href="theme.css?v=0.2.0">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
@@ -73,9 +73,52 @@
 <div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
 <div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">الحصري</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
 </div>
-<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="sources" class="text-button">المصادر</button><span class="version" dir="ltr">v0.2.0</span></div></footer>
+<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.4" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.4</button></div></footer>
 </main>
-<dialog id="sourcesDialog"><button class="dialog-close icon-button" aria-label="إغلاق">×</button><h2>المصادر والخصوصية</h2><p>النص القرآني: نسخة الرسم العثماني من <a href="https://alquran.cloud/api" target="_blank" rel="noopener">Al Quran Cloud</a>، محفوظة مع الصفحة دون تعديل النص.</p><p>التلاوات: <a href="https://everyayah.com/recitations_ayat.html" target="_blank" rel="noopener">EveryAyah</a>، وتلاوة بدر التركي من <a href="https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs" target="_blank" rel="noopener">QUD³ Technologies عبر Hugging Face</a>. تُحمّل عند الطلب، ويحفظها المتصفح إن توفرت مساحة.</p><p>الخلفيات الأساسية: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>. خلفية الليل المتحركة مجهّزة مسبقًا من الصورة، والخلفيات الست الإضافية أُنشئت للمشروع.</p><p>ملفاتك الخاصة ومعالجة الفيديو تبقى على جهازك. يحتاج تنزيل التلاوات غير المحفوظة إلى الإنترنت.</p><p>الواجهة: Cairo. خط الآيات: Amiri Quran. التصدير: FFmpeg.wasm. تراخيص المكونات مرفقة مع ملفات المشروع.</p></dialog>
+<dialog id="privacyDialog" class="info-dialog" aria-labelledby="privacyTitle">
+<div class="dialog-header"><h2 id="privacyTitle">الخصوصية</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق نافذة الخصوصية" autofocus>×</button></div>
+<div class="dialog-body" tabindex="0" role="region" aria-labelledby="privacyTitle">
+<p>صورك وفيديوهاتك، وكذلك الفيديو الناتج، تبقى على جهازك ولا تُرفع إلى خوادم الموقع. تتم المعالجة وإنشاء الفيديو محليًا داخل متصفحك.</p>
+<p>يتطلب تحميل التلاوات اتصالًا بالإنترنت.</p>
+<p class="dialog-prayer">ولا تنسونا من صالح دعائكم.</p>
+</div>
+</dialog>
+<dialog id="versionsDialog" class="info-dialog" aria-labelledby="versionsTitle">
+<div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
+<div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
+<section aria-labelledby="release014"><h3 id="release014">الإصدار <bdi>0.1.4</bdi></h3><ul>
+<li>إضافة القارئ علي جابر إلى قائمة القراء.</li>
+</ul></section>
+<section aria-labelledby="release013"><h3 id="release013">الإصدار <bdi>0.1.3</bdi></h3><ul>
+<li>مشاركة اختيار المظهر الفاتح أو الداكن بين صفحة الأدوات وأداة التلاوة.</li>
+</ul></section>
+<section aria-labelledby="release012"><h3 id="release012">الإصدار <bdi>0.1.2</bdi></h3><ul>
+<li>إضافة إمكانية التبديل بين المظهر الفاتح والداكن.</li>
+<li>حفظ اختيار المظهر واستعادته عند زيارة الأداة مجددًا.</li>
+<li>إضافة خيار الزوايا الدائرية للفيديو الأفقي، وتطبيقه على المعاينة والفيديو الناتج.</li>
+<li>حفظ إعداد الزوايا الدائرية مع بقية إعدادات المستخدم.</li>
+</ul></section>
+<section aria-labelledby="release011"><h3 id="release011">الإصدار <bdi>0.1.1</bdi></h3><ul>
+<li>إضافة القارئ بدر التركي إلى قائمة القراء.</li>
+<li>إتاحة الاستماع والمعاينة وإنشاء الفيديو باستخدام تلاوته.</li>
+<li>حفظ التلاوات المحمّلة في المتصفح لإعادة استخدامها عند توفر مساحة.</li>
+<li>التحقق من مطابقة السورة والآية عند تحميل تلاوته.</li>
+</ul></section>
+<section aria-labelledby="release010"><h3 id="release010">الإصدار <bdi>0.1.0</bdi> — الإصدار الأول</h3><ul>
+<li>إطلاق أداة إنشاء فيديوهات التلاوة.</li>
+<li>إتاحة اختيار السورة ونطاق الآيات من المصحف كاملًا بالرسم العثماني.</li>
+<li>توفير ثمانية قراء: الحصري، العفاسي، السديس، الشريم، عبد الباسط، المنشاوي، المعيقلي، والدوسري.</li>
+<li>إضافة الاستماع والمعاينة، مع ضبط مدة ظهور كل آية بحسب مدة تلاوتها.</li>
+<li>توفير ثلاث خلفيات مصوّرة وخلفية فيديو ليلية، مع إمكانية اختيار صورة أو فيديو من الجهاز.</li>
+<li>إتاحة تخصيص لون الآيات وحجمها وموضعها، والمسافات والهوامش، وتعتيم الخلفية وتكبيرها وتحريكها.</li>
+<li>دعم المقاسات العمودي والأفقي والمربع، وجودتي 720p و1080p.</li>
+<li>إنشاء فيديو بصيغة MP4 دون علامة مائية، مع عرض تقدم الإنشاء وإمكانية الإلغاء.</li>
+<li>إتاحة مشاهدة الفيديو وتنزيله ومشاركته على الأجهزة الداعمة.</li>
+<li>حفظ الإعدادات والتلاوات المحمّلة في المتصفح، مع إمكانية مسح التلاوات المحفوظة.</li>
+<li>معالجة الصور والفيديوهات وإنشاء الفيديو على جهاز المستخدم داخل المتصفح.</li>
+</ul></section>
+</div>
+</dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.2.0"></script>
+<script type="module" src="app.js?v=0.1.4"></script>
 </body></html>

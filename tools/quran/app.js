@@ -1,4 +1,4 @@
-import {RECITERS,DEFAULTS,arabic,normalize,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,verseAt,concatSlides,exportArgs,encodeWav} from './core.js?v=0.2.0';
+import {RECITERS,DEFAULTS,arabic,normalize,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,verseAt,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.4';
 import {resolveBadrAudioURL} from './audio-sources.js';
 const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d');
 const PRESET_BACKGROUNDS=new Map([...document.querySelectorAll('[data-background]')].map(button=>[button.dataset.background,button.querySelector('img').getAttribute('src')]));
@@ -77,6 +77,21 @@ document.querySelectorAll('[data-background]').forEach(b=>b.onclick=()=>setBackg
 $('play').onclick=play;$('listen').onclick=play;$('seek').oninput=e=>{const was=playing;pause();position=+e.target.value;$('currentTime').textContent=formatTime(position);if(bgVideo.readyState>=2)bgVideo.currentTime=position%bgVideo.duration;requestRender();if(was)play();};$('restart').onclick=()=>{const was=playing;pause();position=0;$('seek').value=0;$('currentTime').textContent='0:00';if(bgVideo.readyState>=2)bgVideo.currentTime=0;requestRender();if(was)play();};
 $('export').onclick=exportVideo;$('cancel').onclick=()=>{cancelled=true;audioAbort?.abort();try{engine?.terminate();}catch{}progress(0,'إلغاء التصدير…');};$('watch').onclick=()=>{$('resultVideo').hidden=false;$('resultVideo').play().catch(()=>{});};
 $('reset').onclick=()=>{invalidateAudio();settings={...DEFAULTS};$('surahSearch').value='';$('reciterSearch').value='';renderSurahs();renderReciters();updateReader();syncControls();selectionChanged();setBackground(settings.background);message('أُعيدت الإعدادات الافتراضية.');};
-$('clearCache').onclick=async()=>{try{await caches.delete('maqbali-quran-audio-v1');message('مُسحت التلاوات المحفوظة في المتصفح.');}catch{message('تعذر مسح التخزين في هذا المتصفح.',true);}};$('sources').onclick=()=>$('sourcesDialog').showModal();document.querySelector('.dialog-close').onclick=()=>$('sourcesDialog').close();bgVideo.addEventListener('seeked',requestRender);document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)pause();});window.addEventListener('beforeunload',e=>{if(exporting){e.preventDefault();e.returnValue='';}});
+$('clearCache').onclick=async()=>{try{await caches.delete('maqbali-quran-audio-v1');message('مُسحت التلاوات المحفوظة في المتصفح.');}catch{message('تعذر مسح التخزين في هذا المتصفح.',true);}};
+function openInfoDialog(id){
+ const dialog=$(id);
+ dialog.showModal();
+ dialog.querySelector('.dialog-body').scrollTop=0;
+ document.documentElement.classList.add('dialog-open');
+}
+$('privacy').onclick=()=>openInfoDialog('privacyDialog');
+$('version').onclick=()=>openInfoDialog('versionsDialog');
+document.querySelectorAll('.info-dialog').forEach(dialog=>{
+ dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('close',()=>{
+  if(!document.querySelector('.info-dialog[open]'))document.documentElement.classList.remove('dialog-open');
+ });
+});
+bgVideo.addEventListener('seeked',requestRender);document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)pause();});window.addEventListener('beforeunload',e=>{if(exporting){e.preventDefault();e.returnValue='';}});
 async function init(){try{$('export').disabled=true;$('play').disabled=true;renderReciters();updateReader();syncControls();const r=await fetch('assets/quran.json');if(!r.ok)throw Error('تعذر تحميل نص المصحف. أعد تحميل الصفحة.');quran=await r.json();if(quran.surahs.length!==114||quran.surahs.reduce((n,s)=>n+s.ayahs.length,0)!==6236)throw Error('ملف المصحف غير مكتمل.');if(!quran.surahs[settings.surah-1])settings.surah=2;surah=quran.surahs[settings.surah-1];if(settings.from<1||settings.to>surah.ayahs.length||settings.to<settings.from){settings.from=settings.to=1;}renderSurahs();syncControls();selectionChanged();await Promise.all([document.fonts.load('60px Quran'),document.fonts.load('14px Cairo'),setBackground(settings.background)]);$('loading').hidden=true;requestRender();}catch(e){$('loading').textContent='تعذر تحميل الصفحة';message(e.message,true);}}
 init();

@@ -7,7 +7,8 @@ export const RECITERS = [
  {id:'Minshawy_Murattal_128kbps',name:'محمد صديق المنشاوي',short:'المنشاوي'},
  {id:'MaherAlMuaiqly128kbps',name:'ماهر المعيقلي',short:'المعيقلي'},
  {id:'Yasser_Ad-Dussary_128kbps',name:'ياسر الدوسري',short:'الدوسري'},
- {id:'Badr_AlTurki_QUA',name:'بدر التركي',short:'بدر التركي',provider:'qua'}
+ {id:'Badr_AlTurki_QUA',name:'بدر التركي',short:'بدر التركي',provider:'qua'},
+ {id:'Ali_Jaber_64kbps',name:'علي جابر',short:'علي جابر'}
 ];
 export const DEFAULTS={surah:2,from:3,to:3,reciter:'Husary_128kbps',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false};
 export const arabic=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);

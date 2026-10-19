@@ -6,4 +6,21 @@
 @media(min-width:1400px){main{padding:0 36px}.workspace{gap:50px}.intro{padding-top:52px}.preview-stage{min-height:590px}canvas{max-height:585px}canvas.portrait-canvas{width:310px}}
 @media(max-width:900px){.workspace{gap:20px;grid-template-columns:minmax(300px,1fr) minmax(0,1fr)}.preview-section{padding:17px 14px}.preview-stage{padding:12px;min-height:480px}.intro h1{font-size:29px}.privacy-pill{font-size:9px}main{padding:0 22px}.topbar{padding:20px 24px}.editor-head,.panel,.export-settings{padding-left:20px;padding-right:20px}.tabs{margin:0 20px;gap:10px}}
 @media(max-width:680px){main{padding:0 17px}.topbar{padding:12px 20px}.brand small{font-size:6px;letter-spacing:1.4px}.brand b{font-size:11px}.brand-logo{width:52px;height:52px}.intro{padding:29px 0 23px;display:block}.intro h1{font-size:29px}.eyebrow{font-size:10px}.subtitle{font-size:11px}.privacy-pill{display:inline-block;margin-top:14px;padding:4px 10px}.workspace{display:flex;flex-direction:column;gap:20px}.editor,.preview-section{width:100%}.preview-section{position:static;order:-1;padding:15px}.preview-heading{margin-bottom:12px}.preview-stage{min-height:0;padding:14px}.canvas-wrap{max-width:100%}canvas.portrait-canvas{height:320px;width:180px}canvas.landscape-canvas{max-height:240px}canvas.square-canvas{max-height:300px;width:300px}.preview-footnote{margin-top:9px}.playback{padding-top:14px}.panel{min-height:0;padding-top:22px}.preview-caption{padding-top:10px}.editor-head{padding-top:20px}.tabs button{font-size:11px}.bg-card{height:132px}footer{margin-top:23px;justify-content:center;text-align:center}footer>div{gap:11px}.export-settings{padding-bottom:20px}}
+html.dialog-open,html.dialog-open body{overflow:hidden}
+.info-dialog{width:calc(100% - 32px);max-width:520px;height:min(520px,calc(100vh - 48px));height:min(520px,calc(100dvh - 48px));max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);padding:0;overflow:hidden}
+.info-dialog[open]{display:flex;flex-direction:column}
+.dialog-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:none;padding:20px 24px 16px;border-bottom:1px solid var(--border)}
+.dialog-header h2{margin:0;font-size:18px;line-height:1.8}
+.info-dialog .dialog-close{float:none;flex:none;width:36px;height:36px}
+.dialog-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 24px 24px;scrollbar-width:thin;scrollbar-color:var(--gold) var(--panel)}
+.dialog-body p{margin:18px 0}
+.dialog-body .dialog-prayer{padding-top:16px;border-top:1px solid var(--border);text-align:center;font-weight:600}
+.release-notes section{padding:18px 0;border-bottom:1px solid var(--border)}
+.release-notes section:last-child{padding-bottom:0;border-bottom:0}
+.release-notes h3{margin:0 0 9px;color:var(--gold);font-size:14px;font-weight:600}
+.release-notes ul{margin:0;padding-inline-start:20px;color:var(--muted);font-size:12px;line-height:2}
+.release-notes li+li{margin-top:6px}
+.version{min-width:48px;min-height:36px;padding:6px;background:none;border:0;font-size:10px;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+.version:hover{color:var(--gold)}
+@media(max-width:400px){.dialog-header{padding:16px 20px 12px}.dialog-body{padding:4px 20px 20px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
