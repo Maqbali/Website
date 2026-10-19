@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{PAGE_TITLE}}</title>
+<meta name="description" content="{{PAGE_DESCRIPTION}}">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="/images/favicon.png" type="image/png">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+
+<script src="/core/v1/core.js"></script>
+<link rel="stylesheet" href="/core/v1/core.css">
+<style>
+
+.site-legacy .container {width:100%; max-width:900px; margin-inline:auto; padding:24px 16px;}
+.site-legacy .info-banner {background:var(--site-gold-muted);border:1px solid var(--site-border);border-radius:12px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:24px;}
+.site-legacy .info-icon{color:var(--site-gold);background:var(--site-gold-muted);display:grid;place-items:center;border-radius:50%;width:36px;height:36px;flex:none}
+.site-legacy .info-icon svg{width:20px;height:20px}
+.site-legacy .info-title {color:var(--site-text);font-weight:700;margin-bottom:4px}
+.site-legacy .info-desc {color:var(--site-muted);font-size:12px}
+.site-legacy .section-title{color:var(--site-gold);font-size:14px;font-weight:700;margin:0 0 14px}
+.site-legacy .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.site-legacy .tool-card{border:1px solid var(--site-border);border-radius:16px;padding:19px;background:var(--site-panel)}
+.site-legacy .tool-header{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--site-border);padding-bottom:14px;margin-bottom:12px}
+.site-legacy .tool-icon{width:48px;height:48px;display:grid;place-items:center;flex:none;border-radius:12px;color:var(--site-gold);background:var(--site-gold-muted)}
+.site-legacy .tool-icon svg{width:26px;height:26px}
+.site-legacy .tool-title{flex:1;min-width:0}.site-legacy .tool-name{font-size:15px;color:var(--site-text);font-weight:700}.site-legacy .tool-category{font-size:11px;color:var(--site-muted)}
+.site-legacy .badge{border-radius:20px;color:var(--site-gold);background:var(--site-gold-muted);padding:4px 10px;font-size:10px;white-space:nowrap}
+.site-legacy .tool-description{font-size:12px;color:var(--site-muted);line-height:2;margin-bottom:16px}
+.site-legacy .open-btn{min-height:44px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:10px;background:var(--site-gold);color:var(--site-bg)!important;font-weight:700;font-size:12px}
+.site-legacy .open-btn svg{width:14px;height:14px}
+
+
+/* Page-only colour bridge: the shared Core remains independent. */
+.site-legacy {
+ --bg:var(--site-bg);--bg-grad:var(--site-bg);--card:var(--site-panel);--card2:var(--site-gold-muted);
+ --surface:var(--site-panel);--surface-2:var(--site-gold-muted);
+ --text:var(--site-text);--text2:var(--site-text);--muted:var(--site-muted);--gold:var(--site-gold);
+ --gold-dark:var(--site-gold);--brand:var(--site-gold);--line:var(--site-border);--border:var(--site-border);
+ --border2:var(--site-border);--panel:var(--site-panel);--gold-muted:var(--site-gold-muted);
+ --shadow:0 4px 20px rgba(0,0,0,.05);
+ width:100%;min-width:0;min-height:0!important;padding:0!important;margin:0!important;
+ background:transparent!important;color:var(--site-text)!important;
+ font-family:'Cairo',Tahoma,Arial,sans-serif!important;
+ display:block!important;
+}
+.site-legacy::before{display:none!important}
+.site-main--legacy{max-width:1060px;padding-block:26px 48px;min-width:0;flex:1 0 auto}
+.site-legacy img{max-width:100%}
+.site-legacy button,.site-legacy input,.site-legacy textarea,.site-legacy select{font-family:inherit}
+.site-legacy .page,.site-legacy .container,.site-legacy .wrap{max-width:100%;}
+.site-legacy a{color:inherit;text-decoration:none}
+.site-legacy a:focus-visible,.site-legacy button:focus-visible{outline:2px solid var(--site-gold);outline-offset:3px}
+.site-legacy .footer,.site-legacy > footer{display:none}
+.site-legacy input,.site-legacy textarea,.site-legacy select{max-width:100%}
+.site-legacy .site-page-intro{display:none}
+@media(max-width:580px){.site-main--legacy{padding-block:18px 36px}}
+
+
+/* Colour refinements on legacy component surfaces */
+.site-legacy .card,.site-legacy .price-card,.site-legacy .oil-card,.site-legacy .stat-card,
+.site-legacy .device-card,.site-legacy .form-card,.site-legacy .info-card,.site-legacy .cve-card,
+.site-legacy .details-card,.site-legacy .ip-card,.site-legacy .summary-card,.site-legacy .modal-box,
+.site-legacy .filter-bar,.site-legacy .date-bar,.site-legacy .tool-card,
+.site-legacy .gauge,.site-legacy .stats .stat,.site-legacy .chart-wrap,
+.site-legacy .log-item,.site-legacy .map-card {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .card-head,.site-legacy .info-banner{color:var(--site-text)}
+.site-legacy .device-name,.site-legacy .info-title,.site-legacy .hero h1,.site-legacy .success h3 {color:var(--site-text)}
+.site-legacy .device-category,.site-legacy .info-desc,.site-legacy .hero p,.site-legacy .success p,.site-legacy .form-group label,.site-legacy .info-item-text p {color:var(--site-muted)}
+.site-legacy .changelog {background:var(--site-gold-muted);color:var(--site-text)}
+.site-legacy .info-icon,.site-legacy .device-icon,.site-legacy .success-icon {background:var(--site-gold-muted)}
+.site-legacy .form-group input,.site-legacy .form-group select,.site-legacy .form-group textarea,
+.site-legacy .search-input,.site-legacy textarea {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .form-title,.site-legacy .info-title,.site-legacy .section-title,.site-legacy .device-icon {color:var(--site-gold)}
+.site-legacy .download-btn,.site-legacy .submit-btn,.site-legacy .btn-primary{background:var(--site-gold);color:var(--site-bg)}
+.site-legacy .legacy-note {margin:25px 0 0;padding:13px 10px;text-align:center;color:var(--site-muted);font-size:12px;border-top:1px solid var(--site-border)}
+
+.site-legacy .container{padding:10px 0}.site-legacy .open-btn{color:var(--site-bg)!important}
+
+</style>
+</head>
+<body class="site-page site-page--tools">
+{{HEADER}}
+<main id="main-content" class="site-main site-main--legacy">
+<div class="site-legacy legacy--tools">
+
+
+<main class="container">
+<section aria-labelledby="info-title" class="info-banner">
+<div aria-hidden="true" class="info-icon"><svg fill="none" viewbox="0 0 24 24"><path d="M12 16v-4M12 8h.01M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></div>
+<div class="info-text"><h2 class="info-title" id="info-title">أدوات الموقع</h2><p class="info-desc">أدوات الموقع في مكان واحد. اختر الأداة التي تريد استخدامها.</p></div>
+</section>
+<h2 class="section-title"><span aria-hidden="true">◆</span> الأدوات المتاحة</h2>
+<div class="grid">
+<article aria-labelledby="quran-title" class="tool-card">
+<div class="tool-header">
+<div aria-hidden="true" class="tool-icon"><svg fill="none" viewbox="0 0 24 24"><path d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15M6 8h3M6 11h3M15 8h3M15 11h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="tool-title"><h3 class="tool-name" id="quran-title">صانع فيديوهات التلاوة</h3><p class="tool-category">إنشاء المحتوى</p></div>
+<span class="badge">متاحة</span>
+</div>
+<p class="tool-description">إنشاء فيديو تلاوة باختيار الآيات والقارئ والخلفية، مع المعاينة وتنزيل الفيديو.</p>
+<a class="open-btn" href="/tools/quran/">فتح الأداة <svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></a>
+</article>
+</div>
+
+</main>
+
+</div>
+</main>
+{{FOOTER}}
+
+</body>
+</html>

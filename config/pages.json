@@ -30,7 +30,13 @@
     {
       "id": "tools",
       "title": "الأدوات",
-      "oldPath": "/tools/"
+      "oldPath": "/tools/",
+      "newPath": "/new/tools/",
+      "pageTitle": "الأدوات | Maqbali",
+      "metaDescription": "أدوات موقع محمد المقبالي. اختر الأداة التي تريد استخدامها، وابدأ مع صانع فيديوهات التلاوة.",
+      "canonicalUrl": "https://www.maqbali.com/tools/",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "quran",
@@ -40,7 +46,13 @@
     {
       "id": "contact",
       "title": "تواصل معنا",
-      "oldPath": "/contact.html"
+      "oldPath": "/contact.html",
+      "newPath": "/new/contact.html",
+      "pageTitle": "تواصل معنا - Mohammed Al-Maqbali",
+      "metaDescription": "تواصل معنا | Maqbali.com",
+      "canonicalUrl": "https://www.maqbali.com/contact.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "videos",
@@ -55,7 +67,13 @@
     {
       "id": "news",
       "title": "نشرة أسواق المال",
-      "oldPath": "/news.html"
+      "oldPath": "/news.html",
+      "newPath": "/new/news.html",
+      "pageTitle": "نشرة أسواق المال",
+      "metaDescription": "صفحة تجمع أخبار الذهب و الفضة و النفط العماني و النفط العالمي و غيرها من من الأسواق المهمة للمستثمر العماني.",
+      "canonicalUrl": "https://www.maqbali.com/news.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "currency",
@@ -70,22 +88,46 @@
     {
       "id": "cves",
       "title": "نشرة الثغرات الأمنية",
-      "oldPath": "/cves.html"
+      "oldPath": "/cves.html",
+      "newPath": "/new/cves.html",
+      "pageTitle": "نشرة الثغرات الأمنية",
+      "metaDescription": "آخر الثغرات الأمنية (CVEs) من NVD الرسمي",
+      "canonicalUrl": "https://www.maqbali.com/cves.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "dji",
       "title": "تحديثات DJI",
-      "oldPath": "/dji.html"
+      "oldPath": "/dji.html",
+      "newPath": "/new/dji.html",
+      "pageTitle": "تحديثات DJI",
+      "metaDescription": "متابعة آخر تحديثات أجهزة DJI",
+      "canonicalUrl": "https://www.maqbali.com/dji.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "ip",
       "title": "تفاصيل عنوان IP",
-      "oldPath": "/ip.html"
+      "oldPath": "/ip.html",
+      "newPath": "/new/ip.html",
+      "pageTitle": "IP Address - Details",
+      "metaDescription": "عنوان الآيبي الخاص بك (IPv4 وIPv6) وموقعك الجغرافي ومزوّد الخدمة",
+      "canonicalUrl": "https://www.maqbali.com/ip.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "speed",
       "title": "محلّل الإشارة وقياس السرعة",
-      "oldPath": "/speed.html"
+      "oldPath": "/speed.html",
+      "newPath": "/new/speed.html",
+      "pageTitle": "محلّل الإشارة وقياس السرعة",
+      "metaDescription": "محلّل الإشارة وقياس السرعة | Maqbali.com",
+      "canonicalUrl": "https://www.maqbali.com/speed.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
     },
     {
       "id": "nfc-tools",
