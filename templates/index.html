@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>{{PAGE_TITLE}}</title>
+  <meta name="description" content="{{PAGE_DESCRIPTION}}">
+  <meta name="robots" content="noindex,follow">
+  <meta name="theme-color" content="#f5f0e8">
+  <link rel="icon" href="/images/favicon.png" type="image/png">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+  <script src="/core/v1/core.js"></script>
+  <link rel="stylesheet" href="/core/v1/core.css">
+<style>
+/* Styling belongs to this page, not Maqbali Core */
+.site-main--centered { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; }
+.site-home { width: 100%; text-align: center; padding: 36px 16px; }
+.site-home__tagline { margin: 0 0 24px; color: var(--site-gold); font-size: 15px; font-weight: 600; letter-spacing: .4px; }
+.site-socials { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; }
+.site-socials__link { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; color: var(--site-text); border: 1px solid var(--site-border); background: var(--site-gold-muted); transition: background .2s, border-color .2s, transform .2s, box-shadow .2s; }
+.site-socials__link svg { width: 21px; height: 21px; }
+.site-socials__link img { width: 24px; height: 24px; object-fit: contain; }
+.site-socials__link:hover { transform: translateY(-3px); border-color: var(--site-gold); box-shadow: 0 6px 24px rgba(200,169,110,.13); }
+.site-socials__link--instagram:hover { background: rgba(225,48,108,.13); }
+.site-socials__link--snapchat:hover { background: rgba(255,235,0,.11); }
+.site-socials__link--mail:hover { background: rgba(200,169,110,.2); }
+@media(max-width:680px){.site-home{padding-inline:8px}}
+</style>
+</head>
+<body class="site-page site-page--home">
+{{HEADER}}
+<main id="main-content" class="site-main site-main--centered">
+  <section class="site-home" aria-label="نبذة وروابط التواصل">
+    <p class="site-home__tagline">✦ مصور عماني ✦</p>
+    <div class="site-socials" aria-label="حسابات التواصل">
+      <a class="site-socials__link site-socials__link--instagram" href="https://instagram.com/maqba1i" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a class="site-socials__link site-socials__link--snapchat" href="https://snapchat.com/add/maqba1i" target="_blank" rel="noopener noreferrer" aria-label="Snapchat" title="Snapchat"><img src="/images/snapchat.png" alt="" width="24" height="24" loading="lazy"></a>
+      <a class="site-socials__link site-socials__link--x" href="https://x.com/maqba1i" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="site-socials__link site-socials__link--mail" href="/contact.html" aria-label="تواصل معنا" title="تواصل معنا">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+    </div>
+  </section>
+</main>
+{{FOOTER}}
+</body>
+</html>
