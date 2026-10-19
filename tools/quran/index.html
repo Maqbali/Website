@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
 <script src="../theme.js?v=0.2.0"></script>
-<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.4"><link rel="stylesheet" href="theme.css?v=0.2.0">
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.6-fix1"><link rel="stylesheet" href="theme.css?v=0.2.0">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
@@ -23,7 +23,9 @@
 <button role="tab" aria-selected="false" aria-controls="style-panel" id="style-tab" data-tab="style" tabindex="-1"><span>٣</span>التنسيق</button>
 </div>
 <div class="panel" id="content-panel" role="tabpanel" aria-labelledby="content-tab">
-<label for="surahSearch">السورة</label><div class="search-field"><span aria-hidden="true">⌕</span><input id="surahSearch" type="search" placeholder="ابحث باسم السورة" autocomplete="off"></div>
+<label for="surahSearch">السورة</label><div class="search-field"><span aria-hidden="true">⌕</span><input id="surahSearch" type="search" placeholder="ابحث باسم السورة" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="surahResults" aria-expanded="false" aria-describedby="surahSearchStatus"></div>
+<div id="surahResults" class="surah-results" role="listbox" aria-label="نتائج البحث عن السورة" hidden></div>
+<p id="surahSearchStatus" class="field-note search-status" role="status" aria-live="polite" hidden></p>
 <select id="surah" aria-label="اختر السورة"><option>جارٍ تحميل السور…</option></select>
 <div class="two-col verse-range"><div><label for="fromAyah">من الآية</label><input id="fromAyah" type="number" inputmode="numeric" min="1" value="3"></div><div><label for="toAyah">إلى الآية</label><input id="toAyah" type="number" inputmode="numeric" min="1" value="3"></div></div>
 <p class="field-note" id="rangeNote">اختر آية واحدة أو آيات متتابعة</p>
@@ -91,6 +93,7 @@
 <section aria-labelledby="release016"><h3 id="release016">الإصدار <bdi>0.1.6</bdi></h3><ul>
 <li>عرض أسماء السور بدون تشكيل في قائمة الاختيار وتفاصيل المقطع.</li>
 <li>إصلاح البحث عن السور بالتشكيل أو بدونه، مع تجاهل علامات الرسم القرآني والتطويل.</li>
+<li>إظهار نتائج السور مباشرة أثناء الكتابة واختيارها بضغطة واحدة، مع دعم الأسهم وEnter.</li>
 </ul></section>
 <section aria-labelledby="release015"><h3 id="release015">الإصدار <bdi>0.1.5</bdi></h3><ul>
 <li>إضافة القارئ إسلام صبحي إلى قائمة القراء، مع توضيح التلاوات غير المتوفرة بصوته.</li>
@@ -131,5 +134,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.6"></script>
+<script type="module" src="app.js?v=0.1.6-fix1"></script>
 </body></html>

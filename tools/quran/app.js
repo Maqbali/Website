@@ -1,6 +1,6 @@
-import {RECITERS,DEFAULTS,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,verseAt,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.6';
-import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.5-r2';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.5';
+import {RECITERS,DEFAULTS,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,verseAt,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.6-fix1';
+import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.6-fix1';
+import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.6-fix1';
 const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d');
 const PRESET_BACKGROUNDS=new Map([...document.querySelectorAll('[data-background]')].map(button=>[button.dataset.background,button.querySelector('img').getAttribute('src')]));
 let settings={...DEFAULTS},quran,surah,verses=[],segments=[],audioCtx,sourceNodes=[],audioLoad=null,audioAbort=null,selectionVersion=0,playing=false,position=0,startedAt=0,bgImage=null,customFile=null,customURL=null,bgVersion=0,renderQueued=false,exporting=false,cancelled=false,engine=null,outputURL=null,raf=0,wakeLock=null;
@@ -10,7 +10,52 @@ const totalDuration=()=>segments.reduce((n,s)=>n+s.duration,0);const getReciter=
 function message(text='',error=false){$('message').textContent=text;$('message').className=error?'error':'success';}
 function saveSettings(){try{localStorage.setItem('maqbali-quran-settings-v1',JSON.stringify({...settings,background:customFile?'mountains':settings.background}));}catch{}}
 function syncControls(){$('roundedCorners').checked=settings.roundedCorners;$('cornerOption').hidden=settings.ratio!=='landscape';for(const id of ['fontSize','position','dim','zoom','bgX','bgY','lineHeight','margin','color','quality'])$(id).value=settings[id];$('hex').value=settings.color.toUpperCase();$('fromAyah').value=settings.from;$('toAyah').value=settings.to;$('fontValue').textContent=settings.fontSize;$('dimValue').textContent=settings.dim+'٪';$('zoomValue').textContent=settings.zoom+'٪';$('lineValue').textContent=settings.lineHeight;$('marginValue').textContent=settings.margin+'٪';document.querySelectorAll('[data-ratio]').forEach(b=>{const on=b.dataset.ratio===settings.ratio;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',on);});const [w,h]=dimensions(settings.ratio,settings.quality);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}canvas.className=settings.ratio+'-canvas';$('previewResolution').textContent=`${w} × ${h}`;requestRender();}
-function renderSurahs(query=''){const selected=settings.surah;$('surah').replaceChildren();quran.surahs.filter(s=>normalize(s.name+' '+s.englishName).includes(normalize(query))).forEach(s=>{$('surah').add(new Option(`${arabic(s.number)}. ${s.name} — ${arabic(s.ayahs.length)} آية`,s.number));});$('surah').value=selected;if(!$('surah').value)$('surah').selectedIndex=-1;}
+let surahMatches=[],activeSurahResult=-1;
+function renderSurahs(query=$('surahSearch').value){
+  if(!quran)return;
+  const input=$('surahSearch'),list=$('surahResults'),status=$('surahSearchStatus'),select=$('surah');
+  select.replaceChildren();
+  for(const s of quran.surahs)select.add(new Option(`${arabic(s.number)}. ${s.name} — ${arabic(s.ayahs.length)} آية`,s.number));
+  select.value=settings.surah;
+  const searching=Boolean(normalize(query));
+  surahMatches=searching?quran.surahs.filter(s=>normalize(s.name+' '+s.englishName).includes(normalize(query))):[];
+  activeSurahResult=-1;list.replaceChildren();input.removeAttribute('aria-activedescendant');
+  for(const s of surahMatches){
+    const option=document.createElement('button');
+    option.type='button';option.className='surah-result';option.id=`surah-result-${s.number}`;
+    option.setAttribute('role','option');option.setAttribute('aria-selected','false');option.tabIndex=-1;
+    option.textContent=`${arabic(s.number)}. ${s.name} — ${arabic(s.ayahs.length)} آية`;
+    option.onclick=()=>chooseSurah(s.number);
+    list.append(option);
+  }
+  select.hidden=searching;list.hidden=!surahMatches.length;status.hidden=!searching;
+  status.textContent=searching?(surahMatches.length?`نتائج البحث: ${arabic(surahMatches.length)}. اختر السورة من النتائج.`:'لا توجد سورة بهذا الاسم. جرّب اسمًا آخر.') : '';
+  input.setAttribute('aria-expanded',String(surahMatches.length>0));
+}
+function chooseSurah(number){
+  if(exporting||!quran?.surahs.some(s=>s.number===number))return;
+  settings.surah=number;settings.from=1;settings.to=1;
+  $('surahSearch').value='';renderSurahs();syncControls();selectionChanged();$('surahSearch').focus({preventScroll:true});
+}
+function surahSearchKeydown(e){
+  if(e.isComposing)return;
+  if(e.key==='Escape'){
+    e.preventDefault();$('surahSearch').value='';renderSurahs();return;
+  }
+  if(!surahMatches.length)return;
+  if(e.key==='Enter'){
+    e.preventDefault();chooseSurah(surahMatches[Math.max(0,activeSurahResult)].number);return;
+  }
+  if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;
+  e.preventDefault();
+  activeSurahResult=activeSurahResult<0?(e.key==='ArrowDown'?0:surahMatches.length-1)
+    :(activeSurahResult+(e.key==='ArrowDown'?1:-1)+surahMatches.length)%surahMatches.length;
+  [...$('surahResults').children].forEach((option,index)=>{
+    option.classList.toggle('active',index===activeSurahResult);
+    option.setAttribute('aria-selected',String(index===activeSurahResult));
+    if(index===activeSurahResult){$('surahSearch').setAttribute('aria-activedescendant',option.id);option.scrollIntoView({block:'nearest'});}
+  });
+}
 function renderReciters(query=''){$('reciter').replaceChildren();RECITERS.filter(r=>normalize(r.name).includes(normalize(query))).forEach(r=>$('reciter').add(new Option(r.name,r.id)));$('reciter').value=settings.reciter;if(!$('reciter').value)$('reciter').selectedIndex=-1;}
 function updateReader(){$('reciterName').textContent=getReciter().name;$('previewReader').textContent=getReciter().short;$('readerAvailability').hidden=settings.reciter!=='Ahmed_Talib_QUA';$('islamAvailability').hidden=settings.reciter!=='Islam_Sobhi_QUA';}
 function stopSources(){for(const s of sourceNodes)try{s.stop();}catch{}sourceNodes=[];}
@@ -131,7 +176,8 @@ async function loadEngine(){
 async function exportVideo(){if(exporting||!verses.length)return;pause();message();setBusy(true);cancelled=false;let ff;const files=[];try{try{wakeLock=await navigator.wakeLock?.request('screen');}catch{}progress(1,'تجهيز التلاوة…');await context();await loadAudio((i,n)=>progress(2+10*i/n,`تنزيل تلاوة الآية ${arabic(i+1)} من ${arabic(n)}…`));if(cancelled)throw new DOMException('Cancelled','AbortError');await document.fonts.load(`${settings.fontSize}px Quran`);ff=await loadEngine();if(cancelled)throw new DOMException('Cancelled','AbortError');const [w,h]=dimensions(settings.ratio,settings.quality),total=totalDuration();const write=async(name,bytes)=>{if(cancelled)throw new DOMException('Cancelled','AbortError');await ff.writeFile(name,bytes);files.push(name);};progress(23,'تجهيز الصوت والآيات…');await write('audio.wav',encodeWav(segments,audioCtx.sampleRate));await write('slides.txt',new TextEncoder().encode(concatSlides(segments)));const temp=document.createElement('canvas');temp.width=w;temp.height=h;const tc=temp.getContext('2d');for(let i=0;i<verses.length;i++){drawOverlay(tc,verses[i],w,h,settings);await write(`verse-${i}.png`,new Uint8Array(await(await blobPng(temp)).arrayBuffer()));progress(24+10*(i+1)/verses.length,'تنسيق الآيات بالرسم العثماني…');}const video=customFile?.type.startsWith('video/')||settings.background==='motion';let geometry;if(video){if(bgVideo.readyState<2)throw Error('انتظر تحميل خلفية الفيديو أو اختر خلفية أخرى.');const bytes=customFile?await customFile.arrayBuffer():await fetch('assets/night-motion.mp4').then(r=>{if(!r.ok)throw Error('تعذر تحميل الخلفية.');return r.arrayBuffer();});await write('background.media',new Uint8Array(bytes));geometry=cropGeometry(bgVideo.videoWidth,bgVideo.videoHeight,w,h,settings);}else{if(!bgImage)throw Error('انتظر تحميل الخلفية أو اختر صورة أخرى.');tc.clearRect(0,0,w,h);drawBackground(tc,bgImage,w,h,settings);await write('background.png',new Uint8Array(await(await blobPng(temp)).arrayBuffer()));}ff.on('progress',({time})=>{if(!cancelled)progress(35+Math.min(63,Math.max(0,time/1e6/total*63)),'إنشاء الفيديو على جهازك…');});progress(35,'إنشاء الفيديو على جهازك…');const code=await ff.exec(exportArgs({video,geometry,width:w,height:h,duration:total}));if(cancelled)throw new DOMException('Cancelled','AbortError');if(code!==0)throw Error('لم يكتمل التصدير. جرّب جودة 720p أو مقطعًا أقصر أو خلفية صورة.');const result=await ff.readFile('output.mp4');if(outputURL)URL.revokeObjectURL(outputURL);const blob=new Blob([result],{type:'video/mp4'});outputURL=URL.createObjectURL(blob);const name=($('filename').value.trim()||`تلاوة-${surah.name}`).replace(/[\\/:*?"<>|\x00-\x1f]/g,'-')+'.mp4';$('download').href=outputURL;$('download').download=name;$('resultVideo').src=outputURL;$('resultVideo').hidden=true;$('result').hidden=false;const file=new File([blob],name,{type:'video/mp4'});$('share').hidden=!(navigator.canShare?.({files:[file]}));$('share').onclick=async()=>{try{await navigator.share({files:[file],title:'فيديو التلاوة'});}catch(e){if(e.name!=='AbortError')message('تعذرت المشاركة. استخدم زر التنزيل.',true);}};progress(100,'فيديو التلاوة جاهز');message('اكتمل الفيديو. اضغط «تنزيل MP4» لحفظه.');$('download').click();}catch(e){if(cancelled||e.name==='AbortError')message('أُلغي التصدير.');else message(e.message||'تعذر التصدير. جرّب مقطعًا أقصر.',true);}finally{if(ff?.loaded){for(const f of [...files,'output.mp4'])try{await ff.deleteFile(f);}catch{}}try{engine?.terminate();}catch{}engine=null;try{await wakeLock?.release();}catch{}setBusy(false);if(!verses.length)selectionChanged();}}
 function showTab(name,focus=false){document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('active',on);b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus();});document.querySelectorAll('[role=tabpanel]').forEach(p=>p.hidden=p.id!==name+'-panel');}
 document.querySelectorAll('[data-tab]').forEach(b=>{b.onclick=()=>showTab(b.dataset.tab);b.onkeydown=e=>{const tabs=[...document.querySelectorAll('[data-tab]')],i=tabs.indexOf(b);if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowLeft'?1:2))%3;showTab(tabs[n].dataset.tab,true);}};});
-$('surahSearch').oninput=e=>renderSurahs(e.target.value);$('surah').onchange=e=>{if(!e.target.value)return;settings.surah=+e.target.value;settings.from=1;settings.to=1;syncControls();selectionChanged();};for(const [id,key]of[['fromAyah','from'],['toAyah','to']])$(id).onchange=e=>{settings[key]=+e.target.value;selectionChanged();};
+$('surahSearch').oninput=e=>renderSurahs(e.target.value);$('surahSearch').onkeydown=surahSearchKeydown;
+$('surah').onchange=e=>{if(e.target.value)chooseSurah(+e.target.value);};for(const [id,key]of[['fromAyah','from'],['toAyah','to']])$(id).onchange=e=>{settings[key]=+e.target.value;selectionChanged();};
 $('reciterSearch').oninput=e=>renderReciters(e.target.value);$('reciter').onchange=e=>{if(!e.target.value)return;settings.reciter=e.target.value;updateReader();selectionChanged();};
 for(const id of ['fontSize','position','dim','zoom','bgX','bgY','lineHeight','margin','quality'])$(id).oninput=e=>{settings[id]=id==='position'?e.target.value:+e.target.value;syncControls();saveSettings();};
 function color(value){if(!/^#[0-9a-f]{6}$/i.test(value))return;settings.color=value;syncControls();saveSettings();}$('color').oninput=e=>color(e.target.value);$('hex').onchange=e=>{if(!/^#[0-9a-f]{6}$/i.test(e.target.value)){e.target.value=settings.color.toUpperCase();message('اكتب كود لون صحيحًا مثل #FFFFFF.',true);}else color(e.target.value);};document.querySelectorAll('[data-color]').forEach(b=>b.onclick=()=>color(b.dataset.color));
