@@ -8,11 +8,15 @@ export const RECITERS = [
  {id:'MaherAlMuaiqly128kbps',name:'ماهر المعيقلي',short:'المعيقلي'},
  {id:'Yasser_Ad-Dussary_128kbps',name:'ياسر الدوسري',short:'الدوسري'},
  {id:'Badr_AlTurki_QUA',name:'بدر التركي',short:'بدر التركي',provider:'qua'},
- {id:'Ali_Jaber_64kbps',name:'علي جابر',short:'علي جابر'}
+ {id:'Ali_Jaber_64kbps',name:'علي جابر',short:'علي جابر'},
+ {id:'Ahmed_Talib_QUA',name:'أحمد طالب بن حميد',short:'أحمد طالب',provider:'qua'},
+ {id:'Abdullah_AlMousa_MP3Quran',name:'عبدالله بن حمد الموسى',short:'عبدالله الموسى',provider:'mp3quran'},
+ {id:'Islam_Sobhi_QUA',name:'إسلام صبحي',short:'إسلام صبحي',provider:'qua'}
 ];
 export const DEFAULTS={surah:2,from:3,to:3,reciter:'Husary_128kbps',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false};
 export const arabic=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
-export const normalize=s=>s.normalize('NFD').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').trim();
+export const plainArabic=s=>s.normalize('NFC').replace(/\p{M}/gu,'').replace(/[ـ\u200B-\u200F\uFEFF]/g,'').replace(/ٱ/g,'ا');
+export const normalize=s=>plainArabic(s).normalize('NFD').replace(/\p{M}/gu,'').replace(/ة/g,'ه').toLowerCase().replace(/\s+/g,' ').trim();
 export function dimensions(ratio,quality){const q=Number(quality);return ratio==='landscape'?[q*16/9,q].map(Math.round):ratio==='square'?[q,q]:[q,Math.round(q*16/9)];}
 export function validateRange(surah,from,to){if(!Number.isInteger(from)||!Number.isInteger(to)||from<1||to<from||to>surah.ayahs.length)throw Error('اختر نطاق آيات صحيحًا من ١ إلى '+arabic(surah.ayahs.length)+'.');return surah.ayahs.slice(from-1,to);}
 export function wrapLines(ctx,text,width){const words=text.split(/\s+/),lines=[];let line='';for(const word of words){const test=line?line+' '+word:word;if(line&&ctx.measureText(test).width>width){lines.push(line);line=word;}else line=test;}if(line)lines.push(line);return lines;}

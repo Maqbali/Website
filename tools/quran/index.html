@@ -31,6 +31,8 @@
 <select id="reciter" aria-label="اختر القارئ"></select>
 <div class="reciter-card"><span class="audio-icon" aria-hidden="true">♫</span><div><b id="reciterName">محمود خليل الحصري</b><small>رواية حفص عن عاصم · تلاوة مرتلة</small></div><button id="listen" class="icon-button" title="الاستماع للتلاوة" aria-label="الاستماع للتلاوة">▷</button></div>
 <p class="field-note" id="cacheNote">تُحفظ التلاوة التي تستمع إليها في المتصفح لإعادة استخدامها.</p>
+<p class="field-note" id="readerAvailability" hidden>تلاوات أحمد طالب متاحة في ١٠٧ سور. غير المتوفر حاليًا: التوبة، إبراهيم، النحل، الإسراء، المؤمنون، النور، والأحزاب.</p>
+<p class="field-note" id="islamAvailability" hidden>بعض السور والآيات غير متوفرة حاليًا بصوت إسلام صبحي. السور غير المتوفرة: النساء، الأعراف، التوبة، الصافات، الزمر، غافر، الجاثية، والطلاق.</p>
 <details class="verses-details"><summary>عرض نص الآيات المحددة <span id="verseCount">آية واحدة</span></summary><div id="versesText" class="quran-text"></div></details>
 </div>
 <div class="panel" id="background-panel" role="tabpanel" aria-labelledby="background-tab" hidden>
@@ -73,7 +75,7 @@
 <div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
 <div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">الحصري</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
 </div>
-<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.4" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.4</button></div></footer>
+<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.6" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.6</button></div></footer>
 </main>
 <dialog id="privacyDialog" class="info-dialog" aria-labelledby="privacyTitle">
 <div class="dialog-header"><h2 id="privacyTitle">الخصوصية</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق نافذة الخصوصية" autofocus>×</button></div>
@@ -86,6 +88,15 @@
 <dialog id="versionsDialog" class="info-dialog" aria-labelledby="versionsTitle">
 <div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
 <div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
+<section aria-labelledby="release016"><h3 id="release016">الإصدار <bdi>0.1.6</bdi></h3><ul>
+<li>عرض أسماء السور بدون تشكيل في قائمة الاختيار وتفاصيل المقطع.</li>
+<li>إصلاح البحث عن السور بالتشكيل أو بدونه، مع تجاهل علامات الرسم القرآني والتطويل.</li>
+</ul></section>
+<section aria-labelledby="release015"><h3 id="release015">الإصدار <bdi>0.1.5</bdi></h3><ul>
+<li>إضافة القارئ إسلام صبحي إلى قائمة القراء، مع توضيح التلاوات غير المتوفرة بصوته.</li>
+<li>إضافة القارئ أحمد طالب بن حميد إلى قائمة القراء، مع توضيح السور غير المتوفرة بصوته.</li>
+<li>إضافة القارئ عبدالله بن حمد الموسى، وإتاحة الاستماع والمعاينة وإنشاء الفيديو باستخدام تلاوته.</li>
+</ul></section>
 <section aria-labelledby="release014"><h3 id="release014">الإصدار <bdi>0.1.4</bdi></h3><ul>
 <li>إضافة القارئ علي جابر إلى قائمة القراء.</li>
 </ul></section>
@@ -120,5 +131,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.4"></script>
+<script type="module" src="app.js?v=0.1.6"></script>
 </body></html>
