@@ -1,0 +1,14 @@
+@font-face{font-family:Cairo;src:url('assets/cairo-400.ttf');font-display:swap;font-weight:400}
+@font-face{font-family:Cairo;src:url('assets/cairo-600.ttf');font-display:swap;font-weight:600}
+@font-face{font-family:Cairo;src:url('assets/cairo-700.ttf');font-display:swap;font-weight:700}
+:root{color-scheme:dark;--bg:#0a0a0a;--panel:#131312;--gold:#c8a96e;--gold-muted:rgba(200,169,110,.15);--text:#f0ede6;--muted:#99968e;--border:rgba(255,255,255,.085)}
+:root{--theme-accent:#c9a84c}
+.theme-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--theme-accent);color:var(--theme-accent);background:#0e0e0e;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;transition:background .25s,border-color .25s,color .25s}
+.theme-btn svg{width:16px;height:16px}
+.theme-btn:hover{background:var(--gold-muted)}
+.credit{display:inline-flex;align-items:center;gap:6px}
+.credit-heart{color:var(--gold)}
+.credit a:hover{text-decoration:underline;text-underline-offset:3px}
+:root[data-theme="light"]{color-scheme:light;--bg:#f5f0e8;--panel:#fff;--gold:#89651e;--gold-muted:rgba(160,120,40,.1);--text:#2a1f0a;--muted:#6b604d;--border:rgba(150,120,40,.25);--theme-accent:#a07828}
+:root[data-theme="light"] .theme-btn{background:#fff}
+:root[data-theme="light"] .theme-btn:hover{background:var(--gold-muted)}
