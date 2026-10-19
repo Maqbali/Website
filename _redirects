@@ -1,0 +1,6 @@
+/tools /tools/ 301
+/tools/quran /tools/quran/ 301
+/quran /tools/quran/ 301
+/quran/ /tools/quran/ 301
+/quran/index.html /tools/quran/ 301
+/quran/* /tools/quran/:splat 301
