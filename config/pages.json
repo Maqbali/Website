@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://www.maqbali.com",
+  "coreVersion": "v1.0.0",
+  "pages": [
+    {
+      "id": "home",
+      "title": "الصفحة الرئيسية",
+      "oldPath": "/",
+      "newPath": "/new/",
+      "description": "شاشة الموقع وروابط التواصل",
+      "pageTitle": "Mohammed Al-Maqbali | محمد المقبالي",
+      "metaDescription": "مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.",
+      "canonicalUrl": "https://www.maqbali.com/",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
+    },
+    {
+      "id": "sitemap",
+      "title": "خريطة الموقع",
+      "oldPath": "/sitemap.html",
+      "newPath": "/new/sitemap.html",
+      "description": "عرض صفحات الموقع",
+      "pageTitle": "خريطة الموقع | Maqbali",
+      "metaDescription": "خريطة تجريبية لموقع محمد المقبالي، تجمع الصفحات الحالية وروابط التصاميم الجديدة المتاحة للمقارنة.",
+      "canonicalUrl": "https://www.maqbali.com/sitemap.html",
+      "homeUrl": "/new/",
+      "sitemapUrl": "/new/sitemap.html"
+    },
+    {
+      "id": "tools",
+      "title": "الأدوات",
+      "oldPath": "/tools/"
+    },
+    {
+      "id": "quran",
+      "title": "صانع فيديوهات التلاوة",
+      "oldPath": "/tools/quran/"
+    },
+    {
+      "id": "contact",
+      "title": "تواصل معنا",
+      "oldPath": "/contact.html"
+    },
+    {
+      "id": "videos",
+      "title": "معرض الفيديو",
+      "oldPath": "/videos.html"
+    },
+    {
+      "id": "sahban",
+      "title": "صهبان",
+      "oldPath": "/sahban.html"
+    },
+    {
+      "id": "news",
+      "title": "نشرة أسواق المال",
+      "oldPath": "/news.html"
+    },
+    {
+      "id": "currency",
+      "title": "محوّل العملات",
+      "oldPath": "/currency.html"
+    },
+    {
+      "id": "pr",
+      "title": "مواقيت الصلاة",
+      "oldPath": "/pr.html"
+    },
+    {
+      "id": "cves",
+      "title": "نشرة الثغرات الأمنية",
+      "oldPath": "/cves.html"
+    },
+    {
+      "id": "dji",
+      "title": "تحديثات DJI",
+      "oldPath": "/dji.html"
+    },
+    {
+      "id": "ip",
+      "title": "تفاصيل عنوان IP",
+      "oldPath": "/ip.html"
+    },
+    {
+      "id": "speed",
+      "title": "محلّل الإشارة وقياس السرعة",
+      "oldPath": "/speed.html"
+    },
+    {
+      "id": "nfc-tools",
+      "title": "أدوات NFC",
+      "oldPath": "/nfc-tools.html"
+    },
+    {
+      "id": "flaticon-icons-preview",
+      "title": "معاينة مكتبة الأيقونات",
+      "oldPath": "/flaticon-icons-preview.html"
+    },
+    {
+      "id": "flowers",
+      "title": "Flowers",
+      "oldPath": "/flowers.html"
+    }
+  ]
+}
