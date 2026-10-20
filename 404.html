@@ -46,7 +46,19 @@
       color: #888;
       max-width: 320px;
       line-height: 1.9;
-      margin-bottom: 32px;
+      margin-bottom: 10px;
+    }
+    .countdown {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.9;
+      margin: 0 0 18px;
+      padding: 0 8px;
+    }
+    .countdown__number {
+      color: #c9a84c;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
     }
     .btn {
       display: inline-flex;
@@ -73,6 +85,7 @@
   <div class="divider"></div>
   <div class="title">الصفحة غير موجودة</div>
   <div class="desc">عذراً، الصفحة التي تبحث عنها غير موجودة</div>
+  <p class="countdown">سيتم إعادة توجيهك إلى الصفحة الرئيسية خلال <span class="countdown__number" id="countdown">10</span> ثوانٍ</p>
 
   <a href="/" class="btn">
     <svg fill="none" viewBox="0 0 24 24">
@@ -81,5 +94,19 @@
     العودة للرئيسية
   </a>
 
+  <script>
+    (function () {
+      const number = document.getElementById('countdown');
+      const deadline = Date.now() + 10000;
+      const timer = setInterval(function () {
+        const seconds = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+        number.textContent = seconds;
+        if (seconds === 0) {
+          clearInterval(timer);
+          window.location.replace('/');
+        }
+      }, 200);
+    })();
+  </script>
 </body>
 </html>
