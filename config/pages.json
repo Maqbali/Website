@@ -12,8 +12,9 @@
       "pageTitle": "Mohammed Al-Maqbali | محمد المقبالي",
       "metaDescription": "مصور عماني، أسعى لالتقاط ونقل جمال الطبيعة في بلادي الساحرة، سلطنة عُمان، بعدستي.",
       "canonicalUrl": "https://www.maqbali.com/",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "sitemap",
@@ -22,10 +23,11 @@
       "newPath": "/new/sitemap.html",
       "description": "عرض صفحات الموقع",
       "pageTitle": "خريطة الموقع | Maqbali",
-      "metaDescription": "خريطة تجريبية لموقع محمد المقبالي، تجمع الصفحات الحالية وروابط التصاميم الجديدة المتاحة للمقارنة.",
+      "metaDescription": "خريطة موقع محمد المقبالي: الصفحات الأساسية والأدوات والنشرات والخدمات الإلكترونية.",
       "canonicalUrl": "https://www.maqbali.com/sitemap.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "tools",
@@ -35,8 +37,9 @@
       "pageTitle": "الأدوات | Maqbali",
       "metaDescription": "أدوات موقع محمد المقبالي. اختر الأداة التي تريد استخدامها، وابدأ مع صانع فيديوهات التلاوة.",
       "canonicalUrl": "https://www.maqbali.com/tools/",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "quran",
@@ -51,8 +54,9 @@
       "pageTitle": "تواصل معنا - Mohammed Al-Maqbali",
       "metaDescription": "تواصل معنا | Maqbali.com",
       "canonicalUrl": "https://www.maqbali.com/contact.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "videos",
@@ -72,8 +76,9 @@
       "pageTitle": "نشرة أسواق المال",
       "metaDescription": "صفحة تجمع أخبار الذهب و الفضة و النفط العماني و النفط العالمي و غيرها من من الأسواق المهمة للمستثمر العماني.",
       "canonicalUrl": "https://www.maqbali.com/news.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "currency",
@@ -93,8 +98,9 @@
       "pageTitle": "نشرة الثغرات الأمنية",
       "metaDescription": "آخر الثغرات الأمنية (CVEs) من NVD الرسمي",
       "canonicalUrl": "https://www.maqbali.com/cves.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "dji",
@@ -104,8 +110,9 @@
       "pageTitle": "تحديثات DJI",
       "metaDescription": "متابعة آخر تحديثات أجهزة DJI",
       "canonicalUrl": "https://www.maqbali.com/dji.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "ip",
@@ -115,8 +122,9 @@
       "pageTitle": "IP Address - Details",
       "metaDescription": "عنوان الآيبي الخاص بك (IPv4 وIPv6) وموقعك الجغرافي ومزوّد الخدمة",
       "canonicalUrl": "https://www.maqbali.com/ip.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "speed",
@@ -126,8 +134,9 @@
       "pageTitle": "محلّل الإشارة وقياس السرعة",
       "metaDescription": "محلّل الإشارة وقياس السرعة | Maqbali.com",
       "canonicalUrl": "https://www.maqbali.com/speed.html",
-      "homeUrl": "/new/",
-      "sitemapUrl": "/new/sitemap.html"
+      "homeUrl": "/",
+      "sitemapUrl": "/sitemap.html",
+      "published": true
     },
     {
       "id": "nfc-tools",

@@ -1,16 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نشرة الثغرات الأمنية</title>
-  <meta name="description" content="آخر الثغرات الأمنية (CVEs) من NVD الرسمي">
-  <link rel="icon" href="images/cyberattack.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نشرة الثغرات الأمنية</title>
+<meta name="description" content="آخر الثغرات الأمنية (CVEs) من NVD الرسمي">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="/images/cyberattack.png" type="image/png">
+<link rel="canonical" href="https://www.maqbali.com/cves.html">
 
-    :root {
+<script src="/core/v1/core.js"></script>
+<link rel="stylesheet" href="/core/v1/core.css">
+<style>
+.site-legacy * { box-sizing: border-box; margin: 0; padding: 0; }
+.site-legacy {
       --bg: #0e0e0e;
       --card: #161616;
       --card2: #1a1a1a;
@@ -21,7 +25,7 @@
       --muted: #555;
       --gold: #c9a84c;
     }
-    body.light {
+.site-legacy.light {
       --bg: #f5f0e8;
       --card: #ffffff;
       --card2: #f0ebe0;
@@ -32,131 +36,116 @@
       --muted: #999;
       --gold: #a07828;
     }
-
-    body { font-family: 'Cairo', sans-serif; direction: rtl; background: var(--bg); min-height: 100vh; padding: 2rem 1rem; color: var(--text); transition: background 0.3s, color 0.3s; }
-    .page { max-width: 900px; margin: 0 auto; }
-
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--card); border: 0.5px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
-    .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: 'Cairo', sans-serif; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--gold); text-decoration: none; transition: all 0.15s; }
-    .nav-btn-action:hover { background: var(--card); border-color: var(--gold); }
-    .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
-    .nav-controls { display: flex; align-items: center; gap: 8px; }
-    .theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--gold); background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; flex-shrink: 0; }
-    .theme-btn svg { width: 16px; height: 16px; }
-
-    .date-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
-
-    .timer-row { display: flex; align-items: center; gap: 14px; margin-bottom: 1.2rem; padding: 0 4px; }
-    .timer-ring { position: relative; width: 42px; height: 42px; flex-shrink: 0; }
-    .timer-ring svg { transform: rotate(-90deg); }
-    .timer-bg { fill: none; stroke: rgba(201,168,76,0.15); stroke-width: 3; }
-    .timer-prog { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
-    .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--gold); }
-    .update-time { font-size: 13px; color: var(--muted); }
-    .update-time b { color: var(--text2); font-weight: 600; }
-    .date-item { text-align: center; }
-    .date-label-sm { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
-    .date-value { font-size: 14px; font-weight: 600; color: var(--gold); }
-    .date-sep { color: rgba(201,168,76,0.3); font-size: 18px; }
-
-    .section-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border2); letter-spacing: 0.5px; }
-
-    /* STATS */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-    .stat-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 1rem; text-align: center; }
-    .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
-    .stat-label { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.5px; }
-    .stat-card.critical .stat-num { color: #f44336; }
-    .stat-card.high .stat-num { color: #ff9800; }
-    .stat-card.medium .stat-num { color: #ffc107; }
-    .stat-card.total .stat-num { color: var(--gold); }
-
-    /* FILTER */
-    .filter-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 10px 14px; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .filter-btn { padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--card2); font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-    .filter-btn.active { background: var(--gold); color: #111; border-color: var(--gold); }
-    .filter-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
-    .search-input { flex: 1; min-width: 150px; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; padding: 6px 12px; font-family: 'Cairo', sans-serif; font-size: 12px; color: var(--text); outline: none; }
-    .search-input:focus { border-color: var(--gold); }
-
-    /* CVE LIST */
-    .cve-list { display: flex; flex-direction: column; gap: 10px; }
-    .cve-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 14px; transition: border-color 0.2s; }
-    .cve-card:hover { border-color: rgba(201,168,76,0.35); }
-    .cve-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-    .cve-id { font-size: 12px; font-weight: 700; color: var(--gold); font-family: 'Courier New', monospace; }
-    .cve-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .severity-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-    .sev-critical { background: rgba(244,67,54,0.15); color: #f44336; border: 0.5px solid rgba(244,67,54,0.3); }
-    .sev-high { background: rgba(255,152,0,0.15); color: #ff9800; border: 0.5px solid rgba(255,152,0,0.3); }
-    .sev-medium { background: rgba(255,193,7,0.15); color: #ffc107; border: 0.5px solid rgba(255,193,7,0.3); }
-    .sev-low { background: rgba(76,175,80,0.15); color: #4caf50; border: 0.5px solid rgba(76,175,80,0.3); }
-    .cvss-score { font-size: 11px; font-weight: 700; color: var(--text); background: var(--card2); padding: 2px 8px; border-radius: 6px; border: 0.5px solid var(--border); }
-    .cve-date { font-size: 10px; color: var(--muted); }
-    .cve-desc { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 8px; }
-    .cve-products { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
-    .product-tag { font-size: 10px; color: var(--gold); background: rgba(201,168,76,0.08); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 10px; }
-
-    .read-more-btn { margin-top: 10px; background: transparent; border: none; color: var(--gold); font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 0; transition: opacity 0.2s; }
-    .read-more-btn:hover { opacity: 0.7; }
-
-    /* MODAL */
-    .modal-overlay {
+.site-legacy { font-family: "Cairo", sans-serif; direction: rtl; background: var(--bg); min-height: 100vh; padding: 2rem 1rem; color: var(--text); transition: background 0.3s, color 0.3s; }
+.site-legacy .page { max-width: 900px; margin: 0 auto; }
+.site-legacy .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--card); border: 0.5px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
+.site-legacy .nav-btn-action { display: flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-family: "Cairo", sans-serif; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--gold); text-decoration: none; transition: all 0.15s; }
+.site-legacy .nav-btn-action:hover { background: var(--card); border-color: var(--gold); }
+.site-legacy .nav-btn-action svg { width: 14px; height: 14px; flex-shrink: 0; }
+.site-legacy .nav-controls { display: flex; align-items: center; gap: 8px; }
+.site-legacy .theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--gold); background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; flex-shrink: 0; }
+.site-legacy .theme-btn svg { width: 16px; height: 16px; }
+.site-legacy .date-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.site-legacy .timer-row { display: flex; align-items: center; gap: 14px; margin-bottom: 1.2rem; padding: 0 4px; }
+.site-legacy .timer-ring { position: relative; width: 42px; height: 42px; flex-shrink: 0; }
+.site-legacy .timer-ring svg { transform: rotate(-90deg); }
+.site-legacy .timer-bg { fill: none; stroke: rgba(201,168,76,0.15); stroke-width: 3; }
+.site-legacy .timer-prog { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+.site-legacy .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--gold); }
+.site-legacy .update-time { font-size: 13px; color: var(--muted); }
+.site-legacy .update-time b { color: var(--text2); font-weight: 600; }
+.site-legacy .date-item { text-align: center; }
+.site-legacy .date-label-sm { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+.site-legacy .date-value { font-size: 14px; font-weight: 600; color: var(--gold); }
+.site-legacy .date-sep { color: rgba(201,168,76,0.3); font-size: 18px; }
+.site-legacy .section-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border2); letter-spacing: 0.5px; }
+.site-legacy .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+.site-legacy .stat-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 1rem; text-align: center; }
+.site-legacy .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
+.site-legacy .stat-label { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.5px; }
+.site-legacy .stat-card.critical .stat-num { color: #f44336; }
+.site-legacy .stat-card.high .stat-num { color: #ff9800; }
+.site-legacy .stat-card.medium .stat-num { color: #ffc107; }
+.site-legacy .stat-card.total .stat-num { color: var(--gold); }
+.site-legacy .filter-bar { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 10px 14px; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.site-legacy .filter-btn { padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--card2); font-family: "Cairo", sans-serif; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.site-legacy .filter-btn.active { background: var(--gold); color: #111; border-color: var(--gold); }
+.site-legacy .filter-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+.site-legacy .search-input { flex: 1; min-width: 150px; background: var(--card2); border: 0.5px solid var(--border); border-radius: 8px; padding: 6px 12px; font-family: "Cairo", sans-serif; font-size: 12px; color: var(--text); outline: none; }
+.site-legacy .search-input:focus { border-color: var(--gold); }
+.site-legacy .cve-list { display: flex; flex-direction: column; gap: 10px; }
+.site-legacy .cve-card { background: var(--card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 14px; transition: border-color 0.2s; }
+.site-legacy .cve-card:hover { border-color: rgba(201,168,76,0.35); }
+.site-legacy .cve-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.site-legacy .cve-id { font-size: 12px; font-weight: 700; color: var(--gold); font-family: "Courier New", monospace; }
+.site-legacy .cve-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.site-legacy .severity-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.site-legacy .sev-critical { background: rgba(244,67,54,0.15); color: #f44336; border: 0.5px solid rgba(244,67,54,0.3); }
+.site-legacy .sev-high { background: rgba(255,152,0,0.15); color: #ff9800; border: 0.5px solid rgba(255,152,0,0.3); }
+.site-legacy .sev-medium { background: rgba(255,193,7,0.15); color: #ffc107; border: 0.5px solid rgba(255,193,7,0.3); }
+.site-legacy .sev-low { background: rgba(76,175,80,0.15); color: #4caf50; border: 0.5px solid rgba(76,175,80,0.3); }
+.site-legacy .cvss-score { font-size: 11px; font-weight: 700; color: var(--text); background: var(--card2); padding: 2px 8px; border-radius: 6px; border: 0.5px solid var(--border); }
+.site-legacy .cve-date { font-size: 10px; color: var(--muted); }
+.site-legacy .cve-desc { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 8px; }
+.site-legacy .cve-products { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+.site-legacy .product-tag { font-size: 10px; color: var(--gold); background: rgba(201,168,76,0.08); border: 0.5px solid var(--border); padding: 2px 8px; border-radius: 10px; }
+.site-legacy .read-more-btn { margin-top: 10px; background: transparent; border: none; color: var(--gold); font-family: "Cairo", sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 0; transition: opacity 0.2s; }
+.site-legacy .read-more-btn:hover { opacity: 0.7; }
+.site-legacy .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.65);
       backdrop-filter: blur(4px); z-index: 300;
       display: none; align-items: center; justify-content: center;
       padding: 1rem;
     }
-    .modal-overlay.open { display: flex; }
-    .modal-box {
+.site-legacy .modal-overlay.open { display: flex; }
+.site-legacy .modal-box {
       width: 100%; max-width: 560px; max-height: 85vh;
       background: var(--card); border: 0.5px solid var(--border);
       border-radius: 16px; overflow: hidden;
       display: flex; flex-direction: column;
       animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1);
     }
-    @keyframes modalIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-    .modal-header {
+@keyframes modalIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.site-legacy .modal-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 18px; border-bottom: 0.5px solid var(--border2);
     }
-    .modal-header .cve-id { font-size: 14px; }
-    .modal-close-x {
+.site-legacy .modal-header .cve-id { font-size: 14px; }
+.site-legacy .modal-close-x {
       width: 30px; height: 30px; border-radius: 50%; border: none;
       background: var(--card2); color: var(--muted); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; transition: all 0.15s;
     }
-    .modal-close-x:hover { background: var(--gold); color: #111; }
-    .modal-body {
+.site-legacy .modal-close-x:hover { background: var(--gold); color: #111; }
+.site-legacy .modal-body {
       padding: 18px; overflow-y: auto; flex: 1;
     }
-    .modal-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .modal-desc {
+.site-legacy .modal-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.site-legacy .modal-desc {
       font-size: 13px; color: var(--text2); line-height: 1.9;
       margin-bottom: 14px; white-space: pre-wrap; word-break: break-word;
     }
-    .modal-section-title { font-size: 11px; color: var(--muted); margin: 12px 0 6px; letter-spacing: 0.5px; }
-    .modal-link {
+.site-legacy .modal-section-title { font-size: 11px; color: var(--muted); margin: 12px 0 6px; letter-spacing: 0.5px; }
+.site-legacy .modal-link {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 8px 14px; background: rgba(201,168,76,0.1);
       border: 0.5px solid var(--border); border-radius: 8px;
       color: var(--gold); text-decoration: none; font-size: 12px; font-weight: 600;
       transition: all 0.15s; margin-top: 8px;
     }
-    .modal-link:hover { background: var(--gold); color: #111; border-color: var(--gold); }
-    .modal-footer {
+.site-legacy .modal-link:hover { background: var(--gold); color: #111; border-color: var(--gold); }
+.site-legacy .modal-footer {
       padding: 12px 18px; border-top: 0.5px solid var(--border2);
       display: flex; justify-content: flex-start;
     }
-    .modal-close-btn {
+.site-legacy .modal-close-btn {
       padding: 8px 22px; background: var(--card2); border: 0.5px solid var(--border);
-      border-radius: 8px; color: var(--text); font-family: 'Cairo', sans-serif;
+      border-radius: 8px; color: var(--text); font-family: "Cairo", sans-serif;
       font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
     }
-    .modal-close-btn:hover { background: var(--gold); color: #111; border-color: var(--gold); }
-
-    .load-more {
+.site-legacy .modal-close-btn:hover { background: var(--gold); color: #111; border-color: var(--gold); }
+.site-legacy .load-more {
       display: block;
       margin: 1.2rem auto 0;
       padding: 10px 32px;
@@ -164,144 +153,172 @@
       border: 0.5px solid var(--border);
       border-radius: 10px;
       color: var(--gold);
-      font-family: 'Cairo', sans-serif;
+      font-family: "Cairo", sans-serif;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .load-more:hover {
+.site-legacy .load-more:hover {
       background: var(--gold);
       color: #111;
       border-color: var(--gold);
     }
+.site-legacy .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
+.site-legacy .footer span { font-size: 12px; color: var(--muted); }
+.site-legacy .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
+@media  (max-width: 580px) {.site-legacy .stats-grid { grid-template-columns: repeat(2, 1fr); }
+.site-legacy .nav { padding: 10px 14px; }}
 
-    .footer { text-align: center; margin-top: 2rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border2); }
-    .footer span { font-size: 12px; color: var(--muted); }
-    .footer a { color: var(--gold); text-decoration: none; font-weight: 600; }
+/* Page-only colour bridge: the shared Core remains independent. */
+.site-legacy {
+ --bg:var(--site-bg);--bg-grad:var(--site-bg);--card:var(--site-panel);--card2:var(--site-gold-muted);
+ --surface:var(--site-panel);--surface-2:var(--site-gold-muted);
+ --text:var(--site-text);--text2:var(--site-text);--muted:var(--site-muted);--gold:var(--site-gold);
+ --gold-dark:var(--site-gold);--brand:var(--site-gold);--line:var(--site-border);--border:var(--site-border);
+ --border2:var(--site-border);--panel:var(--site-panel);--gold-muted:var(--site-gold-muted);
+ --shadow:0 4px 20px rgba(0,0,0,.05);
+ width:100%;min-width:0;min-height:0!important;padding:0!important;margin:0!important;
+ background:transparent!important;color:var(--site-text)!important;
+ font-family:'Cairo',Tahoma,Arial,sans-serif!important;
+ display:block!important;
+}
+.site-legacy::before{display:none!important}
+.site-main--legacy{max-width:1060px;padding-block:26px 48px;min-width:0;flex:1 0 auto}
+.site-legacy img{max-width:100%}
+.site-legacy button,.site-legacy input,.site-legacy textarea,.site-legacy select{font-family:inherit}
+.site-legacy .page,.site-legacy .container,.site-legacy .wrap{max-width:100%;}
+.site-legacy a{color:inherit;text-decoration:none}
+.site-legacy a:focus-visible,.site-legacy button:focus-visible{outline:2px solid var(--site-gold);outline-offset:3px}
+.site-legacy .footer,.site-legacy > footer{display:none}
+.site-legacy input,.site-legacy textarea,.site-legacy select{max-width:100%}
+.site-legacy .site-page-intro{display:none}
+@media(max-width:580px){.site-main--legacy{padding-block:18px 36px}}
 
-    @media (max-width: 580px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .nav { padding: 10px 14px; }
-    }
-  </style>
+
+/* Colour refinements on legacy component surfaces */
+.site-legacy .card,.site-legacy .price-card,.site-legacy .oil-card,.site-legacy .stat-card,
+.site-legacy .device-card,.site-legacy .form-card,.site-legacy .info-card,.site-legacy .cve-card,
+.site-legacy .details-card,.site-legacy .ip-card,.site-legacy .summary-card,.site-legacy .modal-box,
+.site-legacy .filter-bar,.site-legacy .date-bar,.site-legacy .tool-card,
+.site-legacy .gauge,.site-legacy .stats .stat,.site-legacy .chart-wrap,
+.site-legacy .log-item,.site-legacy .map-card {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .card-head,.site-legacy .info-banner{color:var(--site-text)}
+.site-legacy .device-name,.site-legacy .info-title,.site-legacy .hero h1,.site-legacy .success h3 {color:var(--site-text)}
+.site-legacy .device-category,.site-legacy .info-desc,.site-legacy .hero p,.site-legacy .success p,.site-legacy .form-group label,.site-legacy .info-item-text p {color:var(--site-muted)}
+.site-legacy .changelog {background:var(--site-gold-muted);color:var(--site-text)}
+.site-legacy .info-icon,.site-legacy .device-icon,.site-legacy .success-icon {background:var(--site-gold-muted)}
+.site-legacy .form-group input,.site-legacy .form-group select,.site-legacy .form-group textarea,
+.site-legacy .search-input,.site-legacy textarea {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .form-title,.site-legacy .info-title,.site-legacy .section-title,.site-legacy .device-icon {color:var(--site-gold)}
+.site-legacy .download-btn,.site-legacy .submit-btn,.site-legacy .btn-primary{background:var(--site-gold);color:var(--site-bg)}
+.site-legacy .legacy-note {margin:25px 0 0;padding:13px 10px;text-align:center;color:var(--site-muted);font-size:12px;border-top:1px solid var(--site-border)}
+
+</style>
 </head>
-<body>
+<body class="site-page site-page--cves">
+<header class="site-topbar" role="banner">
+  <div class="site-topbar__inner">
+    <a class="site-brand" href="/" aria-label="العودة إلى الصفحة الرئيسية">
+      <img class="site-brand__logo" src="/images/logo_2.png" width="64" height="64" alt="شعار محمد المقبالي" decoding="async">
+      <span class="site-brand__text"><b>محمد المقبالي</b><small lang="en" dir="ltr">MOHAMMED AL-MAQBALI</small></span>
+    </a>
+    <nav class="site-actions" aria-label="خيارات الموقع">
+      <a class="site-icon-button site-sitemap-button" href="/sitemap.html" aria-label="خريطة الموقع" title="خريطة الموقع" data-tooltip="خريطة الموقع">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2V6Zm6-2v14m6-12v14" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      </a>
+      <button class="site-icon-button site-theme-button" id="themeToggle" type="button" aria-label="تغيير المظهر" aria-pressed="false" title="تغيير المظهر">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" class="site-main site-main--legacy">
+<div class="site-legacy legacy--cves">
+
 <div class="page">
 
-  <div class="nav">
-    <div class="date-item">
-      <div class="date-label-sm">اليوم</div>
-      <div class="date-value" id="date-day">-</div>
-    </div>
-    <div class="nav-controls">
-      <button class="nav-btn-action" onclick="loadCVEs()">
-        <svg fill="none" viewBox="0 0 24 24"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115-3.87M20 15a9 9 0 01-15 3.87" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        تحديث
-      </button>
-      <button class="theme-btn" onclick="toggleTheme()" title="تغيير المظهر">
-        <svg viewBox="0 0 24 24" fill="none"><path id="moon-path" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="timer-row">
-    <div class="timer-ring">
-      <svg width="42" height="42" viewBox="0 0 42 42">
-        <circle class="timer-bg" cx="21" cy="21" r="18"/>
-        <circle class="timer-prog" id="t-prog" cx="21" cy="21" r="18" stroke-dasharray="113" stroke-dashoffset="0"/>
-      </svg>
-      <div class="timer-num" id="t-num">10:00</div>
-    </div>
-    <div class="update-time">آخر تحديث: <b id="last-update">—</b></div>
-  </div>
-
-  <div class="section-title">✦ حصيلة آخر 3 أيام</div>
-  <div class="stats-grid">
-    <div class="stat-card total">
-      <div class="stat-num" id="stat-total">—</div>
-      <div class="stat-label">إجمالي الثغرات</div>
-    </div>
-    <div class="stat-card critical">
-      <div class="stat-num" id="stat-critical">—</div>
-      <div class="stat-label">حرجة (9.0+)</div>
-    </div>
-    <div class="stat-card high">
-      <div class="stat-num" id="stat-high">—</div>
-      <div class="stat-label">عالية الخطورة</div>
-    </div>
-    <div class="stat-card medium">
-      <div class="stat-num" id="stat-medium">—</div>
-      <div class="stat-label">متوسطة</div>
-    </div>
-  </div>
-
-  <div class="section-title">✦ الثغرات الأخيرة</div>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="setFilter('all')" data-f="all">الكل</button>
-    <button class="filter-btn" onclick="setFilter('CRITICAL')" data-f="CRITICAL">حرجة</button>
-    <button class="filter-btn" onclick="setFilter('HIGH')" data-f="HIGH">عالية</button>
-    <button class="filter-btn" onclick="setFilter('MEDIUM')" data-f="MEDIUM">متوسطة</button>
-    <input class="search-input" id="search" placeholder="🔍 ابحث بالمنتج (Windows, Adobe...)" oninput="renderList()">
-  </div>
-
-  <div class="cve-list" id="cve-list">
-    <div class="loading">جاري تحميل الثغرات...</div>
-  </div>
-
-  <button class="load-more" id="load-more" onclick="loadMore()" style="display:none">تحميل المزيد</button>
-
-  <div class="footer">
-    <span style="display:flex;justify-content:space-between;align-items:center;width:100%">
-      <span>جميع الحقوق محفوظة &copy; 2026</span>
-      <span>البيانات من <a href="https://nvd.nist.gov" target="_blank">NVD</a> — صمم ♥ <a href="https://www.maqbali.com">Maqbali</a></span>
-    </span>
-  </div>
+<div class="timer-row">
+<div class="timer-ring">
+<svg height="42" viewbox="0 0 42 42" width="42">
+<circle class="timer-bg" cx="21" cy="21" r="18"></circle>
+<circle class="timer-prog" cx="21" cy="21" id="t-prog" r="18" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+</svg>
+<div class="timer-num" id="t-num">10:00</div>
+</div>
+<div class="update-time">آخر تحديث: <b id="last-update">—</b></div>
+</div>
+<div class="section-title">✦ حصيلة آخر 3 أيام</div>
+<div class="stats-grid">
+<div class="stat-card total">
+<div class="stat-num" id="stat-total">—</div>
+<div class="stat-label">إجمالي الثغرات</div>
+</div>
+<div class="stat-card critical">
+<div class="stat-num" id="stat-critical">—</div>
+<div class="stat-label">حرجة (9.0+)</div>
+</div>
+<div class="stat-card high">
+<div class="stat-num" id="stat-high">—</div>
+<div class="stat-label">عالية الخطورة</div>
+</div>
+<div class="stat-card medium">
+<div class="stat-num" id="stat-medium">—</div>
+<div class="stat-label">متوسطة</div>
+</div>
+</div>
+<div class="section-title">✦ الثغرات الأخيرة</div>
+<div class="filter-bar">
+<button class="filter-btn active" data-f="all" onclick="setFilter('all')">الكل</button>
+<button class="filter-btn" data-f="CRITICAL" onclick="setFilter('CRITICAL')">حرجة</button>
+<button class="filter-btn" data-f="HIGH" onclick="setFilter('HIGH')">عالية</button>
+<button class="filter-btn" data-f="MEDIUM" onclick="setFilter('MEDIUM')">متوسطة</button>
+<input class="search-input" id="search" oninput="renderList()" placeholder="🔍 ابحث بالمنتج (Windows, Adobe...)"/>
+</div>
+<div class="cve-list" id="cve-list">
+<div class="loading">جاري تحميل الثغرات...</div>
+</div>
+<button class="load-more" id="load-more" onclick="loadMore()" style="display:none">تحميل المزيد</button>
 
 </div>
-
 <!-- CVE MODAL -->
 <div class="modal-overlay" id="cve-modal" onclick="closeCveModal(event)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <span class="cve-id" id="modal-id">—</span>
-      <button class="modal-close-x" onclick="closeCveModal()" aria-label="إغلاق">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-meta">
-        <span class="severity-badge" id="modal-sev">—</span>
-        <span class="cvss-score" id="modal-score">—</span>
-        <span class="cve-date" id="modal-date">—</span>
-      </div>
-      <div class="modal-desc" id="modal-desc">—</div>
-      <div id="modal-products-wrap" style="display:none">
-        <div class="modal-section-title">✦ المنتجات المتأثرة</div>
-        <div class="cve-products" id="modal-products"></div>
-      </div>
-      <a class="modal-link" id="modal-nvd-link" href="#" target="_blank">
+<div class="modal-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<span class="cve-id" id="modal-id">—</span>
+<button aria-label="إغلاق" class="modal-close-x" onclick="closeCveModal()">✕</button>
+</div>
+<div class="modal-body">
+<div class="modal-meta">
+<span class="severity-badge" id="modal-sev">—</span>
+<span class="cvss-score" id="modal-score">—</span>
+<span class="cve-date" id="modal-date">—</span>
+</div>
+<div class="modal-desc" id="modal-desc">—</div>
+<div id="modal-products-wrap" style="display:none">
+<div class="modal-section-title">✦ المنتجات المتأثرة</div>
+<div class="cve-products" id="modal-products"></div>
+</div>
+<a class="modal-link" href="#" id="modal-nvd-link" target="_blank">
         🔗 عرض في NVD الرسمي
       </a>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-close-btn" onclick="closeCveModal()">إغلاق</button>
-    </div>
-  </div>
+</div>
+<div class="modal-footer">
+<button class="modal-close-btn" onclick="closeCveModal()">إغلاق</button>
+</div>
+</div>
 </div>
 
-<script>
-// Theme
-const savedTheme = localStorage.getItem('theme') || 'dark';
-if (savedTheme === 'light') {
-  document.body.classList.add('light');
-  document.querySelector('#moon-path').setAttribute('stroke', '#a07828');
-}
-function toggleTheme() {
-  const isLight = document.body.classList.toggle('light');
-  document.querySelector('#moon-path').setAttribute('stroke', isLight ? '#a07828' : '#c9a84c');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-}
 
+</div>
+</main>
+<footer class="site-footer" role="contentinfo">
+  <span class="site-footer__credit">صمم <span class="site-footer__heart" aria-hidden="true">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span>
+</footer>
+
+<script>
+// Theme is managed centrally by Maqbali Core.
 // Timer - 10 minutes countdown
 let ticker = 600; // 10 minutes in seconds
 let tickerInt;

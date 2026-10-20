@@ -1,14 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>محلّل الإشارة وقياس السرعة</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="محلّل الإشارة وقياس السرعة | Maqbali.com">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f5f0e8">
+<link rel="icon" href="/images/favicon.png" type="image/png">
+<link rel="canonical" href="https://www.maqbali.com/speed.html">
+
+<script src="/core/v1/core.js"></script>
+<link rel="stylesheet" href="/core/v1/core.css">
 <style>
-  :root{
+.site-legacy {
     --bg:#0B0F1A;
     --bg-grad:#0d1322;
     --surface:#141A2B;
@@ -23,9 +28,9 @@
     --poor:#FB7185;
     --shadow:0 18px 50px -20px rgba(0,0,0,.7);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{
+.site-legacy * {box-sizing:border-box;margin:0;padding:0}
+.site-legacy {-webkit-text-size-adjust:100%}
+.site-legacy {
     font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;
     background:
       radial-gradient(1200px 600px at 80% -10%, rgba(56,189,248,.10), transparent 60%),
@@ -36,175 +41,225 @@
     line-height:1.65;
     padding:clamp(16px,4vw,40px);
   }
-  .wrap{max-width:880px;margin:0 auto}
-
-  /* ---------- Header / signature ---------- */
-  header{margin-bottom:36px}
-  .badge{
+.site-legacy .wrap {max-width:880px;margin:0 auto}
+.site-legacy header {margin-bottom:36px}
+.site-legacy .badge {
     display:inline-flex;align-items:center;gap:8px;
     font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.5px;
     color:var(--brand);background:rgba(56,189,248,.08);
     border:1px solid rgba(56,189,248,.25);
     padding:5px 12px;border-radius:100px;margin-bottom:18px;
   }
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--excellent);
+.site-legacy .dot {width:7px;height:7px;border-radius:50%;background:var(--excellent);
     box-shadow:0 0 0 0 rgba(45,212,191,.6);animation:pulse 2.4s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(45,212,191,.5)}70%{box-shadow:0 0 0 8px rgba(45,212,191,0)}100%{box-shadow:0 0 0 0 rgba(45,212,191,0)}}
-  h1{font-size:clamp(26px,5vw,40px);font-weight:700;line-height:1.25;letter-spacing:-.5px}
-  h1 span{color:var(--brand)}
-  .sub{color:var(--muted);margin-top:10px;max-width:60ch;font-weight:300;font-size:15px}
-
-  /* ---------- Cards ---------- */
-  .card{
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(45,212,191,.5)}70%{box-shadow:0 0 0 8px rgba(45,212,191,0)}100%{box-shadow:0 0 0 0 rgba(45,212,191,0)}}
+.site-legacy h1 {font-size:clamp(26px,5vw,40px);font-weight:700;line-height:1.25;letter-spacing:-.5px}
+.site-legacy h1 span {color:var(--brand)}
+.site-legacy .sub {color:var(--muted);margin-top:10px;max-width:60ch;font-weight:300;font-size:15px}
+.site-legacy .card {
     background:linear-gradient(180deg,var(--surface),rgba(20,26,43,.85));
     border:1px solid var(--line);border-radius:20px;
     padding:clamp(18px,3.5vw,28px);margin-bottom:22px;box-shadow:var(--shadow);
   }
-  .card-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-  .card-head .num{
+.site-legacy .card-head {display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.site-legacy .card-head .num {
     font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--brand);
     border:1px solid rgba(56,189,248,.3);border-radius:8px;
     width:30px;height:30px;display:grid;place-items:center;flex:none;
   }
-  .card-head h2{font-size:19px;font-weight:600}
-  .card-head p{color:var(--muted);font-size:13px;font-weight:300;margin-top:2px}
-
-  textarea{
+.site-legacy .card-head h2 {font-size:19px;font-weight:600}
+.site-legacy .card-head p {color:var(--muted);font-size:13px;font-weight:300;margin-top:2px}
+.site-legacy textarea {
     width:100%;min-height:170px;resize:vertical;
     background:var(--bg);border:1px solid var(--line);border-radius:14px;
     color:var(--text);font-family:"IBM Plex Mono",monospace;font-size:14px;
     padding:14px 16px;line-height:1.9;direction:ltr;text-align:left;
   }
-  textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:transparent}
-  textarea::placeholder{color:#46506b}
-
-  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-  button{
+.site-legacy textarea:focus {outline:2px solid var(--brand);outline-offset:1px;border-color:transparent}
+.site-legacy textarea::placeholder {color:#46506b}
+.site-legacy .row {display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.site-legacy button {
     font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;
     border-radius:12px;padding:12px 22px;border:1px solid transparent;
     transition:transform .12s ease,background .2s ease,opacity .2s;
   }
-  button:active{transform:translateY(1px)}
-  button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-  .btn-primary{background:var(--brand);color:#04121f}
-  .btn-primary:hover{background:#5cc9fb}
-  .btn-ghost{background:transparent;border-color:var(--line);color:var(--muted)}
-  .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
-  button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-  /* ---------- Bands chips ---------- */
-  .bands{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-  .chip{
+.site-legacy button:active {transform:translateY(1px)}
+.site-legacy button:focus-visible {outline:2px solid var(--brand);outline-offset:2px}
+.site-legacy .btn-primary {background:var(--brand);color:#04121f}
+.site-legacy .btn-primary:hover {background:#5cc9fb}
+.site-legacy .btn-ghost {background:transparent;border-color:var(--line);color:var(--muted)}
+.site-legacy .btn-ghost:hover {color:var(--text);border-color:var(--muted)}
+.site-legacy button:disabled {opacity:.5;cursor:not-allowed;transform:none}
+.site-legacy .bands {display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.site-legacy .chip {
     font-family:"IBM Plex Mono",monospace;font-size:13px;
     background:var(--surface-2);border:1px solid var(--line);
     padding:7px 13px;border-radius:10px;color:var(--text);
   }
-  .chip b{color:var(--brand)}
-
-  /* ---------- Verdict ---------- */
-  .verdict{
+.site-legacy .chip b {color:var(--brand)}
+.site-legacy .verdict {
     display:none;border-radius:16px;padding:18px 20px;margin-bottom:20px;
     border:1px solid var(--line);background:var(--surface-2);
   }
-  .verdict.show{display:block;animation:fade .4s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .verdict .v-top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-  .verdict .score{font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;line-height:1}
-  .verdict .v-label{font-size:18px;font-weight:700}
-  .verdict .v-desc{color:var(--muted);font-size:14px;font-weight:300}
-
-  /* ---------- Metric rows ---------- */
-  .metrics{display:none;flex-direction:column;gap:13px}
-  .metrics.show{display:flex}
-  .metric{display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center}
-  @media(max-width:520px){.metric{grid-template-columns:90px 1fr;grid-template-areas:"name val" "bar bar"}
-    .m-name{grid-area:name}.m-val{grid-area:val;text-align:left}.m-bar{grid-area:bar}}
-  .m-name{font-weight:500;font-size:14px}
-  .m-name small{display:block;color:var(--muted);font-size:11px;font-weight:300;font-family:"IBM Plex Mono",monospace}
-  .m-bar{height:9px;border-radius:100px;background:var(--bg);overflow:hidden;position:relative}
-  .m-bar i{position:absolute;inset-block:0;inset-inline-start:0;border-radius:100px;width:0;
+.site-legacy .verdict.show {display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.site-legacy .verdict .v-top {display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.site-legacy .verdict .score {font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;line-height:1}
+.site-legacy .verdict .v-label {font-size:18px;font-weight:700}
+.site-legacy .verdict .v-desc {color:var(--muted);font-size:14px;font-weight:300}
+.site-legacy .metrics {display:none;flex-direction:column;gap:13px}
+.site-legacy .metrics.show {display:flex}
+.site-legacy .metric {display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center}
+@media (max-width:520px){.site-legacy .metric {grid-template-columns:90px 1fr;grid-template-areas:"name val" "bar bar"}
+.site-legacy .m-name {grid-area:name}
+.site-legacy .m-val {grid-area:val;text-align:left}
+.site-legacy .m-bar {grid-area:bar}}
+.site-legacy .m-name {font-weight:500;font-size:14px}
+.site-legacy .m-name small {display:block;color:var(--muted);font-size:11px;font-weight:300;font-family:"IBM Plex Mono",monospace}
+.site-legacy .m-bar {height:9px;border-radius:100px;background:var(--bg);overflow:hidden;position:relative}
+.site-legacy .m-bar i {position:absolute;inset-block:0;inset-inline-start:0;border-radius:100px;width:0;
     transition:width .9s cubic-bezier(.22,1,.36,1)}
-  .m-val{display:flex;align-items:center;gap:8px;justify-content:flex-end}
-  .m-num{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px}
-  .m-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:7px}
-
-  .tag-excellent{color:var(--excellent);background:rgba(45,212,191,.12)}
-  .tag-good{color:var(--good);background:rgba(163,230,53,.12)}
-  .tag-fair{color:var(--fair);background:rgba(251,191,36,.12)}
-  .tag-poor{color:var(--poor);background:rgba(251,113,133,.12)}
-  .bar-excellent{background:linear-gradient(90deg,#0e7d72,var(--excellent))}
-  .bar-good{background:linear-gradient(90deg,#5f8a18,var(--good))}
-  .bar-fair{background:linear-gradient(90deg,#a9760a,var(--fair))}
-  .bar-poor{background:linear-gradient(90deg,#a73a4c,var(--poor))}
-  .sc-excellent{color:var(--excellent)}.sc-good{color:var(--good)}
-  .sc-fair{color:var(--fair)}.sc-poor{color:var(--poor)}
-
-  /* ---------- Speed test ---------- */
-  .gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
-  @media(max-width:520px){.gauges{grid-template-columns:1fr 1fr}.g-ping{grid-column:1/-1}}
-  .gauge{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px 14px;text-align:center}
-  .gauge .g-icon{font-size:13px;color:var(--muted);font-weight:300;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:6px}
-  .gauge .g-num{font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:600;color:var(--text);line-height:1.1}
-  .gauge .g-unit{font-size:12px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
-  .gauge.active{border-color:var(--brand);box-shadow:0 0 0 1px rgba(56,189,248,.4)}
-  .g-down .g-num.live{color:var(--excellent)}
-  .g-up .g-num.live{color:var(--brand)}
-  .progress{height:4px;border-radius:100px;background:var(--surface-2);overflow:hidden;margin-top:18px;display:none}
-  .progress.show{display:block}
-  .progress i{display:block;height:100%;width:0;background:var(--brand);transition:width .3s ease}
-  .speed-note{color:var(--muted);font-size:12.5px;font-weight:300;margin-top:14px;display:flex;gap:7px;align-items:flex-start}
-  .speed-note a{color:var(--brand);text-decoration:none}
-  .speed-note a:hover{text-decoration:underline}
-
-  /* ---------- History / chart ---------- */
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-  .stat{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
-  .stat .s-num{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600}
-  .stat .s-lab{font-size:11px;color:var(--muted);font-weight:300;margin-top:3px}
-  .chart-wrap{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 12px 10px;margin-bottom:16px}
-  .legend{display:flex;gap:18px;justify-content:center;margin-bottom:10px;font-size:12px;color:var(--muted)}
-  .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-start:6px}
-  .empty{color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:34px 10px}
-  .log{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-  .log-item{display:grid;grid-template-columns:auto 1fr 1fr 1fr auto;gap:10px;align-items:center;
+.site-legacy .m-val {display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.site-legacy .m-num {font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px}
+.site-legacy .m-tag {font-size:11px;font-weight:600;padding:3px 9px;border-radius:7px}
+.site-legacy .tag-excellent {color:var(--excellent);background:rgba(45,212,191,.12)}
+.site-legacy .tag-good {color:var(--good);background:rgba(163,230,53,.12)}
+.site-legacy .tag-fair {color:var(--fair);background:rgba(251,191,36,.12)}
+.site-legacy .tag-poor {color:var(--poor);background:rgba(251,113,133,.12)}
+.site-legacy .bar-excellent {background:linear-gradient(90deg,#0e7d72,var(--excellent))}
+.site-legacy .bar-good {background:linear-gradient(90deg,#5f8a18,var(--good))}
+.site-legacy .bar-fair {background:linear-gradient(90deg,#a9760a,var(--fair))}
+.site-legacy .bar-poor {background:linear-gradient(90deg,#a73a4c,var(--poor))}
+.site-legacy .sc-excellent {color:var(--excellent)}
+.site-legacy .sc-good {color:var(--good)}
+.site-legacy .sc-fair {color:var(--fair)}
+.site-legacy .sc-poor {color:var(--poor)}
+.site-legacy .gauges {display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+@media (max-width:520px){.site-legacy .gauges {grid-template-columns:1fr 1fr}
+.site-legacy .g-ping {grid-column:1/-1}}
+.site-legacy .gauge {background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px 14px;text-align:center}
+.site-legacy .gauge .g-icon {font-size:13px;color:var(--muted);font-weight:300;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:6px}
+.site-legacy .gauge .g-num {font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:600;color:var(--text);line-height:1.1}
+.site-legacy .gauge .g-unit {font-size:12px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.site-legacy .gauge.active {border-color:var(--brand);box-shadow:0 0 0 1px rgba(56,189,248,.4)}
+.site-legacy .g-down .g-num.live {color:var(--excellent)}
+.site-legacy .g-up .g-num.live {color:var(--brand)}
+.site-legacy .progress {height:4px;border-radius:100px;background:var(--surface-2);overflow:hidden;margin-top:18px;display:none}
+.site-legacy .progress.show {display:block}
+.site-legacy .progress i {display:block;height:100%;width:0;background:var(--brand);transition:width .3s ease}
+.site-legacy .speed-note {color:var(--muted);font-size:12.5px;font-weight:300;margin-top:14px;display:flex;gap:7px;align-items:flex-start}
+.site-legacy .speed-note a {color:var(--brand);text-decoration:none}
+.site-legacy .speed-note a:hover {text-decoration:underline}
+.site-legacy .stats {display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.site-legacy .stat {background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.site-legacy .stat .s-num {font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600}
+.site-legacy .stat .s-lab {font-size:11px;color:var(--muted);font-weight:300;margin-top:3px}
+.site-legacy .chart-wrap {background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 12px 10px;margin-bottom:16px}
+.site-legacy .legend {display:flex;gap:18px;justify-content:center;margin-bottom:10px;font-size:12px;color:var(--muted)}
+.site-legacy .legend i {display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-start:6px}
+.site-legacy .empty {color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:34px 10px}
+.site-legacy .log {display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.site-legacy .log-item {display:grid;grid-template-columns:auto 1fr 1fr 1fr auto;gap:10px;align-items:center;
     background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px}
-  .log-item .t{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
-  .log-item .v{font-family:"IBM Plex Mono",monospace;font-weight:600}
-  .log-item .v small{color:var(--muted);font-weight:400;font-size:10px}
-  .log-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:2px 7px;border-radius:6px;font-family:inherit}
-  .log-del:hover{color:var(--poor);background:rgba(251,113,133,.1)}
-  @media(max-width:520px){
-    .stats{grid-template-columns:1fr 1fr 1fr}
-    .log-item{grid-template-columns:1fr 1fr 1fr auto;font-size:12px}
-    .log-item .t{grid-column:1/-1}
-  }
+.site-legacy .log-item .t {color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
+.site-legacy .log-item .v {font-family:"IBM Plex Mono",monospace;font-weight:600}
+.site-legacy .log-item .v small {color:var(--muted);font-weight:400;font-size:10px}
+.site-legacy .log-del {background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:2px 7px;border-radius:6px;font-family:inherit}
+.site-legacy .log-del:hover {color:var(--poor);background:rgba(251,113,133,.1)}
+@media (max-width:520px){.site-legacy .stats {grid-template-columns:1fr 1fr 1fr}
+.site-legacy .log-item {grid-template-columns:1fr 1fr 1fr auto;font-size:12px}
+.site-legacy .log-item .t {grid-column:1/-1}}
+.site-legacy footer {color:var(--muted);font-size:12px;text-align:center;margin-top:30px;font-weight:300;line-height:1.9}
+.site-legacy footer a {color:var(--brand);text-decoration:none}
+@media (prefers-reduced-motion:reduce){.site-legacy * {animation:none!important;transition:none!important}}
 
-  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px;font-weight:300;line-height:1.9}
-  footer a{color:var(--brand);text-decoration:none}
+/* Page-only colour bridge: the shared Core remains independent. */
+.site-legacy {
+ --bg:var(--site-bg);--bg-grad:var(--site-bg);--card:var(--site-panel);--card2:var(--site-gold-muted);
+ --surface:var(--site-panel);--surface-2:var(--site-gold-muted);
+ --text:var(--site-text);--text2:var(--site-text);--muted:var(--site-muted);--gold:var(--site-gold);
+ --gold-dark:var(--site-gold);--brand:var(--site-gold);--line:var(--site-border);--border:var(--site-border);
+ --border2:var(--site-border);--panel:var(--site-panel);--gold-muted:var(--site-gold-muted);
+ --shadow:0 4px 20px rgba(0,0,0,.05);
+ width:100%;min-width:0;min-height:0!important;padding:0!important;margin:0!important;
+ background:transparent!important;color:var(--site-text)!important;
+ font-family:'Cairo',Tahoma,Arial,sans-serif!important;
+ display:block!important;
+}
+.site-legacy::before{display:none!important}
+.site-main--legacy{max-width:1060px;padding-block:26px 48px;min-width:0;flex:1 0 auto}
+.site-legacy img{max-width:100%}
+.site-legacy button,.site-legacy input,.site-legacy textarea,.site-legacy select{font-family:inherit}
+.site-legacy .page,.site-legacy .container,.site-legacy .wrap{max-width:100%;}
+.site-legacy a{color:inherit;text-decoration:none}
+.site-legacy a:focus-visible,.site-legacy button:focus-visible{outline:2px solid var(--site-gold);outline-offset:3px}
+.site-legacy .footer,.site-legacy > footer{display:none}
+.site-legacy input,.site-legacy textarea,.site-legacy select{max-width:100%}
+.site-legacy .site-page-intro{display:none}
+@media(max-width:580px){.site-main--legacy{padding-block:18px 36px}}
 
-  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Colour refinements on legacy component surfaces */
+.site-legacy .card,.site-legacy .price-card,.site-legacy .oil-card,.site-legacy .stat-card,
+.site-legacy .device-card,.site-legacy .form-card,.site-legacy .info-card,.site-legacy .cve-card,
+.site-legacy .details-card,.site-legacy .ip-card,.site-legacy .summary-card,.site-legacy .modal-box,
+.site-legacy .filter-bar,.site-legacy .date-bar,.site-legacy .tool-card,
+.site-legacy .gauge,.site-legacy .stats .stat,.site-legacy .chart-wrap,
+.site-legacy .log-item,.site-legacy .map-card {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .card-head,.site-legacy .info-banner{color:var(--site-text)}
+.site-legacy .device-name,.site-legacy .info-title,.site-legacy .hero h1,.site-legacy .success h3 {color:var(--site-text)}
+.site-legacy .device-category,.site-legacy .info-desc,.site-legacy .hero p,.site-legacy .success p,.site-legacy .form-group label,.site-legacy .info-item-text p {color:var(--site-muted)}
+.site-legacy .changelog {background:var(--site-gold-muted);color:var(--site-text)}
+.site-legacy .info-icon,.site-legacy .device-icon,.site-legacy .success-icon {background:var(--site-gold-muted)}
+.site-legacy .form-group input,.site-legacy .form-group select,.site-legacy .form-group textarea,
+.site-legacy .search-input,.site-legacy textarea {background:var(--site-panel);border-color:var(--site-border);color:var(--site-text)}
+.site-legacy .form-title,.site-legacy .info-title,.site-legacy .section-title,.site-legacy .device-icon {color:var(--site-gold)}
+.site-legacy .download-btn,.site-legacy .submit-btn,.site-legacy .btn-primary{background:var(--site-gold);color:var(--site-bg)}
+.site-legacy .legacy-note {margin:25px 0 0;padding:13px 10px;text-align:center;color:var(--site-muted);font-size:12px;border-top:1px solid var(--site-border)}
+
+.site-legacy .wrap .legacy-heading{margin-bottom:28px}
+.site-legacy .wrap .legacy-heading h1{color:var(--site-text)}
+.site-legacy .wrap .legacy-heading h1 span{color:var(--site-gold)}
+
 </style>
 </head>
-<body>
+<body class="site-page site-page--speed">
+<header class="site-topbar" role="banner">
+  <div class="site-topbar__inner">
+    <a class="site-brand" href="/" aria-label="العودة إلى الصفحة الرئيسية">
+      <img class="site-brand__logo" src="/images/logo_2.png" width="64" height="64" alt="شعار محمد المقبالي" decoding="async">
+      <span class="site-brand__text"><b>محمد المقبالي</b><small lang="en" dir="ltr">MOHAMMED AL-MAQBALI</small></span>
+    </a>
+    <nav class="site-actions" aria-label="خيارات الموقع">
+      <a class="site-icon-button site-sitemap-button" href="/sitemap.html" aria-label="خريطة الموقع" title="خريطة الموقع" data-tooltip="خريطة الموقع">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2V6Zm6-2v14m6-12v14" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      </a>
+      <button class="site-icon-button site-theme-button" id="themeToggle" type="button" aria-label="تغيير المظهر" aria-pressed="false" title="تغيير المظهر">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" class="site-main site-main--legacy">
+<div class="site-legacy legacy--speed">
+
 <div class="wrap">
-
-  <header>
-    <div class="badge"><span class="dot"></span> أداة تشخيص محلية · تعمل بالكامل في متصفحك</div>
-    <h1>محلّل <span>الإشارة</span> وقياس السرعة</h1>
-    <p class="sub">الصِق قيم الشبكة كما تظهر في جهازك ليتم تقييم جودة الإشارة، ثم اقِس سرعة التحميل والتنزيل عبر خوادم Cloudflare.</p>
-  </header>
-
-  <!-- ============ Signal analysis ============ -->
-  <section class="card">
-    <div class="card-head">
-      <span class="num">١</span>
-      <div>
-        <h2>تحليل قيم الإشارة</h2>
-        <p>الصق القيم بأي تنسيق — البرنامج يستخرج الأرقام تلقائيًا</p>
-      </div>
-    </div>
-
-    <textarea id="input" spellcheck="false" placeholder="LTE  Band  3
+<section class="legacy-heading">
+<div class="badge"><span class="dot"></span> أداة تشخيص محلية · تعمل بالكامل في متصفحك</div>
+<h1>محلّل <span>الإشارة</span> وقياس السرعة</h1>
+<p class="sub">الصِق قيم الشبكة كما تظهر في جهازك ليتم تقييم جودة الإشارة، ثم اقِس سرعة التحميل والتنزيل عبر خوادم Cloudflare.</p>
+</section>
+<!-- ============ Signal analysis ============ -->
+<section class="card">
+<div class="card-head">
+<span class="num">١</span>
+<div>
+<h2>تحليل قيم الإشارة</h2>
+<p>الصق القيم بأي تنسيق — البرنامج يستخرج الأرقام تلقائيًا</p>
+</div>
+</div>
+<textarea id="input" placeholder="LTE  Band  3
 NR   Band  78
 RSRP  -78
 RSRQ  -10
@@ -213,101 +268,95 @@ SINR  16
 SSB RSRP  -58
 SSB RSRQ  -11
 SSB SINR  36
-NR RSSI  -45"></textarea>
-
-    <div class="row">
-      <button class="btn-primary" id="analyze">حلّل الإشارة</button>
-      <button class="btn-ghost" id="sample">جرّب مثالًا</button>
-      <button class="btn-ghost" id="clear">مسح</button>
-    </div>
-
-    <div style="margin-top:22px">
-      <div class="bands" id="bands"></div>
-      <div class="verdict" id="verdict">
-        <div class="v-top">
-          <span class="score" id="vScore">—</span>
-          <div>
-            <div class="v-label" id="vLabel"></div>
-            <div class="v-desc" id="vDesc"></div>
-          </div>
-        </div>
-      </div>
-      <div class="metrics" id="metrics"></div>
-    </div>
-  </section>
-
-  <!-- ============ Speed test ============ -->
-  <section class="card">
-    <div class="card-head">
-      <span class="num">٢</span>
-      <div>
-        <h2>اختبار السرعة</h2>
-        <p>قياس فعلي عبر <span style="font-family:'IBM Plex Mono',monospace">speed.cloudflare.com</span></p>
-      </div>
-    </div>
-
-    <div class="gauges">
-      <div class="gauge g-down" id="gDown">
-        <div class="g-icon">↓ التنزيل (Download)</div>
-        <div class="g-num" id="downNum">—</div>
-        <div class="g-unit">Mbps</div>
-      </div>
-      <div class="gauge g-up" id="gUp">
-        <div class="g-icon">↑ الرفع (Upload)</div>
-        <div class="g-num" id="upNum">—</div>
-        <div class="g-unit">Mbps</div>
-      </div>
-      <div class="gauge g-ping" id="gPing">
-        <div class="g-icon">⟳ زمن الاستجابة (Ping)</div>
-        <div class="g-num" id="pingNum">—</div>
-        <div class="g-unit">ms</div>
-      </div>
-    </div>
-
-    <div class="progress" id="progress"><i id="progressBar"></i></div>
-
-    <div class="row">
-      <button class="btn-primary" id="startSpeed">ابدأ القياس</button>
-    </div>
-
-    <div class="speed-note">
-      <span>ℹ️</span>
-      <span>إذا فشل القياس بسبب إعدادات الشبكة أو الحجب، افتح
-        <a href="https://speed.cloudflare.com/" target="_blank" rel="noopener">speed.cloudflare.com</a>
+NR RSSI  -45" spellcheck="false"></textarea>
+<div class="row">
+<button class="btn-primary" id="analyze">حلّل الإشارة</button>
+<button class="btn-ghost" id="sample">جرّب مثالًا</button>
+<button class="btn-ghost" id="clear">مسح</button>
+</div>
+<div style="margin-top:22px">
+<div class="bands" id="bands"></div>
+<div class="verdict" id="verdict">
+<div class="v-top">
+<span class="score" id="vScore">—</span>
+<div>
+<div class="v-label" id="vLabel"></div>
+<div class="v-desc" id="vDesc"></div>
+</div>
+</div>
+</div>
+<div class="metrics" id="metrics"></div>
+</div>
+</section>
+<!-- ============ Speed test ============ -->
+<section class="card">
+<div class="card-head">
+<span class="num">٢</span>
+<div>
+<h2>اختبار السرعة</h2>
+<p>قياس فعلي عبر <span style="font-family:'IBM Plex Mono',monospace">speed.cloudflare.com</span></p>
+</div>
+</div>
+<div class="gauges">
+<div class="gauge g-down" id="gDown">
+<div class="g-icon">↓ التنزيل (Download)</div>
+<div class="g-num" id="downNum">—</div>
+<div class="g-unit">Mbps</div>
+</div>
+<div class="gauge g-up" id="gUp">
+<div class="g-icon">↑ الرفع (Upload)</div>
+<div class="g-num" id="upNum">—</div>
+<div class="g-unit">Mbps</div>
+</div>
+<div class="gauge g-ping" id="gPing">
+<div class="g-icon">⟳ زمن الاستجابة (Ping)</div>
+<div class="g-num" id="pingNum">—</div>
+<div class="g-unit">ms</div>
+</div>
+</div>
+<div class="progress" id="progress"><i id="progressBar"></i></div>
+<div class="row">
+<button class="btn-primary" id="startSpeed">ابدأ القياس</button>
+</div>
+<div class="speed-note">
+<span>ℹ️</span>
+<span>إذا فشل القياس بسبب إعدادات الشبكة أو الحجب، افتح
+        <a href="https://speed.cloudflare.com/" rel="noopener" target="_blank">speed.cloudflare.com</a>
         مباشرةً. القياس يستهلك بيانات (حتى ~50 ميغابايت تقريبًا).</span>
-    </div>
-  </section>
-
-  <!-- ============ History + chart ============ -->
-  <section class="card">
-    <div class="card-head">
-      <span class="num">٣</span>
-      <div>
-        <h2>سجل القياسات</h2>
-        <p>يُحفظ تلقائيًا في متصفحك · رسم بياني للسرعة عبر الوقت</p>
-      </div>
-    </div>
-
-    <div class="stats" id="stats"></div>
-
-    <div class="chart-wrap">
-      <div class="legend">
-        <span>التنزيل<i style="background:#2DD4BF"></i></span>
-        <span>الرفع<i style="background:#38BDF8"></i></span>
-      </div>
-      <div id="chart"></div>
-    </div>
-
-    <div class="row"><button class="btn-ghost" id="clearHist">مسح السجل</button></div>
-    <div class="log" id="log"></div>
-  </section>
-
-  <footer>
-    صفحة محلية لا ترسل بياناتك لأي خادم عدا اختبار السرعة من Cloudflare.<br>
+</div>
+</section>
+<!-- ============ History + chart ============ -->
+<section class="card">
+<div class="card-head">
+<span class="num">٣</span>
+<div>
+<h2>سجل القياسات</h2>
+<p>يُحفظ تلقائيًا في متصفحك · رسم بياني للسرعة عبر الوقت</p>
+</div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="chart-wrap">
+<div class="legend">
+<span>التنزيل<i style="background:#2DD4BF"></i></span>
+<span>الرفع<i style="background:#38BDF8"></i></span>
+</div>
+<div id="chart"></div>
+</div>
+<div class="row"><button class="btn-ghost" id="clearHist">مسح السجل</button></div>
+<div class="log" id="log"></div>
+</section>
+<aside class="legacy-note">
+    صفحة محلية لا ترسل بياناتك لأي خادم عدا اختبار السرعة من Cloudflare.<br/>
     قيم الإشارة (RSRP / SINR / SSB) لا يمكن قراءتها من المتصفح — تُدخَل يدويًا.
-  </footer>
+  </aside>
+</div>
+
 
 </div>
+</main>
+<footer class="site-footer" role="contentinfo">
+  <span class="site-footer__credit">صمم <span class="site-footer__heart" aria-hidden="true">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span>
+</footer>
 
 <script>
 (function(){
