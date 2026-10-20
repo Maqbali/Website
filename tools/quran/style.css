@@ -1,4 +1,15 @@
 @font-face{font-family:Quran;src:url('assets/quran.ttf');font-display:swap}
+@font-face{font-family:QuranHafs;src:url('assets/fonts/hafs.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:QuranNaskh;src:url('assets/fonts/naskh.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:QuranScheherazade;src:url('assets/fonts/scheherazade-bold.ttf') format('truetype');font-weight:700;font-display:swap}
+.format-title{margin:0 0 16px;font-size:13px;color:var(--gold);font-weight:600}
+.reader-toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-size:12px}
+.reader-toggle input{width:20px;height:20px;accent-color:var(--gold);cursor:pointer}
+.reader-format{min-width:0;margin:0;padding:0;border:0}
+.reader-format legend{padding:0 0 12px;color:var(--gold);font-size:12px}
+.reader-format .color-row{margin-bottom:12px;flex-wrap:wrap}
+.reader-format input[type=text]{max-width:120px;font-family:monospace}
+.font-notice{color:var(--gold)}
 .tool-breadcrumb{display:flex;align-items:center;gap:10px;padding-top:20px;color:var(--muted);font-size:10px}
 .tool-breadcrumb a{color:var(--gold)}
 .tool-breadcrumb a:hover{text-decoration:underline;text-underline-offset:3px}

@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
 <script src="../theme.js?v=0.2.0"></script>
-<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.6-fix1"><link rel="stylesheet" href="theme.css?v=0.2.0">
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.7"><link rel="stylesheet" href="theme.css?v=0.2.0">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
@@ -57,12 +57,28 @@
 <div class="range-label"><label for="dim">تعتيم الخلفية</label><output id="dimValue">40٪</output></div><input id="dim" type="range" min="0" max="85" value="40"><p class="field-note">صوت الخلفية مكتوم. يتكرر الفيديو أو يُقص بحسب مدة التلاوة.</p>
 </div>
 <div class="panel" id="style-panel" role="tabpanel" aria-labelledby="style-tab" hidden>
+<h2 class="format-title">تنسيق الآيات</h2>
+<label for="font">خط الآيات</label><select id="font" aria-describedby="fontFallbackNote fontStatus"></select>
+<p id="fontStatus" class="field-note" role="status" aria-live="polite"></p>
+<p id="fontFallbackNote" class="field-note font-notice" hidden>يستخدم خط عثمان طه نسخ «أميري قرآن» لعرض بعض العلامات غير المدعومة، مع الحفاظ على نص الآيات.</p>
 <label>لون الآيات</label><div class="color-row"><input type="color" id="color" value="#ffffff" aria-label="اختيار لون النص"><input type="text" id="hex" value="#FFFFFF" maxlength="7" dir="ltr" aria-label="كود لون النص"><button class="swatch white" data-color="#ffffff" aria-label="أبيض"></button><button class="swatch gold" data-color="#e4ca91" aria-label="ذهبي"></button><button class="swatch cream" data-color="#f2e9db" aria-label="عاجي"></button></div>
 <div class="range-label"><label for="fontSize">حجم الخط</label><output id="fontValue">60</output></div><input id="fontSize" type="range" min="32" max="100" value="60">
 <label for="position">موضع الآيات</label><select id="position"><option value="center">الوسط</option><option value="top">أعلى</option><option value="bottom">أسفل</option></select>
 <div class="range-label"><label for="lineHeight">المسافة بين الأسطر</label><output id="lineValue">1.9</output></div><input id="lineHeight" type="range" min="1.5" max="2.4" step="0.1" value="1.9">
 <div class="range-label"><label for="margin">الهوامش الآمنة</label><output id="marginValue">8٪</output></div><input id="margin" type="range" min="5" max="18" value="8">
 <div class="info-note">الآيات بالرسم العثماني والتشكيل الكامل، مع علامة رقم الآية. يتناسب الخط تلقائيًا مع الآيات الطويلة.</div>
+<div class="section-divider"></div>
+<label class="reader-toggle" for="showReciter"><span>إظهار اسم القارئ في الفيديو</span><input id="showReciter" type="checkbox" role="switch" aria-controls="reciterFormat"></label>
+<fieldset id="reciterFormat" class="reader-format" hidden><legend>تنسيق اسم القارئ</legend>
+<p class="field-note">يُعرض اسم القارئ المختار تلقائيًا. تنسيقه مستقل عن الآيات.</p>
+<label for="reciterFont">خط اسم القارئ</label><select id="reciterFont" aria-describedby="fontFallbackNote fontStatus"></select>
+<div class="range-label"><label for="reciterSize">حجم اسم القارئ</label><output id="reciterSizeValue">32</output></div><input id="reciterSize" type="range" min="18" max="72" value="32">
+<label for="reciterColor">لون اسم القارئ</label><div class="color-row"><input id="reciterColor" type="color" value="#ffffff"><input id="reciterHex" type="text" value="#FFFFFF" maxlength="7" dir="ltr" aria-label="كود لون اسم القارئ"></div>
+<div class="two-col"><div><label for="reciterPosition">موضع اسم القارئ</label><select id="reciterPosition"><option value="below">تحت الآيات</option><option value="top">أعلى الفيديو</option><option value="bottom">أسفل الفيديو</option></select></div><div><label for="reciterAlign">المحاذاة</label><select id="reciterAlign"><option value="center">الوسط</option><option value="right">اليمين</option><option value="left">اليسار</option></select></div></div>
+<div class="range-label"><label for="reciterGap">المسافة عن الآيات</label><output id="reciterGapValue">3٪</output></div><input id="reciterGap" type="range" min="0" max="12" value="3"><p class="field-note">المسافة كنسبة من ارتفاع الفيديو. يُضبط النص تلقائيًا ليبقى داخل المساحة الآمنة.</p>
+<label for="reciterEffect">وضوح اسم القارئ</label><select id="reciterEffect"><option value="none">بدون تأثير</option><option value="shadow" selected>ظل</option><option value="outline">حدود للنص</option><option value="both">ظل وحدود</option></select>
+<div id="reciterEffectOptions"><label for="reciterEffectColor">لون الظل والحدود</label><input id="reciterEffectColor" type="color" value="#000000"><div class="range-label"><label for="reciterEffectSize">قوة التأثير</label><output id="reciterEffectValue">3</output></div><input id="reciterEffectSize" type="range" min="1" max="8" value="3"></div>
+</fieldset>
 </div>
 <div class="export-settings"><div class="section-divider"></div><label>مقاس الفيديو</label><div class="ratios" role="group" aria-label="نسبة أبعاد الفيديو"><button class="selected" data-ratio="portrait" aria-pressed="true"><span class="ratio-icon portrait"></span><b>عمودي</b><small dir="ltr">9:16</small></button><button data-ratio="landscape" aria-pressed="false"><span class="ratio-icon landscape"></span><b>أفقي</b><small dir="ltr">16:9</small></button><button data-ratio="square" aria-pressed="false"><span class="ratio-icon square"></span><b>مربع</b><small dir="ltr">1:1</small></button></div>
 <label id="cornerOption" class="corner-option" for="roundedCorners" hidden><span>زوايا دائرية للفيديو الأفقي</span><input id="roundedCorners" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
@@ -77,7 +93,7 @@
 <div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
 <div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">الحصري</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
 </div>
-<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.6" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.6</button></div></footer>
+<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.7" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.7</button></div></footer>
 </main>
 <dialog id="privacyDialog" class="info-dialog" aria-labelledby="privacyTitle">
 <div class="dialog-header"><h2 id="privacyTitle">الخصوصية</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق نافذة الخصوصية" autofocus>×</button></div>
@@ -90,6 +106,12 @@
 <dialog id="versionsDialog" class="info-dialog" aria-labelledby="versionsTitle">
 <div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
 <div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
+<section aria-labelledby="release017"><h3 id="release017">الإصدار <bdi>0.1.7</bdi></h3><ul>
+<li>إضافة قائمة لاختيار خط الآيات: أميري قرآن، حفص العثماني، عثمان طه نسخ، وشهرزاد الجديد العريض.</li>
+<li>إضافة خيار إظهار اسم القارئ المختار أو إخفائه في المعاينة والفيديو الناتج.</li>
+<li>تنسيق اسم القارئ بشكل مستقل: الخط والحجم واللون والموضع والمحاذاة والمسافة عن الآيات، مع الظل وحدود النص.</li>
+<li>حفظ اختيارات الخطوط وتنسيق اسم القارئ واستعادتها عند الزيارة التالية.</li>
+</ul></section>
 <section aria-labelledby="release016"><h3 id="release016">الإصدار <bdi>0.1.6</bdi></h3><ul>
 <li>عرض أسماء السور بدون تشكيل في قائمة الاختيار وتفاصيل المقطع.</li>
 <li>إصلاح البحث عن السور بالتشكيل أو بدونه، مع تجاهل علامات الرسم القرآني والتطويل.</li>
@@ -134,5 +156,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.6-fix1"></script>
+<script type="module" src="app.js?v=0.1.7"></script>
 </body></html>
