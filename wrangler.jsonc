@@ -1,0 +1,8 @@
+{
+  "name": "maqbali",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "index.html",
+    "not_found_handling": "404-page"
+  }
+}
