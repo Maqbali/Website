@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
 <script src="../theme.js?v=0.2.0"></script>
-<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.9"><link rel="stylesheet" href="theme.css?v=0.2.0">
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.9-fix2"><link rel="stylesheet" href="theme.css?v=0.2.0">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
@@ -58,7 +58,7 @@
 </div>
 <div class="panel" id="style-panel" role="tabpanel" aria-labelledby="style-tab" hidden>
 <h2 class="format-title">تنسيق الآيات</h2>
-<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah" selected>الآية كاملة</option><option value="word">كلمة بكلمة — تجريبي</option></select>
+<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah" selected>الآية كاملة</option><option value="word">كلمة بكلمة</option></select>
 <div id="wordModeNote" class="info-note" hidden>تظهر كلمة واحدة وتتبدل مع التلاوة، وتتكرر عند إعادة القارئ لها. تبقى الكلمة أثناء الوقف حتى بدء التالية. في افتتاح السورة تظهر البسملة فقط إذا كانت موجودة مع توقيتها في التلاوة. يستخدم هذا النمط تلاوة مرتبطة بتوقيت الكلمات؛ قد تختلف نسخة التسجيل عن العرض الكامل. يتوفر بحسب القارئ والآية، ولا يتوفر حاليًا لعلي جابر وعبدالله الموسى.</div>
 <p id="wordModeStatus" class="field-note" role="status" aria-live="polite"></p><button id="useFullAyah" class="text-button" type="button" hidden>الرجوع إلى عرض الآية كاملة</button>
 <label for="font">خط الآيات</label><select id="font" aria-describedby="fontFallbackNote fontStatus"></select>
@@ -92,7 +92,7 @@
 <p id="message" role="status" aria-live="polite"></p>
 </div>
 </section>
-<section class="preview-section" aria-label="معاينة الفيديو"><div class="preview-heading"><span><span class="status-dot"></span> معاينة مباشرة</span><span id="previewResolution" dir="ltr">720 × 1280</span></div><div class="preview-stage"><div class="canvas-wrap"><canvas id="preview" width="720" height="1280" aria-label="معاينة الآية مع الخلفية"></canvas><div id="loading" class="loading-overlay">جارٍ تجهيز المصحف…</div></div></div>
+<section class="preview-section" aria-label="معاينة الفيديو"><div class="preview-heading"><span><span class="status-dot"></span> معاينة مباشرة</span><span id="previewResolution" dir="ltr">720 × 1280</span></div><div class="preview-stage"><div class="canvas-wrap" data-ratio="portrait"><canvas id="preview" width="720" height="1280" aria-label="معاينة الآية مع الخلفية"></canvas><div id="loading" class="loading-overlay">جارٍ تجهيز المصحف…</div></div></div>
 <div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
 <div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">الحصري</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
 </div>
@@ -112,10 +112,14 @@
 <section aria-labelledby="release019"><h3 id="release019">الإصدار <bdi>0.1.9</bdi></h3><ul>
 <li>إصلاح عرض «كلمة بكلمة» لضمان تبدّل الكلمات مع التلاوة في المعاينة والفيديو الناتج.</li>
 <li>إصلاح ظهور قائمة نمط العرض فارغة، وتحديد «الآية كاملة» افتراضيًا عند أول استخدام أو غياب إعداد صالح.</li>
+<li>اعتماد اسم «كلمة بكلمة» دون وصف «تجريبي»، مع توضيح توفر التوقيت بحسب القارئ والآية.</li>
 <li>إصلاح رفض تلاوات صحيحة بسبب اختلاف تمثيل الهمزة وبعض علامات الرسم العثماني.</li>
 <li>دعم إعادة القارئ للكلمات والجمل مع الحفاظ على توقيتها.</li>
 <li>معالجة اختلاف إدراج البسملة في افتتاحيات السور، ووصل بعض الكلمات وفصلها بين مصادر النص.</li>
 <li>توضيح سبب تعذّر توقيت الكلمات، مع ذكر القارئ والسورة ورقم الآية المتأثرة.</li>
+<li>إصلاح أبعاد ومحاذاة إطار المعاينة المباشرة وإزالة الفراغات الجانبية، مع الحفاظ على نسبة العرض المختارة.</li>
+<li>إضافة القارئ محمد أيوب إلى قائمة القراء.</li>
+<li>تحديث ترتيب القراء في القائمة.</li>
 </ul></section>
 <section aria-labelledby="release018"><h3 id="release018">الإصدار <bdi>0.1.8</bdi></h3><ul>
 <li>إضافة نمط «كلمة بكلمة» التجريبي بجانب عرض الآية كاملة، مع حفظ الاختيار.</li>
@@ -174,5 +178,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.9-fix1"></script>
+<script type="module" src="app.js?v=0.1.9-fix2"></script>
 </body></html>

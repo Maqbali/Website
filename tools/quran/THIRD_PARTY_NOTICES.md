@@ -1,8 +1,12 @@
+## Muhammad Ayyub recitations
+
+Full-ayah audio: EveryAyah, `Muhammad_Ayyoub_128kbps`, https://everyayah.com/data/recitations.js . Word-mode audio and timestamps: QUD³ Technologies, subset `mohammed_ayyub_drive` of https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs . Segmentation and alignment metadata are CC BY 4.0; recording rights remain with the reciter and upstream sources. Word timings are used only with the audio supplied by the same dataset row. Local Quran text is preserved.
+
 ## Word-by-word timing (v0.1.8)
 
 QUD³ Technologies, [Qur’anic Universal Ayahs](https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs), word timestamps and segmentation metadata, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-The optional word display uses the matching, unmodified ayah clip supplied with each timestamp row. Its recording may differ from the recording used in full-ayah mode. The eleven subset identifiers are documented in `word-timing.js`. Timing boundaries are used for visual word replacement, including repetitions; local Uthmani Quran text remains unchanged. Recording rights remain with the reciter and the upstream audio source. Word timing is not available for every reciter or ayah. No claim of manual verification of every timestamp is made.
+The optional word display uses the matching, unmodified ayah clip supplied with each timestamp row. Its recording may differ from the recording used in full-ayah mode. The subset identifiers are documented in `word-timing.js`. Timing boundaries are used for visual word replacement, including repetitions; local Uthmani Quran text remains unchanged. Recording rights remain with the reciter and the upstream audio source. Word timing is not available for every reciter or ayah. No claim of manual verification of every timestamp is made.
 
 # Third-party components and sources
 

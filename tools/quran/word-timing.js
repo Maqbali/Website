@@ -5,6 +5,7 @@ export const WORD_CACHE='maqbali-quran-word-audio-v1';
 const HOST='https://datasets-server.huggingface.co';
 const DATASET='QUD-Technologies/quranic-universal-ayahs';
 export const WORD_SOURCES=Object.freeze({
+ Muhammad_Ayyoub_128kbps:'mohammed_ayyub_drive',
  Husary_128kbps:'mahmoud_khalil_al_husary_qdc_128k',
  Alafasy_128kbps:'mishary_rashid_al_afasy_2008_qdc',
  'Abdurrahmaan_As-Sudais_192kbps':'abdulrahman_al_sudais_tarteel',
