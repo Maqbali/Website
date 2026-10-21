@@ -21,7 +21,7 @@ export const FONTS=[
  {id:'scheherazade',name:'شهرزاد الجديد — عريض',family:'QuranScheherazade',weight:700}
 ];
 export function textFont(id,size){const f=FONTS.find(f=>f.id===id)||FONTS[0];return `${f.weight} ${size}px ${f.family}, Quran`;}
-export const DEFAULTS={surah:2,from:3,to:3,reciter:'Husary_128kbps',displayMode:'ayah',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,font:'amiri',position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false,showReciter:false,reciterFont:'amiri',reciterSize:32,reciterColor:'#ffffff',reciterPosition:'below',reciterAlign:'center',reciterGap:3,reciterEffect:'shadow',reciterEffectColor:'#000000',reciterEffectSize:3};
+export const DEFAULTS={surah:2,from:3,to:3,reciter:RECITERS[0].id,displayMode:'ayah',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,font:'amiri',position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false,showReciter:false,reciterFont:'amiri',reciterSize:32,reciterColor:'#ffffff',reciterPosition:'below',reciterAlign:'center',reciterGap:3,reciterEffect:'shadow',reciterEffectColor:'#000000',reciterEffectSize:3};
 export function restoreSettings(saved){
  const s={...DEFAULTS};
  if(!saved||typeof saved!=='object')return s;

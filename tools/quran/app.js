@@ -1,7 +1,7 @@
-import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.9-fix2';
-import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.9-fix2';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.9-fix2';
-import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.1.9-fix2';
+import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.9-fix3';
+import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.9-fix3';
+import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.9-fix3';
+import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.1.9-fix3';
 const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d');
 const PRESET_BACKGROUNDS=new Map([...document.querySelectorAll('[data-background]')].map(button=>[button.dataset.background,button.querySelector('img').getAttribute('src')]));
 let settings={...DEFAULTS},quran,surah,verses=[],segments=[],audioCtx,sourceNodes=[],audioLoad=null,audioAbort=null,selectionVersion=0,playing=false,position=0,startedAt=0,bgImage=null,customFile=null,customURL=null,bgVersion=0,renderQueued=false,exporting=false,cancelled=false,engine=null,outputURL=null,raf=0,wakeLock=null;
