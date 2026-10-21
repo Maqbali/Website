@@ -1,7 +1,7 @@
-import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.9';
-import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.9';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.9';
-import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.1.9';
+import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.9-fix1';
+import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.9-fix1';
+import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.9-fix1';
+import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.1.9-fix1';
 const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d');
 const PRESET_BACKGROUNDS=new Map([...document.querySelectorAll('[data-background]')].map(button=>[button.dataset.background,button.querySelector('img').getAttribute('src')]));
 let settings={...DEFAULTS},quran,surah,verses=[],segments=[],audioCtx,sourceNodes=[],audioLoad=null,audioAbort=null,selectionVersion=0,playing=false,position=0,startedAt=0,bgImage=null,customFile=null,customURL=null,bgVersion=0,renderQueued=false,exporting=false,cancelled=false,engine=null,outputURL=null,raf=0,wakeLock=null;
@@ -24,6 +24,7 @@ async function refreshFonts(){
  catch(e){if(version===fontRequest){$('fontStatus').textContent='تعذر تحميل الخط المختار. أعد اختياره للمحاولة مجددًا.';message(e.message,true);}}
 }
 function syncFormatControls(){
+ settings.displayMode=settings.displayMode==='word'?'word':'ayah';
  $('displayMode').value=settings.displayMode;
  $('wordModeNote').hidden=settings.displayMode!=='word';
  $('showReciter').checked=settings.showReciter;$('reciterFormat').hidden=!settings.showReciter;
@@ -263,7 +264,7 @@ function showTab(name,focus=false){document.querySelectorAll('[data-tab]').forEa
 document.querySelectorAll('[data-tab]').forEach(b=>{b.onclick=()=>showTab(b.dataset.tab);b.onkeydown=e=>{const tabs=[...document.querySelectorAll('[data-tab]')],i=tabs.indexOf(b);if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowLeft'?1:2))%3;showTab(tabs[n].dataset.tab,true);}};});
 $('surahSearch').oninput=e=>renderSurahs(e.target.value);$('surahSearch').onkeydown=surahSearchKeydown;
 $('surah').onchange=e=>{if(e.target.value)chooseSurah(+e.target.value);};for(const [id,key]of[['fromAyah','from'],['toAyah','to']])$(id).onchange=e=>{settings[key]=+e.target.value;selectionChanged();};
-function chooseDisplayMode(mode){settings.displayMode=mode;syncControls();selectionChanged();}
+function chooseDisplayMode(mode){settings.displayMode=mode==='word'?'word':'ayah';syncControls();selectionChanged();}
 $('displayMode').onchange=e=>chooseDisplayMode(e.target.value);
 $('useFullAyah').onclick=()=>chooseDisplayMode('ayah');
 $('reciterSearch').oninput=e=>renderReciters(e.target.value);$('reciter').onchange=e=>{if(!e.target.value)return;settings.reciter=e.target.value;updateReader();selectionChanged();};

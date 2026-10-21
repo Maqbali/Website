@@ -58,7 +58,7 @@
 </div>
 <div class="panel" id="style-panel" role="tabpanel" aria-labelledby="style-tab" hidden>
 <h2 class="format-title">تنسيق الآيات</h2>
-<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah">الآية كاملة</option><option value="word">كلمة بكلمة — تجريبي</option></select>
+<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah" selected>الآية كاملة</option><option value="word">كلمة بكلمة — تجريبي</option></select>
 <div id="wordModeNote" class="info-note" hidden>تظهر كلمة واحدة وتتبدل مع التلاوة، وتتكرر عند إعادة القارئ لها. تبقى الكلمة أثناء الوقف حتى بدء التالية. في افتتاح السورة تظهر البسملة فقط إذا كانت موجودة مع توقيتها في التلاوة. يستخدم هذا النمط تلاوة مرتبطة بتوقيت الكلمات؛ قد تختلف نسخة التسجيل عن العرض الكامل. يتوفر بحسب القارئ والآية، ولا يتوفر حاليًا لعلي جابر وعبدالله الموسى.</div>
 <p id="wordModeStatus" class="field-note" role="status" aria-live="polite"></p><button id="useFullAyah" class="text-button" type="button" hidden>الرجوع إلى عرض الآية كاملة</button>
 <label for="font">خط الآيات</label><select id="font" aria-describedby="fontFallbackNote fontStatus"></select>
@@ -110,10 +110,12 @@
 <div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
 <div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
 <section aria-labelledby="release019"><h3 id="release019">الإصدار <bdi>0.1.9</bdi></h3><ul>
-<li>إصلاح رفض تلاوات صحيحة في نمط «كلمة بكلمة» بسبب اختلاف تمثيل الهمزة وبعض علامات الرسم العثماني.</li>
-<li>مطابقة النص المرافق للصوت مع تسلسل الكلمات المسموع، بما فيه إعادة القارئ للكلمات والجمل.</li>
-<li>معالجة افتتاحيات السور عندما يبدأ المقطع بالآية دون البسملة، وفروق وصل الكلمات وفصلها بين نسختي الرسم.</li>
-<li>توضيح سبب تعذر التوقيت، مع اسم القارئ والسورة ورقم الآية المتأثرة.</li>
+<li>إصلاح عرض «كلمة بكلمة» لضمان تبدّل الكلمات مع التلاوة في المعاينة والفيديو الناتج.</li>
+<li>إصلاح ظهور قائمة نمط العرض فارغة، وتحديد «الآية كاملة» افتراضيًا عند أول استخدام أو غياب إعداد صالح.</li>
+<li>إصلاح رفض تلاوات صحيحة بسبب اختلاف تمثيل الهمزة وبعض علامات الرسم العثماني.</li>
+<li>دعم إعادة القارئ للكلمات والجمل مع الحفاظ على توقيتها.</li>
+<li>معالجة اختلاف إدراج البسملة في افتتاحيات السور، ووصل بعض الكلمات وفصلها بين مصادر النص.</li>
+<li>توضيح سبب تعذّر توقيت الكلمات، مع ذكر القارئ والسورة ورقم الآية المتأثرة.</li>
 </ul></section>
 <section aria-labelledby="release018"><h3 id="release018">الإصدار <bdi>0.1.8</bdi></h3><ul>
 <li>إضافة نمط «كلمة بكلمة» التجريبي بجانب عرض الآية كاملة، مع حفظ الاختيار.</li>
@@ -172,5 +174,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.9"></script>
+<script type="module" src="app.js?v=0.1.9-fix1"></script>
 </body></html>

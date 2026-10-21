@@ -1,3 +1,9 @@
+## Word-by-word timing (v0.1.8)
+
+QUD³ Technologies, [Qur’anic Universal Ayahs](https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs), word timestamps and segmentation metadata, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+The optional word display uses the matching, unmodified ayah clip supplied with each timestamp row. Its recording may differ from the recording used in full-ayah mode. The eleven subset identifiers are documented in `word-timing.js`. Timing boundaries are used for visual word replacement, including repetitions; local Uthmani Quran text remains unchanged. Recording rights remain with the reciter and the upstream audio source. Word timing is not available for every reciter or ayah. No claim of manual verification of every timestamp is made.
+
 # Third-party components and sources
 
 - Quran Uthmani text: https://api.alquran.cloud/v1/quran/quran-uthmani (Al Quran Cloud, edition `quran-uthmani`). Original text is preserved; source response fingerprint is in `assets/quran-source.json`. Underlying text credited to Tanzil, https://tanzil.net/docs/Text_License (CC BY 3.0; verbatim distribution, attribution and link retained).

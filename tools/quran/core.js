@@ -20,13 +20,13 @@ export const FONTS=[
  {id:'scheherazade',name:'شهرزاد الجديد — عريض',family:'QuranScheherazade',weight:700}
 ];
 export function textFont(id,size){const f=FONTS.find(f=>f.id===id)||FONTS[0];return `${f.weight} ${size}px ${f.family}, Quran`;}
-export const DEFAULTS={surah:2,from:3,to:3,reciter:'Husary_128kbps',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,font:'amiri',position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false,showReciter:false,reciterFont:'amiri',reciterSize:32,reciterColor:'#ffffff',reciterPosition:'below',reciterAlign:'center',reciterGap:3,reciterEffect:'shadow',reciterEffectColor:'#000000',reciterEffectSize:3};
+export const DEFAULTS={surah:2,from:3,to:3,reciter:'Husary_128kbps',displayMode:'ayah',background:'mountains',ratio:'portrait',quality:720,color:'#ffffff',fontSize:60,font:'amiri',position:'center',dim:40,zoom:100,bgX:50,bgY:50,lineHeight:1.9,margin:8,roundedCorners:false,showReciter:false,reciterFont:'amiri',reciterSize:32,reciterColor:'#ffffff',reciterPosition:'below',reciterAlign:'center',reciterGap:3,reciterEffect:'shadow',reciterEffectColor:'#000000',reciterEffectSize:3};
 export function restoreSettings(saved){
  const s={...DEFAULTS};
  if(!saved||typeof saved!=='object')return s;
  for(const key of Object.keys(DEFAULTS))if(typeof saved[key]===typeof DEFAULTS[key])s[key]=saved[key];
  for(const key of ['font','reciterFont'])if(!FONTS.some(f=>f.id===s[key]))s[key]=DEFAULTS[key];
- for(const [key,values]of Object.entries({ratio:['portrait','landscape','square'],quality:[720,1080],position:['top','center','bottom'],reciterPosition:['below','top','bottom'],reciterAlign:['left','center','right'],reciterEffect:['none','shadow','outline','both']}))if(!values.includes(s[key]))s[key]=DEFAULTS[key];
+ for(const [key,values]of Object.entries({displayMode:['ayah','word'],ratio:['portrait','landscape','square'],quality:[720,1080],position:['top','center','bottom'],reciterPosition:['below','top','bottom'],reciterAlign:['left','center','right'],reciterEffect:['none','shadow','outline','both']}))if(!values.includes(s[key]))s[key]=DEFAULTS[key];
  if(!RECITERS.some(r=>r.id===s.reciter))s.reciter=DEFAULTS.reciter;
  for(const key of ['color','reciterColor','reciterEffectColor'])if(!/^#[0-9a-f]{6}$/i.test(s[key]))s[key]=DEFAULTS[key];
  for(const [key,min,max]of [['surah',1,114],['from',1,286],['to',1,286],['fontSize',32,100],['dim',0,85],['zoom',100,200],['bgX',0,100],['bgY',0,100],['lineHeight',1.5,2.4],['margin',5,18],['reciterSize',18,72],['reciterGap',0,12],['reciterEffectSize',1,8]])s[key]=Number.isFinite(s[key])?Math.max(min,Math.min(max,s[key])):DEFAULTS[key];
@@ -92,11 +92,11 @@ export function drawCornerMask(ctx,w,h,settings){
  ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();
  ctx.fill('evenodd');ctx.restore();
 }
-export function drawOverlay(ctx,ayah,w,h,settings){
+export function drawOverlay(ctx,ayah,w,h,settings,displayText=null){
  ctx.clearRect(0,0,w,h);ctx.fillStyle=`rgba(0,0,0,${settings.dim/100})`;ctx.fillRect(0,0,w,h);
  let layout;
  if(ayah){
-  const text=ayah.text+' \u06DD'+arabic(ayah.numberInSurah);
+  const text=displayText??(ayah.text+' \u06DD'+arabic(ayah.numberInSurah));
   layout=layoutText(ctx,text,w,h,settings);
   ctx.font=textFont(settings.font,layout.size);ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.direction='rtl';ctx.fillStyle=settings.color;
   ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=w/270;ctx.shadowOffsetY=1;
