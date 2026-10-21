@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
 <script src="../theme.js?v=0.2.0"></script>
-<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.7"><link rel="stylesheet" href="theme.css?v=0.2.0">
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.1.9"><link rel="stylesheet" href="theme.css?v=0.2.0">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
@@ -58,6 +58,9 @@
 </div>
 <div class="panel" id="style-panel" role="tabpanel" aria-labelledby="style-tab" hidden>
 <h2 class="format-title">تنسيق الآيات</h2>
+<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah">الآية كاملة</option><option value="word">كلمة بكلمة — تجريبي</option></select>
+<div id="wordModeNote" class="info-note" hidden>تظهر كلمة واحدة وتتبدل مع التلاوة، وتتكرر عند إعادة القارئ لها. تبقى الكلمة أثناء الوقف حتى بدء التالية. في افتتاح السورة تظهر البسملة فقط إذا كانت موجودة مع توقيتها في التلاوة. يستخدم هذا النمط تلاوة مرتبطة بتوقيت الكلمات؛ قد تختلف نسخة التسجيل عن العرض الكامل. يتوفر بحسب القارئ والآية، ولا يتوفر حاليًا لعلي جابر وعبدالله الموسى.</div>
+<p id="wordModeStatus" class="field-note" role="status" aria-live="polite"></p><button id="useFullAyah" class="text-button" type="button" hidden>الرجوع إلى عرض الآية كاملة</button>
 <label for="font">خط الآيات</label><select id="font" aria-describedby="fontFallbackNote fontStatus"></select>
 <p id="fontStatus" class="field-note" role="status" aria-live="polite"></p>
 <p id="fontFallbackNote" class="field-note font-notice" hidden>يستخدم خط عثمان طه نسخ «أميري قرآن» لعرض بعض العلامات غير المدعومة، مع الحفاظ على نص الآيات.</p>
@@ -66,7 +69,7 @@
 <label for="position">موضع الآيات</label><select id="position"><option value="center">الوسط</option><option value="top">أعلى</option><option value="bottom">أسفل</option></select>
 <div class="range-label"><label for="lineHeight">المسافة بين الأسطر</label><output id="lineValue">1.9</output></div><input id="lineHeight" type="range" min="1.5" max="2.4" step="0.1" value="1.9">
 <div class="range-label"><label for="margin">الهوامش الآمنة</label><output id="marginValue">8٪</output></div><input id="margin" type="range" min="5" max="18" value="8">
-<div class="info-note">الآيات بالرسم العثماني والتشكيل الكامل، مع علامة رقم الآية. يتناسب الخط تلقائيًا مع الآيات الطويلة.</div>
+<div class="info-note">النص بالرسم العثماني والتشكيل الكامل. ينطبق الخط والحجم واللون والموضع على النمطين، وتظهر علامة رقم الآية في العرض الكامل. يتناسب النص تلقائيًا مع المساحة المتاحة.</div>
 <div class="section-divider"></div>
 <label class="reader-toggle" for="showReciter"><span>إظهار اسم القارئ في الفيديو</span><input id="showReciter" type="checkbox" role="switch" aria-controls="reciterFormat"></label>
 <fieldset id="reciterFormat" class="reader-format" hidden><legend>تنسيق اسم القارئ</legend>
@@ -93,7 +96,7 @@
 <div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
 <div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">الحصري</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
 </div>
-<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.7" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.7</button></div></footer>
+<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.1.9" aria-haspopup="dialog" aria-controls="versionsDialog">v0.1.9</button></div></footer>
 </main>
 <dialog id="privacyDialog" class="info-dialog" aria-labelledby="privacyTitle">
 <div class="dialog-header"><h2 id="privacyTitle">الخصوصية</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق نافذة الخصوصية" autofocus>×</button></div>
@@ -106,6 +109,19 @@
 <dialog id="versionsDialog" class="info-dialog" aria-labelledby="versionsTitle">
 <div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
 <div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
+<section aria-labelledby="release019"><h3 id="release019">الإصدار <bdi>0.1.9</bdi></h3><ul>
+<li>إصلاح رفض تلاوات صحيحة في نمط «كلمة بكلمة» بسبب اختلاف تمثيل الهمزة وبعض علامات الرسم العثماني.</li>
+<li>مطابقة النص المرافق للصوت مع تسلسل الكلمات المسموع، بما فيه إعادة القارئ للكلمات والجمل.</li>
+<li>معالجة افتتاحيات السور عندما يبدأ المقطع بالآية دون البسملة، وفروق وصل الكلمات وفصلها بين نسختي الرسم.</li>
+<li>توضيح سبب تعذر التوقيت، مع اسم القارئ والسورة ورقم الآية المتأثرة.</li>
+</ul></section>
+<section aria-labelledby="release018"><h3 id="release018">الإصدار <bdi>0.1.8</bdi></h3><ul>
+<li>إضافة نمط «كلمة بكلمة» التجريبي بجانب عرض الآية كاملة، مع حفظ الاختيار.</li>
+<li>تبديل الكلمة مع التلاوة في المعاينة والتصدير باستخدام توقيت واحد، مع إبقاء الكلمة أثناء الوقف حتى بدء التالية.</li>
+<li>تطبيق خيارات الخط والحجم واللون والموضع على النمط الجديد، مع استمرار استقلال تنسيق اسم القارئ.</li>
+<li>التحقق من مطابقة نص الكلمات وتوقيتها ومدة الصوت قبل الاستخدام، وإظهار خيار العرض الكامل عند عدم توفر التوقيت.</li>
+<li>إتاحة النمط بحسب الآية لدى ١١ قارئًا؛ توقيت علي جابر وعبدالله الموسى غير متاح في هذه النسخة.</li>
+</ul></section>
 <section aria-labelledby="release017"><h3 id="release017">الإصدار <bdi>0.1.7</bdi></h3><ul>
 <li>إضافة قائمة لاختيار خط الآيات: أميري قرآن، حفص العثماني، عثمان طه نسخ، وشهرزاد الجديد العريض.</li>
 <li>إضافة خيار إظهار اسم القارئ المختار أو إخفائه في المعاينة والفيديو الناتج.</li>
@@ -156,5 +172,5 @@
 </div>
 </dialog>
 <video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
-<script type="module" src="app.js?v=0.1.7"></script>
+<script type="module" src="app.js?v=0.1.9"></script>
 </body></html>
