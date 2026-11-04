@@ -37,10 +37,7 @@
     }
     .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #4caf50; animation: blink 2s infinite; }
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:.4} }
-
     .container { width: 100%; max-width: 900px; padding: 16px; }
-
-    /* TIMER */
     .timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .timer-ring { position: relative; width: 38px; height: 38px; flex-shrink: 0; }
     .timer-ring svg { transform: rotate(-90deg); }
@@ -49,8 +46,6 @@
     .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #c8a96e; }
     .update-time { font-size: 11px; color: #999; }
     .update-time b { color: #666; font-weight: 600; }
-
-    /* BASE CARD */
     .base-card {
       background: #fff; border: 2px solid #c8a96e; border-radius: 16px;
       padding: 14px 16px; margin-bottom: 8px;
@@ -81,14 +76,10 @@
     }
     .clear-btn:hover { background: rgba(200,169,110,0.15); }
     .clear-btn svg { width: 14px; height: 14px; }
-
-    /* HIDDEN SELECT OVERLAY */
     .select-overlay { position: relative; }
     .select-overlay select {
       position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 16px;
     }
-
-    /* CURRENCY ROWS */
     .list { display: flex; flex-direction: column; gap: 6px; }
     .c-row {
       background: #fff; border: 0.5px solid rgba(200,169,110,0.15); border-radius: 14px;
@@ -109,8 +100,6 @@
     }
     .c-menu:hover { background: rgba(200,169,110,0.1); color: #c8a96e; }
     .c-menu span { width: 4px; height: 4px; background: currentColor; border-radius: 50%; display: block; }
-
-    /* BOTTOM ROW */
     .bottom-row {
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 2px;
@@ -123,8 +112,6 @@
     }
     .add-btn:hover { background: rgba(200,169,110,0.1); }
     .mid-label { font-size: 11px; color: #bbb; }
-
-    /* MODAL */
     .overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.25);
       backdrop-filter: blur(4px); z-index: 200;
@@ -154,11 +141,8 @@
     .m-item:hover { background: rgba(200,169,110,0.08); }
     .m-item-code { font-size: 13px; font-weight: 700; color: #2a1f0a; }
     .m-item-name { font-size: 11px; color: #aaa; }
-
-    /* FOOTER */
     .footer { margin-top: 1.5rem; text-align: center; font-size: 11px; color: #bbb; }
     .footer a { color: #c8a96e; text-decoration: none; font-weight: 600; }
-
     @media (max-width: 400px) {
       .base-input { font-size: 20px; width: 100px; }
       .c-amount { font-size: 17px; }
@@ -166,16 +150,13 @@
   </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-inner">
     <span class="nav-title" style="font-size:15px;font-weight:700;color:#2a1f0a">محوّل العملات</span>
     <div class="live-badge"><span class="live-dot"></span>مباشر</div>
   </div>
 </nav>
-
 <div class="container">
-
   <div class="timer-row">
     <div class="timer-ring">
       <svg width="38" height="38" viewBox="0 0 38 38">
@@ -186,8 +167,6 @@
     </div>
     <div class="update-time">آخر تحديث: <b id="t-time">—</b></div>
   </div>
-
-  <!-- BASE -->
   <div class="base-card">
     <div class="select-overlay">
       <div class="base-left">
@@ -206,9 +185,7 @@
       </button>
     </div>
   </div>
-
   <div class="list" id="list"></div>
-
   <div class="bottom-row">
     <button class="add-btn" onclick="openModal()">
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
@@ -216,13 +193,10 @@
     </button>
     <span class="mid-label">أسعار السوق المتوسطة</span>
   </div>
-
   <div class="footer">
     جميع الحقوق محفوظة © 2026 &nbsp;—&nbsp; صمم ♥ <a href="https://www.maqbali.com">Maqbali</a>
   </div>
 </div>
-
-<!-- MODAL -->
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-title">اختر عملة</div>
@@ -230,14 +204,12 @@
     <div id="m-list"></div>
   </div>
 </div>
-
 <script>
-
 const FLAG_MAP = {
   'USD':'us','EUR':'eu','AED':'ae','SAR':'sa','GBP':'gb','INR':'in',
   'JPY':'jp','KWD':'kw','BHD':'bh','QAR':'qa','EGP':'eg','PKR':'pk',
   'PHP':'ph','CHF':'ch','CNY':'cn','CAD':'ca','AUD':'au','TRY':'tr',
-  'MYR':'my','BDT':'bd','SGD':'sg','IDR':'id','OMR':'om'
+  'MYR':'my','BDT':'bd','SGD':'sg','IDR':'id','OMR':'om','VND':'vn'
 };
 function flagUrl(code) {
   const cc = FLAG_MAP[code] || code.slice(0,2).toLowerCase();
@@ -267,15 +239,13 @@ const CURRENCIES = [
   { code:'BDT', name:'تاكا بنغلاديشية',   flag:'🇧🇩', sym:'৳'    },
   { code:'SGD', name:'دولار سنغافوري',     flag:'🇸🇬', sym:'S$'   },
   { code:'IDR', name:'روبية إندونيسية',    flag:'🇮🇩', sym:'Rp'   },
+  { code:'VND', name:'دونغ فيتنامي',       flag:'🇻🇳', sym:'₫'    }
 ];
-
 let rates = {};
 let base = 'OMR';
-let active = ['USD','EUR','AED','INR'];
+let active = ['USD','EUR','AED','INR','TRY','IDR','VND'];
 let ticker = 30;
 let tickerInt;
-
-// Build select
 const bSel = document.getElementById('b-select');
 CURRENCIES.forEach(c => {
   const o = document.createElement('option');
@@ -283,15 +253,14 @@ CURRENCIES.forEach(c => {
   if (c.code === 'OMR') o.selected = true;
   bSel.appendChild(o);
 });
-
 function getC(code) { return CURRENCIES.find(c => c.code === code) || { code, name: code, flag:'🌐', sym: code }; }
-
 const WORKER = 'https://msx-stocks.al4muqbali.workers.dev';
-
 async function fetchRates() {
   try {
     const res = await fetch(`${WORKER}/rates?from=${base}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const d = await res.json();
+    if (!d || !d.rates || typeof d.rates !== 'object') throw new Error('Invalid rates response');
     rates = { ...d.rates, [base]: 1 };
     const now = new Date();
     document.getElementById('t-time').textContent =
@@ -299,9 +268,8 @@ async function fetchRates() {
       now.toLocaleTimeString('ar-OM',{timeZone:'Asia/Muscat',hour:'2-digit',minute:'2-digit'});
     convert();
     resetTicker();
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error('Currency rates update failed:', e); }
 }
-
 function convert() {
   const amt = parseFloat(document.getElementById('b-input').value) || 0;
   const list = document.getElementById('list');
@@ -328,15 +296,11 @@ function convert() {
     list.appendChild(row);
   });
 }
-
 function setBase(code) {
   if (code === base) return;
   const oldBase = base;
-  // Remove clicked currency from list
   active = active.filter(c => c !== code);
-  // Add old base to list if it's not OMR
   if (oldBase !== 'OMR' && !active.includes(oldBase)) active.push(oldBase);
-  // Always keep OMR in list
   if (!active.includes('OMR') && code !== 'OMR') active.unshift('OMR');
   base = code;
   const c = getC(code);
@@ -346,13 +310,10 @@ function setBase(code) {
   document.getElementById('b-select').value = code;
   fetchRates();
 }
-
 function removeC(code) {
   active = active.filter(c => c !== code);
   convert();
 }
-
-// TIMER
 function resetTicker() {
   clearInterval(tickerInt);
   ticker = 30;
@@ -363,7 +324,6 @@ function resetTicker() {
     if (ticker <= 0) fetchRates();
   }, 1000);
 }
-
 function updateTicker() {
   const prog = document.getElementById('t-prog');
   const num = document.getElementById('t-num');
@@ -371,24 +331,19 @@ function updateTicker() {
   prog.style.strokeDashoffset = c * (1 - ticker / 30);
   num.textContent = ticker;
 }
-
-// MODAL
 function openModal() {
   document.getElementById('overlay').classList.add('open');
   document.getElementById('m-search').value = '';
   renderModal('');
   setTimeout(() => document.getElementById('m-search').focus(), 100);
 }
-
 function closeModal(e) {
   if (e.target === document.getElementById('overlay'))
     document.getElementById('overlay').classList.remove('open');
 }
-
 function filterModal() {
   renderModal(document.getElementById('m-search').value);
 }
-
 function renderModal(q) {
   const ml = document.getElementById('m-list');
   const filtered = CURRENCIES.filter(c =>
@@ -405,13 +360,11 @@ function renderModal(q) {
     </div>
   `).join('');
 }
-
 function addC(code) {
   if (!active.includes(code)) active.push(code);
   document.getElementById('overlay').classList.remove('open');
   convert();
 }
-
 fetchRates();
 </script>
 </body>
