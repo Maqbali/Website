@@ -153,5 +153,14 @@
       "title": "Flowers",
       "oldPath": "/flowers.html"
     }
+    {
+      "id": "terms",
+      "title": "الشروط والأحكام",
+      "oldPath": "/terms.html",
+      "pageTitle": "الشروط والأحكام | Maqbali",
+      "metaDescription": "الشروط والأحكام الخاصة باستخدام موقع Maqbali.com",
+      "canonicalUrl": "https://www.maqbali.com/terms.html",
+      "published": true
+    }
   ]
 }
