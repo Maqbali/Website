@@ -1,6 +1,7 @@
 import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.2.0';
 import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.2.0';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.2.0';
+import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.2.0-pilot2';
+import {pilotSourceFor,loadPilotTimings,preparePilotAudio} from './local-timing-pilot.js?v=2';
 import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides,resolveHaythamAudioURL} from './word-timing.js?v=0.2.0';
 import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const AUDIO_CACHE='maqbali-quran-audio-v1';
@@ -148,7 +149,7 @@ async function decodeMousaPart(part,signal){
     await ff.writeFile('reader-part.mp3',part.bytes);
     const code=await ff.exec(['-i','reader-part.mp3','-ss',part.offset.toFixed(6),'-t',part.duration.toFixed(6),'-ar','48000','-ac','1','-c:a','pcm_s16le','reader-part.wav']);
     signal.throwIfAborted();
-    if(code!==0)throw Error('تعذر تجهيز تلاوة عبدالله الموسى. اختر قارئًا آخر أو حاول مجددًا.');
+    if(code!==0)throw Error('تعذر تجهيز مقطع التلاوة. اختر قارئًا آخر أو حاول مجددًا.');
     const data=await ff.readFile('reader-part.wav');
     return data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength);
   }finally{
@@ -165,14 +166,43 @@ async function loadAudio(onProgress=()=>{}){
   if(audioLoad)return audioLoad;
   const ver=selectionVersion;
   const selected=[...verses],reader=settings.reciter,surahNumber=settings.surah,mode=settings.displayMode;
+  const pilot=pilotSourceFor(reader,surahNumber,selected,mode);
   audioAbort=new AbortController();
   const signal=audioAbort.signal;
   audioLoad=(async()=>{
     const ac=await context(),loaded=[];
-    let mousaSource;
+    let mousaSource,pilotSource,pilotTimings;
     for(let i=0;i<selected.length;i++){
       const ayah=selected[i],num=ayah.numberInSurah;
       onProgress(i,selected.length);
+      if(pilot){
+        try{
+          pilotTimings??=await loadPilotTimings(pilot,surahNumber,signal);
+          const record=pilotTimings.records.get(num);
+          if(!record)throw Error('توقيت الآية غير موجود في حزمة الاختبار.');
+          if(mode==='word')validateTiming(record,reader,surahNumber,ayah);
+          const key=new URL(`assets/audio-cache/qud-v4-pilot2/${pilot.config}/${surahNumber}/${num}.wav`,location.href).href;
+          const bytes=await fetchAudio(key,signal,null,async()=>{
+            try{
+              pilotSource??=await preparePilotAudio(pilot,pilotTimings.spans,signal);
+              return await decodeMousaPart(await fetchMousaPart(pilotSource,num,signal),signal);
+            }catch(e){
+              if(e.name==='AbortError')throw e;
+              throw Error('تعذّر تحميل أو تجهيز الصوت المطابق من مصدره. أعد المحاولة.',{cause:e});
+            }
+          });
+          if(ver!==selectionVersion)throw new DOMException('Selection changed','AbortError');
+          const buffer=await ac.decodeAudioData(bytes.slice(0));
+          signal.throwIfAborted();
+          const wordCues=mode==='word'?validateTiming(record,reader,surahNumber,ayah,buffer.duration):undefined;
+          loaded.push({buffer,duration:buffer.duration,ayah,wordCues});
+        }catch(e){
+          if(e.name==='AbortError')throw e;
+          const detail=e.name==='EncodingError'?'تعذّر قراءة الصوت المطابق.':e.message;
+          throw Error(`${RECITERS.find(r=>r.id===reader).name} · ${quran.surahs[surahNumber-1].name} · الآية ${arabic(num)}: ${detail}`);
+        }
+        continue;
+      }
       if(mode==='word'){
         let clip;
         try{
@@ -235,7 +265,7 @@ async function loadAudio(onProgress=()=>{}){
     }
     return segments;
   })();
-  try{return await audioLoad;}finally{if(ver===selectionVersion){audioLoad=null;if(reader==='Abdullah_AlMousa_MP3Quran'&&!exporting){try{engine?.terminate();}catch{}engine=null;}}}
+  try{return await audioLoad;}finally{if(ver===selectionVersion){audioLoad=null;if((reader==='Abdullah_AlMousa_MP3Quran'||pilot)&&!exporting){try{engine?.terminate();}catch{}engine=null;}}}
 }
 function audioError(e){
  if(e.name==='AbortError')return;

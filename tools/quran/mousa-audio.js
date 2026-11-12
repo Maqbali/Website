@@ -65,14 +65,23 @@ export function inspectMousaMP3(bytes,total){
   if(count<8)throw failure();
   return {...frame,offset,total,skip};
 }
-async function range(url,start,end,signal){
+async function range(url,start,end,signal,pin){
   return readRecitation(url,{headers:{Range:`bytes=${start}-${end}`},signal},'audio',async r=>{
   if(r.status!==206){await r.body?.cancel();throw failure();}
   const match=/^bytes (\d+)-(\d+)\/(\d+)$/.exec(r.headers.get('Content-Range')||'');
-  if(!match||+match[1]!==start||+match[2]>end||+match[2]<start)throw failure();
+  const expected=pin?.sha256[start+'-'+end];
+  if(!match||+match[1]!==start||+match[2]>end||+match[2]<start){
+    await r.body?.cancel();throw failure();
+  }
   const bytes=new Uint8Array(await r.arrayBuffer());
+  const total=+match[3];
   if(bytes.length!==+match[2]-start+1)throw failure();
-  return {bytes,total:+match[3]};
+  if(pin){
+    if(!expected||total!==pin.total)throw failure();
+    const digest=new Uint8Array(await crypto.subtle.digest('SHA-256',bytes));
+    if(Array.from(digest,n=>n.toString(16).padStart(2,'0')).join('')!==expected)throw failure();
+  }
+  return {bytes,total};
   });
 }
 export async function prepareMousaSource(surah,ayahCount,signal){
@@ -83,6 +92,10 @@ export async function prepareMousaSource(surah,ayahCount,signal){
     range(url,0,131071,signal)
   ]);
   return {url,timings:validateMousaTimings(responses[0],ayahCount),...inspectMousaMP3(responses[1].bytes,responses[1].total)};
+}
+export async function prepareChapterSource(url,timings,signal,pin){
+  const {bytes,total}=await range(url,0,131071,signal,pin);
+  return {url,timings,pin,...inspectMousaMP3(bytes,total)};
 }
 export function sliceMousaFrames(source,ayah,bytes,rangeStart){
   const timing=source.timings.get(ayah);
@@ -112,7 +125,7 @@ export async function fetchMousaPart(source,ayah,signal){
   const start=Math.max(source.offset,source.offset+Math.floor(index*source.average)-2);
   const end=Math.min(source.total-1,source.offset+Math.ceil((Math.ceil((timing.end+source.skip)/source.seconds)+2)*source.average)+2);
   if(end-start>24*1024*1024||end<start)throw failure();
-  const result=await range(source.url,start,end,signal);
+  const result=await range(source.url,start,end,signal,source.pin);
   if(result.total!==source.total)throw failure();
   return sliceMousaFrames(source,ayah,result.bytes,start);
 }
