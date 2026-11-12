@@ -1,5 +1,6 @@
 // QUA supplies individual ayah clips. Resolve temporary audio links on demand;
 // cache the audio under a stable verse key, rather than retaining signed links.
+import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const DATASET = 'QUD-Technologies/quranic-universal-ayahs';
 const CONFIG = 'badr_al_turki_yt';
 const HOST = 'https://datasets-server.huggingface.co';
@@ -39,11 +40,8 @@ export function validateIslamRow(payload, surah, ayah) {
   return url.href;
 }
 export async function resolveIslamAudioURL(surah, ayah, globalAyahNumber, signal) {
-  const response=await fetch(islamMetadataURL(surah,ayah,globalAyahNumber),{signal,cache:'no-store',credentials:'omit'});
-  if (!response.ok) throw new Error(response.status===429
-    ? 'مصدر تلاوة إسلام صبحي مشغول حاليًا. حاول بعد قليل.'
-    : 'تعذر الوصول إلى تلاوة إسلام صبحي. حاول مجددًا أو اختر قارئًا آخر.');
-  return validateIslamRow(await response.json(),surah,ayah);
+  const payload=await readRecitation(islamMetadataURL(surah,ayah,globalAyahNumber),{signal,cache:'no-store'},'source',r=>r.json());
+  return validateIslamRow(payload,surah,ayah);
 }
 
 // Ahmed Talib clips: QUD³ Technologies, Qur'anic Universal Ayahs,
@@ -84,11 +82,8 @@ export function validateAhmedRow(payload, surah, ayah, globalAyahNumber) {
 }
 
 export async function resolveAhmedAudioURL(surah, ayah, globalAyahNumber, signal) {
-  const response = await fetch(ahmedMetadataURL(surah,globalAyahNumber), {signal,cache:'no-store',credentials:'omit'});
-  if (!response.ok) throw new Error(response.status===429
-    ? 'مصدر تلاوة أحمد طالب مشغول حاليًا. حاول بعد قليل.'
-    : 'تعذر الوصول إلى تلاوة أحمد طالب. حاول مجددًا أو اختر قارئًا آخر.');
-  return validateAhmedRow(await response.json(),surah,ayah,globalAyahNumber);
+  const payload=await readRecitation(ahmedMetadataURL(surah,globalAyahNumber),{signal,cache:'no-store'},'source',r=>r.json());
+  return validateAhmedRow(payload,surah,ayah,globalAyahNumber);
 }
 
 export function badrMetadataURL(globalAyahNumber) {
@@ -121,13 +116,6 @@ export function validateBadrRow(payload, surah, ayah, globalAyahNumber) {
 }
 
 export async function resolveBadrAudioURL(surah, ayah, globalAyahNumber, signal) {
-  const response = await fetch(badrMetadataURL(globalAyahNumber), {
-    signal, cache: 'no-store', credentials: 'omit'
-  });
-  if (!response.ok) {
-    throw new Error(response.status === 429
-      ? 'مصدر تلاوة بدر التركي مشغول حاليًا. حاول بعد قليل.'
-      : 'تعذر الوصول إلى مصدر تلاوة بدر التركي. حاول مجددًا أو اختر قارئًا آخر.');
-  }
-  return validateBadrRow(await response.json(), surah, ayah, globalAyahNumber);
+  const payload=await readRecitation(badrMetadataURL(globalAyahNumber),{signal,cache:'no-store'},'source',r=>r.json());
+  return validateBadrRow(payload,surah,ayah,globalAyahNumber);
 }

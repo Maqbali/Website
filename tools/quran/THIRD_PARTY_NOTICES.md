@@ -1,3 +1,7 @@
+## Haytham Al-Dukhain, Ali Jaber and Abdullah Al-Mousa
+
+Audio and word timing for Haytham Al-Dukhain use the QUD³ Technologies QUA subset `haitham_al_dukhain_mp3quran`, sourced from MP3Quran (Hafs). Word mode for Ali Jaber and Abdullah Al-Mousa uses `abdullah_ali_jabir_mp3quran` and `abdullah_al_mousa_mp3quran` respectively, with the audio carried by each timing row. Their full-ayah sources are unchanged. QUA timing and segmentation metadata are CC BY 4.0; audio rights remain with the reciters and upstream sources. See https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs and https://github.com/QUD-Technologies/quranic-universal-audio/releases .
+
 ## Muhammad Ayyub recitations
 
 Full-ayah audio: EveryAyah, `Muhammad_Ayyoub_128kbps`, https://everyayah.com/data/recitations.js . Word-mode audio and timestamps: QUD³ Technologies, subset `mohammed_ayyub_drive` of https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs . Segmentation and alignment metadata are CC BY 4.0; recording rights remain with the reciter and upstream sources. Word timings are used only with the audio supplied by the same dataset row. Local Quran text is preserved.

@@ -1,6 +1,7 @@
 // Read only the required CBR MP3 frames. Never estimate timing from file size:
 // use the source's ayah timings, verify frame alignment/rate, and decode with
 // preroll before trimming locally. Unsupported/changed files fail closed.
+import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const API='https://www.mp3quran.net/api/v3/ayat_timing';
 const AUDIO='https://cdn.mp3quran.net/audio/abdullah-mousa/r1/';
 const failure=()=>new Error('تعذر تجهيز تلاوة عبدالله الموسى. حاول مجددًا أو اختر قارئًا آخر.');
@@ -65,19 +66,20 @@ export function inspectMousaMP3(bytes,total){
   return {...frame,offset,total,skip};
 }
 async function range(url,start,end,signal){
-  const r=await fetch(url,{headers:{Range:`bytes=${start}-${end}`},credentials:'omit',signal});
+  return readRecitation(url,{headers:{Range:`bytes=${start}-${end}`},signal},'audio',async r=>{
   if(r.status!==206){await r.body?.cancel();throw failure();}
   const match=/^bytes (\d+)-(\d+)\/(\d+)$/.exec(r.headers.get('Content-Range')||'');
   if(!match||+match[1]!==start||+match[2]>end||+match[2]<start)throw failure();
   const bytes=new Uint8Array(await r.arrayBuffer());
   if(bytes.length!==+match[2]-start+1)throw failure();
   return {bytes,total:+match[3]};
+  });
 }
 export async function prepareMousaSource(surah,ayahCount,signal){
   if(!Number.isInteger(surah)||surah<1||surah>114)throw failure();
   const url=`${AUDIO}${String(surah).padStart(3,'0')}.mp3`;
   const responses=await Promise.all([
-    fetch(mousaTimingURL(surah),{signal,credentials:'omit'}).then(async r=>{if(!r.ok)throw failure();return r.json();}),
+    readRecitation(mousaTimingURL(surah),{signal},'timing',r=>r.json()),
     range(url,0,131071,signal)
   ]);
   return {url,timings:validateMousaTimings(responses[0],ayahCount),...inspectMousaMP3(responses[1].bytes,responses[1].total)};

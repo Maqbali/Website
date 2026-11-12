@@ -1,10 +1,14 @@
 // QUD³ Technologies, Qur'anic Universal Ayahs (CC BY 4.0 metadata).
 // Always use word timestamps with the audio clip carried by the SAME row.
 // https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs
+import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 export const WORD_CACHE='maqbali-quran-word-audio-v1';
 const HOST='https://datasets-server.huggingface.co';
 const DATASET='QUD-Technologies/quranic-universal-ayahs';
 export const WORD_SOURCES=Object.freeze({
+ Haitham_Dukhain_QUA:'haitham_al_dukhain_mp3quran',
+ Ali_Jaber_64kbps:'abdullah_ali_jabir_mp3quran',
+ Abdullah_AlMousa_MP3Quran:'abdullah_al_mousa_mp3quran',
  Muhammad_Ayyoub_128kbps:'mohammed_ayyub_drive',
  Husary_128kbps:'mahmoud_khalil_al_husary_qdc_128k',
  Alafasy_128kbps:'mishary_rashid_al_afasy_2008_qdc',
@@ -116,17 +120,29 @@ export function validateTiming(record,reader,surah,ayah,duration=null){
  if(seen.size!==words.length)throw mismatch('incomplete');
  return record.times.map(([index,start,end])=>({index,text:words[index-1],start:start/1000,end:end/1000}));
 }
-export function validateWordRow(payload,reader,surah,ayah){
- if(!Array.isArray(payload?.rows)||payload.rows.length>17)throw mismatch();
+function matchedClipRow(payload,reader,surah,ayah,full=false){
+ const invalid=code=>full?Error('تعذّر مطابقة مصدر صوت التلاوة مع الآية المحددة.'):mismatch(code);
+ if(!Array.isArray(payload?.rows)||payload.rows.length>17)throw invalid();
  const matches=payload.rows.filter(item=>item?.row?.surah===surah&&item.row.ayah===ayah.numberInSurah);
- if(!matches.length)throw Error('توقيت هذه الآية غير متوفر حاليًا لهذا القارئ. اختر «الآية كاملة» أو جرّب آية أخرى.');
+ if(!matches.length)throw Error(full?'تلاوة هذه الآية غير متوفرة حاليًا لهذا القارئ.':'توقيت هذه الآية غير متوفر حاليًا لهذا القارئ. اختر «الآية كاملة» أو جرّب آية أخرى.');
  const item=matches[0],row=item.row;
- if(matches.length!==1||!Number.isInteger(item.row_idx)||item.row_idx<0||!Array.isArray(item.truncated_cells)||item.truncated_cells.length)throw mismatch();
+ if(matches.length!==1||!Number.isInteger(item.row_idx)||item.row_idx<0||!Array.isArray(item.truncated_cells)||
+    (full?item.truncated_cells.includes('audio'):item.truncated_cells.length)||!Number.isFinite(row.duration_ms)||row.duration_ms<=0)throw invalid();
+ const config=WORD_SOURCES[reader];
+ let url;try{url=new URL(row.audio?.find?.(a=>a.type==='audio/mpeg')?.src);}catch{}
+ if(!config||!url||url.origin!==HOST||!url.pathname.startsWith(`/cached-assets/${DATASET}/`)||!url.pathname.includes(`/${config}/train/`))throw invalid('source');
+ return {row,url:url.href};
+}
+export function validateWordRow(payload,reader,surah,ayah){
+ const {row,url}=matchedClipRow(payload,reader,surah,ayah);
  const record={schema:1,config:WORD_SOURCES[reader],surah,ayah:row.ayah,durationMs:row.duration_ms,text:row.text_uthmani,times:row.word_timestamps};
  validateTiming(record,reader,surah,ayah);
- let url;try{url=new URL(row.audio?.find?.(a=>a.type==='audio/mpeg')?.src);}catch{}
- if(!url||url.origin!==HOST||!url.pathname.startsWith(`/cached-assets/${DATASET}/`)||!url.pathname.includes(`/${record.config}/train/`))throw mismatch('source');
- return {record,url:url.href};
+ return {record,url};
+}
+export async function resolveHaythamAudioURL(surah,ayah,signal){
+ const reader='Haitham_Dukhain_QUA';
+ const payload=await readRecitation(wordMetadataURL(reader,surah,ayah),{signal,cache:'no-store'},'source',r=>r.json());
+ return matchedClipRow(payload,reader,surah,ayah,true).url;
 }
 function cacheKeys(reader,surah,ayah){
  const key=new URL(`assets/word-cache/${WORD_SOURCES[reader]}/${surah}/${ayah.numberInSurah}`,location.href).href;
@@ -149,13 +165,10 @@ export async function loadTimedClip(reader,surah,ayah,signal){
   }
  }catch(e){if(e.name==='AbortError')throw e;}
  signal?.throwIfAborted();
- const response=await fetch(wordMetadataURL(reader,surah,ayah),{signal,cache:'no-store',credentials:'omit'});
- if(!response.ok)throw Error(response.status===429?'مصدر توقيت الكلمات مشغول حاليًا. حاول بعد قليل.':'تعذر تحميل توقيت الكلمات. أعد المحاولة أو اختر «الآية كاملة».');
- const {record,url}=validateWordRow(await response.json(),reader,surah,ayah);
- const audio=await fetch(url,{signal,credentials:'omit'});
- if(!audio.ok)throw Error('تعذر تنزيل التلاوة المتزامنة. أعد المحاولة أو اختر «الآية كاملة».');
- const bytes=await audio.arrayBuffer();signal?.throwIfAborted();
- if(bytes.byteLength<300)throw mismatch();
+ const payload=await readRecitation(wordMetadataURL(reader,surah,ayah),{signal,cache:'no-store'},'timing',r=>r.json());
+ const {record,url}=validateWordRow(payload,reader,surah,ayah);
+ const bytes=await readRecitation(url,{signal},'audio',r=>r.arrayBuffer());signal?.throwIfAborted();
+ if(bytes.byteLength<300)throw Error('ملف صوت التلاوة غير مكتمل. أعد المحاولة.');
  return {record,bytes,cache,keys,cached:false};
 }
 export async function saveTimedClip(clip,signal){

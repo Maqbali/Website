@@ -1,7 +1,10 @@
-import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.1.9-fix3';
-import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.1.9-fix3';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.1.9-fix3';
-import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.1.9-fix3';
+import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.2.0';
+import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.2.0';
+import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.2.0';
+import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides,resolveHaythamAudioURL} from './word-timing.js?v=0.2.0';
+import {readRecitation} from './recitation-fetch.js?v=0.2.0';
+const AUDIO_CACHE='maqbali-quran-audio-v1';
+let clearingCache=false;
 const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d');
 const PRESET_BACKGROUNDS=new Map([...document.querySelectorAll('[data-background]')].map(button=>[button.dataset.background,button.querySelector('img').getAttribute('src')]));
 let settings={...DEFAULTS},quran,surah,verses=[],segments=[],audioCtx,sourceNodes=[],audioLoad=null,audioAbort=null,selectionVersion=0,playing=false,position=0,startedAt=0,bgImage=null,customFile=null,customURL=null,bgVersion=0,renderQueued=false,exporting=false,cancelled=false,engine=null,outputURL=null,raf=0,wakeLock=null;
@@ -94,7 +97,7 @@ function selectionProblem(){
  return '';
 }
 function syncPlaybackAvailability(){
- const unavailable=exporting||!verses.length||Boolean(selectionProblem());
+ const unavailable=exporting||clearingCache||!verses.length||Boolean(selectionProblem());
  for(const id of ['export','play','listen'])$(id).disabled=unavailable;
 }
 function selectionChanged(){
@@ -125,7 +128,15 @@ function render(){const {width:w,height:h}=canvas;ctx.fillStyle='#151917';ctx.fi
 function image(src){if(imageCache.has(src))return imageCache.get(src);const p=new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(Error('تعذر فتح صورة الخلفية. اختر صورة أخرى.'));i.src=src;});imageCache.set(src,p);return p;}
 async function setBackground(name,file=null){pause();const version=++bgVersion;const oldURL=customURL;customFile=file;settings.background=file?'custom':name;bgImage=null;bgVideo.removeAttribute('src');bgVideo.load();if(file){customURL=URL.createObjectURL(file);$('uploadName').textContent=file.name;}else{customURL=null;$('uploadName').textContent='';}if(oldURL)URL.revokeObjectURL(oldURL);document.querySelectorAll('[data-background]').forEach(b=>{const on=!file&&b.dataset.background===name;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',on);});try{if(file?.type.startsWith('video/')||name==='motion'){bgVideo.src=file?customURL:'assets/night-motion.mp4';await new Promise((resolve,reject)=>{const done=()=>{clean();resolve();};const fail=()=>{clean();reject(Error('تعذر تشغيل الفيديو. جرّب MP4 بترميز H.264 أو اختر صورة.'));};const clean=()=>{bgVideo.removeEventListener('loadeddata',done);bgVideo.removeEventListener('error',fail);};bgVideo.addEventListener('loadeddata',done);bgVideo.addEventListener('error',fail);bgVideo.load();});}else{const loaded=await image(file?customURL:PRESET_BACKGROUNDS.get(name));if(version!==bgVersion)return;bgImage=loaded;}if(version!==bgVersion)return;saveSettings();requestRender();}catch(e){if(version===bgVersion){message(e.message,true);requestRender();}}}
 async function context(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)({sampleRate:48000});if(audioCtx.state!=='running')await audioCtx.resume();return audioCtx;}
-async function fetchAudio(url,signal,resolveURL=null,createBytes=null){let cache;try{cache=await caches.open('maqbali-quran-audio-v1');const match=await cache.match(url);if(match)return await match.arrayBuffer();}catch{}let bytes;if(createBytes){bytes=await createBytes();}else{const sourceURL=resolveURL?await resolveURL():url;const r=await fetch(sourceURL,{signal,credentials:'omit'});if(!r.ok)throw Error('تعذر تنزيل التلاوة. تأكد من اتصالك أو اختر قارئًا آخر.');bytes=await r.arrayBuffer();}signal?.throwIfAborted();if(bytes.byteLength<300)throw Error('ملف التلاوة غير مكتمل. جرّب مجددًا.');if(cache)try{await cache.put(url,new Response(bytes,{headers:{'Content-Type':createBytes?'audio/wav':'audio/mpeg'}}));}catch{}return bytes;}
+async function fetchAudio(url,signal,resolveURL=null,createBytes=null){
+ let cache;
+ try{cache=await caches.open(AUDIO_CACHE);const match=await cache.match(url);if(match){const bytes=await match.arrayBuffer();signal.throwIfAborted();return bytes;}}catch{signal.throwIfAborted();}
+ const bytes=createBytes?await createBytes():await readRecitation(resolveURL?await resolveURL():url,{signal},'audio',r=>r.arrayBuffer());
+ signal.throwIfAborted();
+ if(bytes.byteLength<300)throw Error('ملف صوت التلاوة غير مكتمل. أعد المحاولة.');
+ if(cache)try{await cache.put(url,new Response(bytes,{headers:{'Content-Type':createBytes?'audio/wav':'audio/mpeg'}}));}catch{}
+ return bytes;
+}
 async function decodeMousaPart(part,signal){
   signal.throwIfAborted();
   if(!exporting)cancelled=false;
@@ -146,6 +157,7 @@ async function decodeMousaPart(part,signal){
   }
 }
 async function loadAudio(onProgress=()=>{}){
+  if(clearingCache)throw new DOMException('Clearing cache','AbortError');
   if(!verses.length)throw Error('اختر نطاق آيات صحيحًا.');
   const problem=selectionProblem();if(problem)throw Error(problem);
   if(settings.reciter==='Islam_Sobhi_QUA'&&!islamSurahAvailable(settings.surah))throw Error('هذه السورة غير متوفرة حاليًا بصوت إسلام صبحي. اختر سورة أخرى أو قارئًا آخر.');
@@ -174,7 +186,7 @@ async function loadAudio(onProgress=()=>{}){
         }catch(e){
           await discardTimedClip(clip);
           if(e.name==='AbortError')throw e;
-          const detail=e.name==='EncodingError'?'تعذر قراءة الصوت المرافق لتوقيت الكلمات.':e instanceof TypeError?'تعذر تحميل التلاوة المتزامنة. تحقق من الاتصال وحاول مجددًا.':e.message;
+          const detail=e.name==='EncodingError'?'تعذر قراءة الصوت المرافق لتوقيت الكلمات.':e.message;
           throw Error(`${RECITERS.find(r=>r.id===reader).name} · ${quran.surahs[surahNumber-1].name} · الآية ${arabic(num)}: ${detail}`);
         }
         continue;
@@ -182,7 +194,10 @@ async function loadAudio(onProgress=()=>{}){
       const isBadr=reader==='Badr_AlTurki_QUA';
       const isAhmed=reader==='Ahmed_Talib_QUA',isMousa=reader==='Abdullah_AlMousa_MP3Quran';
       const isIslam=reader==='Islam_Sobhi_QUA';
-      const url=isIslam
+      const isHaytham=reader==='Haitham_Dukhain_QUA';
+      const url=isHaytham
+        ?new URL(`assets/audio-cache/qua-haytham-dukhain-v1/${surahNumber}/${num}.mp3`,location.href).href
+        :isIslam
         ?new URL(`assets/audio-cache/qua-islam-sobhi-v1/${surahNumber}/${num}.mp3`,location.href).href
         :isMousa
         ?new URL(`assets/audio-cache/mp3quran-mousa-v1/${surahNumber}/${num}.wav`,location.href).href
@@ -196,7 +211,8 @@ async function loadAudio(onProgress=()=>{}){
       const bytes=await fetchAudio(url,signal,isBadr
         ?()=>resolveBadrAudioURL(surahNumber,num,ayah.number,signal)
         :isAhmed?()=>resolveAhmedAudioURL(surahNumber,num,ayah.number,signal)
-        :isIslam?()=>resolveIslamAudioURL(surahNumber,num,ayah.number,signal):null,
+        :isIslam?()=>resolveIslamAudioURL(surahNumber,num,ayah.number,signal)
+        :isHaytham?()=>resolveHaythamAudioURL(surahNumber,ayah,signal):null,
         isMousa?async()=>{
           mousaSource??=await prepareMousaSource(surahNumber,quran.surahs[surahNumber-1].ayahs.length,signal);
           const part=await fetchMousaPart(mousaSource,num,signal);
@@ -226,9 +242,9 @@ function audioError(e){
  const text=e.message||'تعذر تجهيز التلاوة. أعد المحاولة.';message(text,true);
  if(settings.displayMode==='word'){$('wordModeStatus').textContent=text;$('useFullAyah').hidden=false;}
 }
-async function play(){if(exporting)return;if(playing){pause();return;}message();try{$('play').disabled=true;$('listen').disabled=true;const ac=await context();await loadAudio((i,n)=>message(`تجهيز التلاوة ${arabic(i+1)} من ${arabic(n)}…`));if(position>=totalDuration()-.05)position=0;startedAt=ac.currentTime+.06-position;let time=0;for(const s of segments){if(time+s.duration>position){const source=ac.createBufferSource();source.buffer=s.buffer;source.connect(ac.destination);const offset=Math.max(0,position-time);source.start(Math.max(ac.currentTime,startedAt+time+offset),offset);sourceNodes.push(source);}time+=s.duration;}playing=true;$('play').textContent='Ⅱ';$('listen').textContent='Ⅱ';$('play').setAttribute('aria-label','إيقاف المعاينة مؤقتًا');if(bgVideo.readyState>=2){try{bgVideo.currentTime=position%bgVideo.duration;await bgVideo.play();}catch{}}message();tick();}catch(e){audioError(e);}finally{syncPlaybackAvailability();}}
+async function play(){if(exporting||clearingCache)return;if(playing){pause();return;}message();try{$('play').disabled=true;$('listen').disabled=true;const ac=await context();await loadAudio((i,n)=>message(`تجهيز التلاوة ${arabic(i+1)} من ${arabic(n)}…`));if(position>=totalDuration()-.05)position=0;startedAt=ac.currentTime+.06-position;let time=0;for(const s of segments){if(time+s.duration>position){const source=ac.createBufferSource();source.buffer=s.buffer;source.connect(ac.destination);const offset=Math.max(0,position-time);source.start(Math.max(ac.currentTime,startedAt+time+offset),offset);sourceNodes.push(source);}time+=s.duration;}playing=true;$('play').textContent='Ⅱ';$('listen').textContent='Ⅱ';$('play').setAttribute('aria-label','إيقاف المعاينة مؤقتًا');if(bgVideo.readyState>=2){try{bgVideo.currentTime=position%bgVideo.duration;await bgVideo.play();}catch{}}message();tick();}catch(e){audioError(e);}finally{syncPlaybackAvailability();}}
 function tick(){if(!playing)return;position=Math.max(0,Math.min(totalDuration(),audioCtx.currentTime-startedAt));$('seek').value=position;$('currentTime').textContent=formatTime(position);render();if(position>=totalDuration()){pause();return;}raf=requestAnimationFrame(tick);}
-function setBusy(on){exporting=on;document.querySelectorAll('.editor button,.editor input,.editor select,.preview-section button,.preview-section input').forEach(el=>{if(el.id!=='cancel')el.disabled=on;});$('cancel').disabled=false;$('progressArea').hidden=!on;}
+function setBusy(on){exporting=on;document.querySelectorAll('.editor button,.editor input,.editor select,.preview-section button,.preview-section input').forEach(el=>{if(el.id!=='cancel')el.disabled=on;});$('clearCache').disabled=on||clearingCache;$('cancel').disabled=false;$('progressArea').hidden=!on;}
 function progress(value,label){value=Math.max(0,Math.min(100,value));$('progress').value=value;$('progressPercent').textContent=arabic(Math.round(value))+'٪';$('progressLabel').textContent=label;}
 const blobPng=c=>new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(Error('تعذر تجهيز صورة الآية.')),'image/png'));
 let engineLoad=null;
@@ -259,7 +275,7 @@ async function loadEngine(){
   })();
   try{return await engineLoad;}finally{engineLoad=null;}
 }
-async function exportVideo(){if(exporting||!verses.length)return;pause();message();setBusy(true);cancelled=false;let ff;const files=[];try{try{wakeLock=await navigator.wakeLock?.request('screen');}catch{}progress(1,'تجهيز التلاوة…');await context();await loadAudio((i,n)=>progress(2+10*i/n,`تنزيل تلاوة الآية ${arabic(i+1)} من ${arabic(n)}…`));if(cancelled)throw new DOMException('Cancelled','AbortError');await loadSelectedFonts();ff=await loadEngine();if(cancelled)throw new DOMException('Cancelled','AbortError');const [w,h]=dimensions(settings.ratio,settings.quality),total=totalDuration(),slides=displaySlides(segments,settings.displayMode);const write=async(name,bytes)=>{if(cancelled)throw new DOMException('Cancelled','AbortError');await ff.writeFile(name,bytes);files.push(name);};progress(23,'تجهيز الصوت والآيات…');await write('audio.wav',encodeWav(segments,audioCtx.sampleRate));await write('slides.txt',new TextEncoder().encode(concatSlides(slides)));const temp=document.createElement('canvas');temp.width=w;temp.height=h;const tc=temp.getContext('2d');for(let i=0;i<slides.length;i++){drawOverlay(tc,slides[i].ayah,w,h,settings,slides[i].text);await write(`verse-${i}.png`,new Uint8Array(await(await blobPng(temp)).arrayBuffer()));progress(24+10*(i+1)/slides.length,settings.displayMode==='word'?'تجهيز الكلمات المتزامنة…':'تنسيق الآيات بالرسم العثماني…');}const video=customFile?.type.startsWith('video/')||settings.background==='motion';let geometry;if(video){if(bgVideo.readyState<2)throw Error('انتظر تحميل خلفية الفيديو أو اختر خلفية أخرى.');const bytes=customFile?await customFile.arrayBuffer():await fetch('assets/night-motion.mp4').then(r=>{if(!r.ok)throw Error('تعذر تحميل الخلفية.');return r.arrayBuffer();});await write('background.media',new Uint8Array(bytes));geometry=cropGeometry(bgVideo.videoWidth,bgVideo.videoHeight,w,h,settings);}else{if(!bgImage)throw Error('انتظر تحميل الخلفية أو اختر صورة أخرى.');tc.clearRect(0,0,w,h);drawBackground(tc,bgImage,w,h,settings);await write('background.png',new Uint8Array(await(await blobPng(temp)).arrayBuffer()));}ff.on('progress',({time})=>{if(!cancelled)progress(35+Math.min(63,Math.max(0,time/1e6/total*63)),'إنشاء الفيديو على جهازك…');});progress(35,'إنشاء الفيديو على جهازك…');const code=await ff.exec(exportArgs({video,geometry,width:w,height:h,duration:total}));if(cancelled)throw new DOMException('Cancelled','AbortError');if(code!==0)throw Error('لم يكتمل التصدير. جرّب جودة 720p أو مقطعًا أقصر أو خلفية صورة.');const result=await ff.readFile('output.mp4');if(outputURL)URL.revokeObjectURL(outputURL);const blob=new Blob([result],{type:'video/mp4'});outputURL=URL.createObjectURL(blob);const name=($('filename').value.trim()||`تلاوة-${surah.name}`).replace(/[\\/:*?"<>|\x00-\x1f]/g,'-')+'.mp4';$('download').href=outputURL;$('download').download=name;$('resultVideo').src=outputURL;$('resultVideo').hidden=true;$('result').hidden=false;const file=new File([blob],name,{type:'video/mp4'});$('share').hidden=!(navigator.canShare?.({files:[file]}));$('share').onclick=async()=>{try{await navigator.share({files:[file],title:'فيديو التلاوة'});}catch(e){if(e.name!=='AbortError')message('تعذرت المشاركة. استخدم زر التنزيل.',true);}};progress(100,'فيديو التلاوة جاهز');message('اكتمل الفيديو. اضغط «تنزيل MP4» لحفظه.');$('download').click();}catch(e){if(cancelled||e.name==='AbortError')message('أُلغي التصدير.');else audioError(e);}finally{if(ff?.loaded){for(const f of [...files,'output.mp4'])try{await ff.deleteFile(f);}catch{}}try{engine?.terminate();}catch{}engine=null;try{await wakeLock?.release();}catch{}setBusy(false);syncPlaybackAvailability();}}
+async function exportVideo(){if(exporting||clearingCache||!verses.length)return;pause();message();setBusy(true);cancelled=false;let ff;const files=[];try{try{wakeLock=await navigator.wakeLock?.request('screen');}catch{}progress(1,'تجهيز التلاوة…');await context();await loadAudio((i,n)=>progress(2+10*i/n,`تنزيل تلاوة الآية ${arabic(i+1)} من ${arabic(n)}…`));if(cancelled)throw new DOMException('Cancelled','AbortError');await loadSelectedFonts();ff=await loadEngine();if(cancelled)throw new DOMException('Cancelled','AbortError');const [w,h]=dimensions(settings.ratio,settings.quality),total=totalDuration(),slides=displaySlides(segments,settings.displayMode);const write=async(name,bytes)=>{if(cancelled)throw new DOMException('Cancelled','AbortError');await ff.writeFile(name,bytes);files.push(name);};progress(23,'تجهيز الصوت والآيات…');await write('audio.wav',encodeWav(segments,audioCtx.sampleRate));await write('slides.txt',new TextEncoder().encode(concatSlides(slides)));const temp=document.createElement('canvas');temp.width=w;temp.height=h;const tc=temp.getContext('2d');for(let i=0;i<slides.length;i++){drawOverlay(tc,slides[i].ayah,w,h,settings,slides[i].text);await write(`verse-${i}.png`,new Uint8Array(await(await blobPng(temp)).arrayBuffer()));progress(24+10*(i+1)/slides.length,settings.displayMode==='word'?'تجهيز الكلمات المتزامنة…':'تنسيق الآيات بالرسم العثماني…');}const video=customFile?.type.startsWith('video/')||settings.background==='motion';let geometry;if(video){if(bgVideo.readyState<2)throw Error('انتظر تحميل خلفية الفيديو أو اختر خلفية أخرى.');const bytes=customFile?await customFile.arrayBuffer():await fetch('assets/night-motion.mp4').then(r=>{if(!r.ok)throw Error('تعذر تحميل الخلفية.');return r.arrayBuffer();});await write('background.media',new Uint8Array(bytes));geometry=cropGeometry(bgVideo.videoWidth,bgVideo.videoHeight,w,h,settings);}else{if(!bgImage)throw Error('انتظر تحميل الخلفية أو اختر صورة أخرى.');tc.clearRect(0,0,w,h);drawBackground(tc,bgImage,w,h,settings);await write('background.png',new Uint8Array(await(await blobPng(temp)).arrayBuffer()));}ff.on('progress',({time})=>{if(!cancelled)progress(35+Math.min(63,Math.max(0,time/1e6/total*63)),'إنشاء الفيديو على جهازك…');});progress(35,'إنشاء الفيديو على جهازك…');const code=await ff.exec(exportArgs({video,geometry,width:w,height:h,duration:total}));if(cancelled)throw new DOMException('Cancelled','AbortError');if(code!==0)throw Error('لم يكتمل التصدير. جرّب جودة 720p أو مقطعًا أقصر أو خلفية صورة.');const result=await ff.readFile('output.mp4');if(outputURL)URL.revokeObjectURL(outputURL);const blob=new Blob([result],{type:'video/mp4'});outputURL=URL.createObjectURL(blob);const name=($('filename').value.trim()||`تلاوة-${surah.name}`).replace(/[\\/:*?"<>|\x00-\x1f]/g,'-')+'.mp4';$('download').href=outputURL;$('download').download=name;$('resultVideo').src=outputURL;$('resultVideo').hidden=true;$('result').hidden=false;const file=new File([blob],name,{type:'video/mp4'});$('share').hidden=!(navigator.canShare?.({files:[file]}));$('share').onclick=async()=>{try{await navigator.share({files:[file],title:'فيديو التلاوة'});}catch(e){if(e.name!=='AbortError')message('تعذرت المشاركة. استخدم زر التنزيل.',true);}};progress(100,'فيديو التلاوة جاهز');message('اكتمل الفيديو. اضغط «تنزيل MP4» لحفظه.');$('download').click();}catch(e){if(cancelled||e.name==='AbortError')message('أُلغي التصدير.');else audioError(e);}finally{if(ff?.loaded){for(const f of [...files,'output.mp4'])try{await ff.deleteFile(f);}catch{}}try{engine?.terminate();}catch{}engine=null;try{await wakeLock?.release();}catch{}setBusy(false);syncPlaybackAvailability();}}
 function showTab(name,focus=false){document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===name;b.classList.toggle('active',on);b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus();});document.querySelectorAll('[role=tabpanel]').forEach(p=>p.hidden=p.id!==name+'-panel');}
 document.querySelectorAll('[data-tab]').forEach(b=>{b.onclick=()=>showTab(b.dataset.tab);b.onkeydown=e=>{const tabs=[...document.querySelectorAll('[data-tab]')],i=tabs.indexOf(b);if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowLeft'?1:2))%3;showTab(tabs[n].dataset.tab,true);}};});
 $('surahSearch').oninput=e=>renderSurahs(e.target.value);$('surahSearch').onkeydown=surahSearchKeydown;
@@ -284,7 +300,21 @@ document.querySelectorAll('[data-background]').forEach(b=>b.onclick=()=>setBackg
 $('play').onclick=play;$('listen').onclick=play;$('seek').oninput=e=>{const was=playing;pause();position=+e.target.value;$('currentTime').textContent=formatTime(position);if(bgVideo.readyState>=2)bgVideo.currentTime=position%bgVideo.duration;requestRender();if(was)play();};$('restart').onclick=()=>{const was=playing;pause();position=0;$('seek').value=0;$('currentTime').textContent='0:00';if(bgVideo.readyState>=2)bgVideo.currentTime=0;requestRender();if(was)play();};
 $('export').onclick=exportVideo;$('cancel').onclick=()=>{cancelled=true;audioAbort?.abort();try{engine?.terminate();}catch{}progress(0,'إلغاء التصدير…');};$('watch').onclick=()=>{$('resultVideo').hidden=false;$('resultVideo').play().catch(()=>{});};
 $('reset').onclick=()=>{invalidateAudio();settings={...DEFAULTS};$('surahSearch').value='';$('reciterSearch').value='';renderSurahs();renderReciters();updateReader();syncControls();selectionChanged();setBackground(settings.background);refreshFonts();message('أُعيدت الإعدادات الافتراضية.');};
-$('clearCache').onclick=async()=>{try{await Promise.all([caches.delete('maqbali-quran-audio-v1'),caches.delete(WORD_CACHE)]);message('مُسحت التلاوات المحفوظة في المتصفح.');}catch{message('تعذر مسح التخزين في هذا المتصفح.',true);}};
+$('clearCache').onclick=async()=>{
+ if(exporting||clearingCache)return;
+ clearingCache=true;$('clearCache').disabled=true;syncPlaybackAvailability();
+ const pending=audioLoad;
+ invalidateAudio();
+ try{
+  await pending?.catch(()=>{});
+  await Promise.all([caches.delete(AUDIO_CACHE),caches.delete(WORD_CACHE)]);
+  saveSettings();
+  location.reload();
+ }catch{
+  clearingCache=false;$('clearCache').disabled=false;syncPlaybackAvailability();
+  message('تعذر مسح التخزين في هذا المتصفح.',true);
+ }
+};
 function openInfoDialog(id){
  const dialog=$(id);
  dialog.showModal();

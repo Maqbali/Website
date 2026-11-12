@@ -11,6 +11,7 @@ export const RECITERS = [
  {id:'Husary_128kbps',name:'محمود خليل الحصري',short:'الحصري'},
  {id:'Abdurrahmaan_As-Sudais_192kbps',name:'عبد الرحمن السديس',short:'السديس'},
  {id:'Yasser_Ad-Dussary_128kbps',name:'ياسر الدوسري',short:'الدوسري'},
+ {id:'Haitham_Dukhain_QUA',name:'هيثم الدخين',short:'الدخين',provider:'qua'},
  {id:'Alafasy_128kbps',name:'مشاري العفاسي',short:'العفاسي'},
  {id:'MaherAlMuaiqly128kbps',name:'ماهر المعيقلي',short:'المعيقلي'},
 ];
