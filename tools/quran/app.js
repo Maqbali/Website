@@ -1,7 +1,7 @@
 import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.2.0';
 import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.2.0';
 import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.2.0-pilot2';
-import {pilotSourceFor,loadPilotTimings,preparePilotAudio} from './local-timing-pilot.js?v=2';
+import {pilotSourceFor,loadPilotTimings,preparePilotAudio} from './local-timing-pilot.js?v=rum60-1';
 import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides,resolveHaythamAudioURL} from './word-timing.js?v=0.2.0';
 import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const AUDIO_CACHE='maqbali-quran-audio-v1';
@@ -181,7 +181,7 @@ async function loadAudio(onProgress=()=>{}){
           const record=pilotTimings.records.get(num);
           if(!record)throw Error('توقيت الآية غير موجود في حزمة الاختبار.');
           if(mode==='word')validateTiming(record,reader,surahNumber,ayah);
-          const key=new URL(`assets/audio-cache/qud-v4-pilot2/${pilot.config}/${surahNumber}/${num}.wav`,location.href).href;
+          const key=new URL(`assets/audio-cache/qud-v4-rum60-1/${pilot.config}/${surahNumber}/${num}.wav`,location.href).href;
           const bytes=await fetchAudio(key,signal,null,async()=>{
             try{
               pilotSource??=await preparePilotAudio(pilot,pilotTimings.spans,signal);
