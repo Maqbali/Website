@@ -3,9 +3,13 @@
 // preroll before trimming locally. Unsupported/changed files fail closed.
 import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const API='https://www.mp3quran.net/api/v3/ayat_timing';
-const AUDIO='https://cdn.mp3quran.net/audio/abdullah-mousa/r1/';
-const failure=()=>new Error('تعذر تجهيز تلاوة عبدالله الموسى. حاول مجددًا أو اختر قارئًا آخر.');
-export const mousaTimingURL=surah=>`${API}?surah=${surah}&read=243`;
+const AUDIO='https://cdn.mp3quran.net/audio/';
+const OFFICIAL=Object.freeze({
+ Abdullah_AlMousa_MP3Quran:{read:243,folder:'abdullah-mousa'},
+ Ahmed_Talib_QUA:{read:137,folder:'ahmad-humaid'}
+});
+const failure=()=>new Error('تعذّر تجهيز مقطع التلاوة من مصدره. حاول مجددًا أو اختر قارئًا آخر.');
+
 export function validateMousaTimings(rows,ayahCount){
   if(!Array.isArray(rows))throw failure();
   const timings=new Map();
@@ -84,11 +88,13 @@ async function range(url,start,end,signal,pin){
   return {bytes,total};
   });
 }
-export async function prepareMousaSource(surah,ayahCount,signal){
-  if(!Number.isInteger(surah)||surah<1||surah>114)throw failure();
-  const url=`${AUDIO}${String(surah).padStart(3,'0')}.mp3`;
+export const hasOfficialSource=reader=>Object.hasOwn(OFFICIAL,reader);
+export async function prepareOfficialSource(reader,surah,ayahCount,signal){
+  if(!hasOfficialSource(reader)||!Number.isInteger(surah)||surah<1||surah>114)throw failure();
+  const source=OFFICIAL[reader];
+  const url=`${AUDIO}${source.folder}/r1/${String(surah).padStart(3,'0')}.mp3`;
   const responses=await Promise.all([
-    readRecitation(mousaTimingURL(surah),{signal},'timing',r=>r.json()),
+    readRecitation(`${API}?surah=${surah}&read=${source.read}`,{signal},'timing',r=>r.json()),
     range(url,0,131071,signal)
   ]);
   return {url,timings:validateMousaTimings(responses[0],ayahCount),...inspectMousaMP3(responses[1].bytes,responses[1].total)};

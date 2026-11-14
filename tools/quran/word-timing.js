@@ -1,10 +1,5 @@
-// QUD³ Technologies, Qur'anic Universal Ayahs (CC BY 4.0 metadata).
-// Always use word timestamps with the audio clip carried by the SAME row.
-// https://huggingface.co/datasets/QUD-Technologies/quranic-universal-ayahs
-import {readRecitation} from './recitation-fetch.js?v=0.2.0';
+// Validate timing against the unchanged local Hafs text.
 export const WORD_CACHE='maqbali-quran-word-audio-v1';
-const HOST='https://datasets-server.huggingface.co';
-const DATASET='QUD-Technologies/quranic-universal-ayahs';
 export const WORD_SOURCES=Object.freeze({
  Haitham_Dukhain_QUA:'haitham_al_dukhain_mp3quran',
  Ali_Jaber_64kbps:'abdullah_ali_jabir_mp3quran',
@@ -22,11 +17,6 @@ export const WORD_SOURCES=Object.freeze({
  Ahmed_Talib_QUA:'ahmed_talib_bin_humaid_mp3quran',
  Islam_Sobhi_QUA:'islam_sobhi_mp3quran'
 });
-const MISSING_FIRST=new Set(['Abdurrahmaan_As-Sudais_192kbps','Saood_ash-Shuraym_128kbps','MaherAlMuaiqly128kbps','Yasser_Ad-Dussary_128kbps']);
-const MISSING={
- Ahmed_Talib_QUA:[[9,129],[14,52],[16,128],[17,111],[23,118],[24,64],[33,73]],
- Islam_Sobhi_QUA:[[4,176],[7,206],[9,129],[37,182],[39,75],[40,85],[45,37],[65,12]]
-};
 const TIMING_ERRORS={
  metadata:'بيانات توقيت هذه التلاوة غير مكتملة أو غير صالحة.',
  text:'الكلمات في مصدر التوقيت مختلفة عن كلمات الآية.',
@@ -38,22 +28,6 @@ const TIMING_ERRORS={
 };
 const mismatch=(code='metadata')=>Object.assign(Error(TIMING_ERRORS[code]+' اختر «الآية كاملة» أو جرّب آية أخرى.'),{code:'word-'+code});
 export const supportsWordMode=reader=>Object.hasOwn(WORD_SOURCES,reader);
-export function wordModeProblem(reader,surah,from){
- if(!supportsWordMode(reader))return 'توقيت الكلمات غير متاح حاليًا لهذا القارئ. اختر «الآية كاملة» أو قارئًا آخر.';
- if(MISSING[reader]?.some(([s])=>s===surah))return 'هذه السورة غير متوفرة في مصدر توقيت الكلمات لهذا القارئ. اختر سورة أخرى أو «الآية كاملة».';
- if(surah===1&&from===1&&MISSING_FIRST.has(reader))return 'البسملة في الفاتحة غير متوفرة في مصدر توقيت الكلمات لهذا القارئ. ابدأ من الآية ٢ أو اختر «الآية كاملة».';
- return '';
-}
-export function wordMetadataURL(reader,surah,ayah){
- const problem=wordModeProblem(reader,surah,ayah.numberInSurah);
- if(problem)throw Error(problem);
- if(!Number.isInteger(surah)||surah<1||surah>114||!Number.isInteger(ayah.number)||ayah.number<1||ayah.number>6236||!Number.isInteger(ayah.numberInSurah)||ayah.numberInSurah<1||ayah.numberInSurah>286)throw mismatch();
- const omitted=(MISSING[reader]||[]).reduce((n,[s,count])=>n+(s<surah?count:0),0);
- const radius=reader==='Islam_Sobhi_QUA'?8:1;
- const expected=ayah.number-1-omitted-Number(MISSING_FIRST.has(reader));
- const params=new URLSearchParams({dataset:DATASET,config:WORD_SOURCES[reader],split:'train',offset:String(Math.max(0,expected-radius)),length:String(radius*2+1)});
- return `${HOST}/rows?${params}`;
-}
 // Keep the local, unmodified Uthmani spelling and marks in every displayed word.
 // Standalone pause signs attach to the preceding word; they are not spoken words.
 export function verseWords(text){
@@ -86,6 +60,7 @@ function wordCandidates(ayah,surah){
  }
  return candidates;
 }
+export const timingTexts=(ayah,surah)=>wordCandidates(ayah,surah).map(words=>words.join(" "));
 function candidateKeys(words,surah,ayah){
  const keys=words.map(wordKey);
  // The local Hafs edition represents the standing alif in "يا صاحبي" with
@@ -108,7 +83,7 @@ export function validateTiming(record,reader,surah,ayah,duration=null){
  }
  const candidates=wordCandidates(ayah,surah).filter(words=>words.length&&record.times.every(([index])=>index<=words.length));
  if(!candidates.length)throw mismatch('index');
- const sourceWords=verseWords(record.text).map(wordKey);
+ const sourceWords=candidateKeys(verseWords(record.text),surah,ayah);
  const words=candidates.find(words=>{
   const keys=candidateKeys(words,surah,ayah);
   // Current QUA text follows the actual recitation, including repeated phrases.
@@ -120,73 +95,6 @@ export function validateTiming(record,reader,surah,ayah,duration=null){
  if(seen.size!==words.length)throw mismatch('incomplete');
  return record.times.map(([index,start,end])=>({index,text:words[index-1],start:start/1000,end:end/1000}));
 }
-function matchedClipRow(payload,reader,surah,ayah,full=false){
- const invalid=code=>full?Error('تعذّر مطابقة مصدر صوت التلاوة مع الآية المحددة.'):mismatch(code);
- if(!Array.isArray(payload?.rows)||payload.rows.length>17)throw invalid();
- const matches=payload.rows.filter(item=>item?.row?.surah===surah&&item.row.ayah===ayah.numberInSurah);
- if(!matches.length)throw Error(full?'تلاوة هذه الآية غير متوفرة حاليًا لهذا القارئ.':'توقيت هذه الآية غير متوفر حاليًا لهذا القارئ. اختر «الآية كاملة» أو جرّب آية أخرى.');
- const item=matches[0],row=item.row;
- if(matches.length!==1||!Number.isInteger(item.row_idx)||item.row_idx<0||!Array.isArray(item.truncated_cells)||
-    (full?item.truncated_cells.includes('audio'):item.truncated_cells.length)||!Number.isFinite(row.duration_ms)||row.duration_ms<=0)throw invalid();
- const config=WORD_SOURCES[reader];
- let url;try{url=new URL(row.audio?.find?.(a=>a.type==='audio/mpeg')?.src);}catch{}
- if(!config||!url||url.origin!==HOST||!url.pathname.startsWith(`/cached-assets/${DATASET}/`)||!url.pathname.includes(`/${config}/train/`))throw invalid('source');
- return {row,url:url.href};
-}
-export function validateWordRow(payload,reader,surah,ayah){
- const {row,url}=matchedClipRow(payload,reader,surah,ayah);
- const record={schema:1,config:WORD_SOURCES[reader],surah,ayah:row.ayah,durationMs:row.duration_ms,text:row.text_uthmani,times:row.word_timestamps};
- validateTiming(record,reader,surah,ayah);
- return {record,url};
-}
-export async function resolveHaythamAudioURL(surah,ayah,signal){
- const reader='Haitham_Dukhain_QUA';
- const payload=await readRecitation(wordMetadataURL(reader,surah,ayah),{signal,cache:'no-store'},'source',r=>r.json());
- return matchedClipRow(payload,reader,surah,ayah,true).url;
-}
-function cacheKeys(reader,surah,ayah){
- const key=new URL(`assets/word-cache/${WORD_SOURCES[reader]}/${surah}/${ayah.numberInSurah}`,location.href).href;
- return [key+'.json',key+'.mp3'];
-}
-async function audioHash(bytes){
- const digest=await crypto.subtle.digest('SHA-256',bytes);
- return [...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,'0')).join('');
-}
-export async function loadTimedClip(reader,surah,ayah,signal){
- const problem=wordModeProblem(reader,surah,ayah.numberInSurah);if(problem)throw Error(problem);
- const keys=cacheKeys(reader,surah,ayah);let cache;
- try{
-  cache=await caches.open(WORD_CACHE);
-  const [metadata,audio]=await Promise.all(keys.map(key=>cache.match(key)));
-  if(metadata&&audio){
-   const record=await metadata.json();validateTiming(record,reader,surah,ayah);
-   const bytes=await audio.arrayBuffer();signal?.throwIfAborted();
-   if(bytes.byteLength>=300&&record.audioHash===await audioHash(bytes))return {record,bytes,cache,keys,cached:true};
-  }
- }catch(e){if(e.name==='AbortError')throw e;}
- signal?.throwIfAborted();
- const payload=await readRecitation(wordMetadataURL(reader,surah,ayah),{signal,cache:'no-store'},'timing',r=>r.json());
- const {record,url}=validateWordRow(payload,reader,surah,ayah);
- const bytes=await readRecitation(url,{signal},'audio',r=>r.arrayBuffer());signal?.throwIfAborted();
- if(bytes.byteLength<300)throw Error('ملف صوت التلاوة غير مكتمل. أعد المحاولة.');
- return {record,bytes,cache,keys,cached:false};
-}
-export async function saveTimedClip(clip,signal){
- signal?.throwIfAborted();
- if(!clip.cache||clip.cached)return;
- // Audio first, metadata last: a partial write can never masquerade as a pair.
- try{
-  await clip.cache.delete(clip.keys[0]);
-  await clip.cache.put(clip.keys[1],new Response(clip.bytes,{headers:{'Content-Type':'audio/mpeg'}}));
-  signal?.throwIfAborted();
-  await clip.cache.put(clip.keys[0],Response.json({...clip.record,audioHash:await audioHash(clip.bytes)}));
- }catch(e){if(e.name==='AbortError')throw e;}
-}
-export async function discardTimedClip(clip){
- if(clip?.cache)await Promise.allSettled(clip.keys.map(key=>clip.cache.delete(key)));
-}
-// The first word is visible during the initial silence; during pauses the
-// previous word remains visible. Repeated words retain their own timestamps.
 export function wordSlides(segment){
  if(!segment.wordCues?.length)throw mismatch();
  const slides=[];

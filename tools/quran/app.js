@@ -1,8 +1,9 @@
 import {RECITERS,FONTS,DEFAULTS,restoreSettings,textFont,arabic,normalize,plainArabic,dimensions,validateRange,drawOverlay,drawBackground,cropGeometry,concatSlides,exportArgs,encodeWav} from './core.js?v=0.2.0';
-import {resolveBadrAudioURL,resolveAhmedAudioURL,ahmedSurahAvailable,resolveIslamAudioURL,islamSurahAvailable} from './audio-sources.js?v=0.2.0';
-import {prepareMousaSource,fetchMousaPart} from './mousa-audio.js?v=0.2.0-pilot2';
+import {ahmedSurahAvailable} from './audio-sources.js?v=0.2.1';
+import {hasOfficialSource,prepareOfficialSource,fetchMousaPart} from './mousa-audio.js?v=0.2.1';
 import {pilotSourceFor,loadPilotTimings,preparePilotAudio} from './local-timing-pilot.js?v=rum60-1';
-import {WORD_CACHE,wordModeProblem,loadTimedClip,saveTimedClip,discardTimedClip,validateTiming,displayFrame,displaySlides,resolveHaythamAudioURL} from './word-timing.js?v=0.2.0';
+import {WORD_CACHE,validateTiming,displayFrame,displaySlides} from './word-timing.js?v=0.2.1';
+import {TIMED_AUDIO_CACHE,timedSelectionProblem,timedSourceFor,loadTimedChapter,loadVerifiedClip} from './timed-audio.js?v=0.2.1';
 import {readRecitation} from './recitation-fetch.js?v=0.2.0';
 const AUDIO_CACHE='maqbali-quran-audio-v1';
 let clearingCache=false;
@@ -94,8 +95,7 @@ function stopSources(){for(const s of sourceNodes)try{s.stop();}catch{}sourceNod
 function pause(){if(playing)position=Math.min(totalDuration(),audioCtx.currentTime-startedAt);playing=false;stopSources();bgVideo.pause();$('play').textContent='▷';$('listen').textContent='▷';$('play').setAttribute('aria-label','تشغيل المعاينة');cancelAnimationFrame(raf);requestRender();}
 function invalidateAudio(){pause();position=0;segments=[];selectionVersion++;audioAbort?.abort();audioLoad=null;$('seek').value=0;$('seek').max=1;$('duration').textContent='--:--';$('currentTime').textContent='0:00';}
 function selectionProblem(){
- if(settings.displayMode==='word')return wordModeProblem(settings.reciter,settings.surah,settings.from);
- return '';
+ return timedSelectionProblem(settings.reciter,settings.surah,verses,settings.displayMode);
 }
 function syncPlaybackAvailability(){
  const unavailable=exporting||clearingCache||!verses.length||Boolean(selectionProblem());
@@ -118,7 +118,7 @@ function selectionChanged(){
   const problem=selectionProblem();
   if(settings.displayMode==='word'){
    $('wordModeStatus').textContent=problem||'اضغط تشغيل لتحميل التلاوة والتحقق من توقيت الكلمات.';
-   $('useFullAyah').hidden=!problem;
+   $('useFullAyah').hidden=!problem||Boolean(timedSelectionProblem(settings.reciter,settings.surah,verses,'ayah'));
   }
   if(problem)message(problem,true);
  }catch(e){verses=[];$('versesText').textContent='';message(e.message,true);}
@@ -138,40 +138,42 @@ async function fetchAudio(url,signal,resolveURL=null,createBytes=null){
  if(cache)try{await cache.put(url,new Response(bytes,{headers:{'Content-Type':createBytes?'audio/wav':'audio/mpeg'}}));}catch{}
  return bytes;
 }
-async function decodeMousaPart(part,signal){
+async function decodeTimedPart(part,signal){
   signal.throwIfAborted();
   if(!exporting)cancelled=false;
   const ff=engine?.loaded?engine:await loadEngine();
   signal.throwIfAborted();
   const abort=()=>{ff.terminate();if(engine===ff)engine=null;};
   signal.addEventListener('abort',abort,{once:true});
+  const input=part.format==='opus'?'reader-part.ogg':'reader-part.mp3';
+  const trim=part.format==='opus'?[]:['-ss',part.offset.toFixed(6),'-t',part.duration.toFixed(6)];
   try{
-    await ff.writeFile('reader-part.mp3',part.bytes);
-    const code=await ff.exec(['-i','reader-part.mp3','-ss',part.offset.toFixed(6),'-t',part.duration.toFixed(6),'-ar','48000','-ac','1','-c:a','pcm_s16le','reader-part.wav']);
+    await ff.writeFile(input,part.bytes);
+    const code=await ff.exec(['-i',input,...trim,'-ar','48000','-ac','1','-c:a','pcm_s16le','reader-part.wav']);
     signal.throwIfAborted();
     if(code!==0)throw Error('تعذر تجهيز مقطع التلاوة. اختر قارئًا آخر أو حاول مجددًا.');
     const data=await ff.readFile('reader-part.wav');
     return data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength);
   }finally{
     signal.removeEventListener('abort',abort);
-    if(ff.loaded)for(const name of ['reader-part.mp3','reader-part.wav'])try{await ff.deleteFile(name);}catch{}
+    if(ff.loaded)for(const name of [input,'reader-part.wav'])try{await ff.deleteFile(name);}catch{}
   }
 }
 async function loadAudio(onProgress=()=>{}){
   if(clearingCache)throw new DOMException('Clearing cache','AbortError');
   if(!verses.length)throw Error('اختر نطاق آيات صحيحًا.');
   const problem=selectionProblem();if(problem)throw Error(problem);
-  if(settings.reciter==='Islam_Sobhi_QUA'&&!islamSurahAvailable(settings.surah))throw Error('هذه السورة غير متوفرة حاليًا بصوت إسلام صبحي. اختر سورة أخرى أو قارئًا آخر.');
   if(segments.length===verses.length)return segments;
   if(audioLoad)return audioLoad;
   const ver=selectionVersion;
   const selected=[...verses],reader=settings.reciter,surahNumber=settings.surah,mode=settings.displayMode;
   const pilot=pilotSourceFor(reader,surahNumber,selected,mode);
+  const timed=timedSourceFor(reader,surahNumber,mode);
   audioAbort=new AbortController();
   const signal=audioAbort.signal;
   audioLoad=(async()=>{
     const ac=await context(),loaded=[];
-    let mousaSource,pilotSource,pilotTimings;
+    let officialSource,pilotSource,pilotTimings,timedChapter;
     for(let i=0;i<selected.length;i++){
       const ayah=selected[i],num=ayah.numberInSurah;
       onProgress(i,selected.length);
@@ -185,7 +187,7 @@ async function loadAudio(onProgress=()=>{}){
           const bytes=await fetchAudio(key,signal,null,async()=>{
             try{
               pilotSource??=await preparePilotAudio(pilot,pilotTimings.spans,signal);
-              return await decodeMousaPart(await fetchMousaPart(pilotSource,num,signal),signal);
+              return await decodeTimedPart(await fetchMousaPart(pilotSource,num,signal),signal);
             }catch(e){
               if(e.name==='AbortError')throw e;
               throw Error('تعذّر تحميل أو تجهيز الصوت المطابق من مصدره. أعد المحاولة.',{cause:e});
@@ -203,51 +205,37 @@ async function loadAudio(onProgress=()=>{}){
         }
         continue;
       }
-      if(mode==='word'){
-        let clip;
+      if(timed){
         try{
-          clip=await loadTimedClip(reader,surahNumber,ayah,signal);
+          timedChapter??=await loadTimedChapter(timed,surahNumber,signal);
+          const {record,buffer}=await loadVerifiedClip(timedChapter,ayah,ac,decodeTimedPart,signal);
           if(ver!==selectionVersion)throw new DOMException('Selection changed','AbortError');
-          const buffer=await ac.decodeAudioData(clip.bytes.slice(0));
-          signal.throwIfAborted();
-          const wordCues=validateTiming(clip.record,reader,surahNumber,ayah,buffer.duration);
-          await saveTimedClip(clip,signal);
+          const wordCues=mode==='word'?validateTiming(record,reader,surahNumber,ayah,buffer.duration):undefined;
           loaded.push({buffer,duration:buffer.duration,ayah,wordCues});
         }catch(e){
-          await discardTimedClip(clip);
           if(e.name==='AbortError')throw e;
-          const detail=e.name==='EncodingError'?'تعذر قراءة الصوت المرافق لتوقيت الكلمات.':e.message;
-          throw Error(`${RECITERS.find(r=>r.id===reader).name} · ${quran.surahs[surahNumber-1].name} · الآية ${arabic(num)}: ${detail}`);
+          throw Error(`${RECITERS.find(r=>r.id===reader).name} · ${quran.surahs[surahNumber-1].name} · الآية ${arabic(num)}: ${e.message}`,{cause:e});
         }
         continue;
       }
-      const isBadr=reader==='Badr_AlTurki_QUA';
-      const isAhmed=reader==='Ahmed_Talib_QUA',isMousa=reader==='Abdullah_AlMousa_MP3Quran';
-      const isIslam=reader==='Islam_Sobhi_QUA';
-      const isHaytham=reader==='Haitham_Dukhain_QUA';
-      const url=isHaytham
-        ?new URL(`assets/audio-cache/qua-haytham-dukhain-v1/${surahNumber}/${num}.mp3`,location.href).href
-        :isIslam
-        ?new URL(`assets/audio-cache/qua-islam-sobhi-v1/${surahNumber}/${num}.mp3`,location.href).href
-        :isMousa
-        ?new URL(`assets/audio-cache/mp3quran-mousa-v1/${surahNumber}/${num}.wav`,location.href).href
-        :isAhmed
-        ?new URL(`assets/audio-cache/qua-ahmed-talib-v1/${surahNumber}/${num}.mp3`,location.href).href
-        :isBadr
-        ?new URL(`assets/audio-cache/qua-badr-v1/${surahNumber}/${num}.mp3`,location.href).href
+      if(mode==='word')throw Error('توقيت هذه الآية غير متوفر.');
+      const official=hasOfficialSource(reader);
+      const url=official
+        ?new URL(`assets/audio-cache/mp3quran-v021/${reader}/${surahNumber}/${num}.wav`,location.href).href
         :surahNumber===2&&num===3&&reader==='Husary_128kbps'
           ?new URL('assets/demo-husary-002003.mp3',location.href).href
           :`https://everyayah.com/data/${reader}/${String(surahNumber).padStart(3,'0')}${String(num).padStart(3,'0')}.mp3`;
-      const bytes=await fetchAudio(url,signal,isBadr
-        ?()=>resolveBadrAudioURL(surahNumber,num,ayah.number,signal)
-        :isAhmed?()=>resolveAhmedAudioURL(surahNumber,num,ayah.number,signal)
-        :isIslam?()=>resolveIslamAudioURL(surahNumber,num,ayah.number,signal)
-        :isHaytham?()=>resolveHaythamAudioURL(surahNumber,ayah,signal):null,
-        isMousa?async()=>{
-          mousaSource??=await prepareMousaSource(surahNumber,quran.surahs[surahNumber-1].ayahs.length,signal);
-          const part=await fetchMousaPart(mousaSource,num,signal);
-          return decodeMousaPart(part,signal);
+      let bytes;
+      try{
+        bytes=await fetchAudio(url,signal,null,official?async()=>{
+          officialSource??=await prepareOfficialSource(reader,surahNumber,quran.surahs[surahNumber-1].ayahs.length,signal);
+          const part=await fetchMousaPart(officialSource,num,signal);
+          return decodeTimedPart(part,signal);
         }:null);
+      }catch(e){
+        if(e.name==='AbortError')throw e;
+        throw Error(`${RECITERS.find(r=>r.id===reader).name} · ${quran.surahs[surahNumber-1].name} · الآية ${arabic(num)}: ${e.message}`,{cause:e});
+      }
       if(ver!==selectionVersion)throw new DOMException('Selection changed','AbortError');
       let buffer;
       try{buffer=await ac.decodeAudioData(bytes.slice(0));}
@@ -265,12 +253,12 @@ async function loadAudio(onProgress=()=>{}){
     }
     return segments;
   })();
-  try{return await audioLoad;}finally{if(ver===selectionVersion){audioLoad=null;if((reader==='Abdullah_AlMousa_MP3Quran'||pilot)&&!exporting){try{engine?.terminate();}catch{}engine=null;}}}
+  try{return await audioLoad;}finally{if(ver===selectionVersion){audioLoad=null;if((hasOfficialSource(reader)||pilot||timed)&&!exporting){try{engine?.terminate();}catch{}engine=null;}}}
 }
 function audioError(e){
  if(e.name==='AbortError')return;
  const text=e.message||'تعذر تجهيز التلاوة. أعد المحاولة.';message(text,true);
- if(settings.displayMode==='word'){$('wordModeStatus').textContent=text;$('useFullAyah').hidden=false;}
+ if(settings.displayMode==='word'){$('wordModeStatus').textContent=text;$('useFullAyah').hidden=Boolean(timedSelectionProblem(settings.reciter,settings.surah,verses,'ayah'));}
 }
 async function play(){if(exporting||clearingCache)return;if(playing){pause();return;}message();try{$('play').disabled=true;$('listen').disabled=true;const ac=await context();await loadAudio((i,n)=>message(`تجهيز التلاوة ${arabic(i+1)} من ${arabic(n)}…`));if(position>=totalDuration()-.05)position=0;startedAt=ac.currentTime+.06-position;let time=0;for(const s of segments){if(time+s.duration>position){const source=ac.createBufferSource();source.buffer=s.buffer;source.connect(ac.destination);const offset=Math.max(0,position-time);source.start(Math.max(ac.currentTime,startedAt+time+offset),offset);sourceNodes.push(source);}time+=s.duration;}playing=true;$('play').textContent='Ⅱ';$('listen').textContent='Ⅱ';$('play').setAttribute('aria-label','إيقاف المعاينة مؤقتًا');if(bgVideo.readyState>=2){try{bgVideo.currentTime=position%bgVideo.duration;await bgVideo.play();}catch{}}message();tick();}catch(e){audioError(e);}finally{syncPlaybackAvailability();}}
 function tick(){if(!playing)return;position=Math.max(0,Math.min(totalDuration(),audioCtx.currentTime-startedAt));$('seek').value=position;$('currentTime').textContent=formatTime(position);render();if(position>=totalDuration()){pause();return;}raf=requestAnimationFrame(tick);}
@@ -337,7 +325,7 @@ $('clearCache').onclick=async()=>{
  invalidateAudio();
  try{
   await pending?.catch(()=>{});
-  await Promise.all([caches.delete(AUDIO_CACHE),caches.delete(WORD_CACHE)]);
+  await Promise.all([caches.delete(AUDIO_CACHE),caches.delete(WORD_CACHE),caches.delete(TIMED_AUDIO_CACHE)]);
   saveSettings();
   location.reload();
  }catch{
@@ -365,7 +353,7 @@ async function init(){
     $('export').disabled=true;$('play').disabled=true;renderReciters();updateReader();syncControls();
     const r=await fetch('assets/quran.json');
     if(!r.ok)throw Error('تعذر تحميل نص المصحف. أعد تحميل الصفحة.');
-    quran=await r.json();
+    try{quran=await r.json();}catch(e){throw Error('تعذر تحميل نص المصحف. أعد تحميل الصفحة.',{cause:e});}
     if(quran.surahs.length!==114||quran.surahs.reduce((n,s)=>n+s.ayahs.length,0)!==6236)throw Error('ملف المصحف غير مكتمل.');
     // Only UI chapter names are simplified. Ayah objects/text stay untouched.
     quran={...quran,surahs:quran.surahs.map(s=>({...s,name:plainArabic(s.name)}))};
