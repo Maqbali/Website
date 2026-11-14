@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>إداة صانع فيدوهات التلاوة</title>
+<meta name="description" content="اصنع فيديو تلاوة باختيار الآيات والقارئ والخلفية، مع معاينة وتخصيص النص وتنزيل الفيديو.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="https://www.maqbali.com/images/favicon.png" type="image/png">
+<script src="../theme.js?v=0.2.0"></script>
+<link rel="stylesheet" href="../theme.css?v=0.2.0"><link rel="stylesheet" href="style.css?v=0.2.0"><link rel="stylesheet" href="theme.css?v=0.2.0">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="https://www.maqbali.com/" aria-label="محمد المقبالي"><img class="brand-logo" src="https://www.maqbali.com/images/logo_2.png" width="64" height="64" alt="" decoding="async"><span><b>محمد المقبالي</b><small lang="en">MOHAMMED AL-MAQBALI</small></span></a><button id="themeToggle" class="theme-btn" type="button" aria-label="المظهر الفاتح" aria-pressed="false" title="تفعيل المظهر الفاتح"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button></header>
+<main>
+<nav class="tool-breadcrumb" aria-label="مسار الصفحة"><a href="../">العودة إلى الأدوات <span aria-hidden="true">↗</span></a><span aria-hidden="true">/</span><span>صانع فيديوهات التلاوة</span></nav>
+<section class="intro"><div><p class="eyebrow">كلمات تُتلى، وأثر يبقى</p><h1>صانع فيديو <em>التلاوة</em></h1><p class="subtitle">اختر آياتك وقارئك، واجعل للمشهد معنى.</p></div><div class="privacy-pill"><span class="status-dot"></span>معالجة الفيديو على جهازك</div></section>
+<div class="workspace">
+<section class="editor" aria-label="إعدادات الفيديو">
+<div class="editor-head"><span>خصّص مقطعك</span><button id="reset" class="text-button" type="button">إعادة الضبط <span aria-hidden="true">↺</span></button></div>
+<div class="tabs" role="tablist" aria-label="خطوات الإعداد">
+<button role="tab" aria-selected="true" aria-controls="content-panel" id="content-tab" data-tab="content" class="active"><span>١</span>التلاوة</button>
+<button role="tab" aria-selected="false" aria-controls="background-panel" id="background-tab" data-tab="background" tabindex="-1"><span>٢</span>الخلفية</button>
+<button role="tab" aria-selected="false" aria-controls="style-panel" id="style-tab" data-tab="style" tabindex="-1"><span>٣</span>التنسيق</button>
+</div>
+<div class="panel" id="content-panel" role="tabpanel" aria-labelledby="content-tab">
+<label for="surahSearch">السورة</label><div class="search-field"><span aria-hidden="true">⌕</span><input id="surahSearch" type="search" placeholder="ابحث باسم السورة" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="surahResults" aria-expanded="false" aria-describedby="surahSearchStatus"></div>
+<div id="surahResults" class="surah-results" role="listbox" aria-label="نتائج البحث عن السورة" hidden></div>
+<p id="surahSearchStatus" class="field-note search-status" role="status" aria-live="polite" hidden></p>
+<select id="surah" aria-label="اختر السورة"><option>جارٍ تحميل السور…</option></select>
+<div class="two-col verse-range"><div><label for="fromAyah">من الآية</label><input id="fromAyah" type="number" inputmode="numeric" min="1" value="3"></div><div><label for="toAyah">إلى الآية</label><input id="toAyah" type="number" inputmode="numeric" min="1" value="3"></div></div>
+<p class="field-note" id="rangeNote">اختر آية واحدة أو آيات متتابعة</p>
+<div class="section-divider"></div><label for="reciterSearch">صوت القارئ</label><div class="search-field"><span aria-hidden="true">⌕</span><input id="reciterSearch" type="search" placeholder="ابحث عن قارئ" autocomplete="off"></div>
+<select id="reciter" aria-label="اختر القارئ"></select>
+<div class="reciter-card"><span class="audio-icon" aria-hidden="true">♫</span><div><b id="reciterName">علي جابر</b><small>رواية حفص عن عاصم · تلاوة مرتلة</small></div><button id="listen" class="icon-button" title="الاستماع للتلاوة" aria-label="الاستماع للتلاوة">▷</button></div>
+<p class="field-note" id="cacheNote">تُحفظ التلاوة التي تستمع إليها في المتصفح لإعادة استخدامها.</p>
+<p class="field-note" id="readerAvailability" hidden>تلاوات أحمد طالب متاحة في ١٠٧ سور. غير المتوفر حاليًا: التوبة، إبراهيم، النحل، الإسراء، المؤمنون، النور، والأحزاب.</p>
+<p class="field-note" id="islamAvailability" hidden>يتوفر التسجيل المتطابق بصوت إسلام صبحي بحسب الآية. تظهر رسالة عند اختيار نطاق غير متوفر.</p>
+<details class="verses-details"><summary>عرض نص الآيات المحددة <span id="verseCount">آية واحدة</span></summary><div id="versesText" class="quran-text"></div></details>
+</div>
+<div class="panel" id="background-panel" role="tabpanel" aria-labelledby="background-tab" hidden>
+<label>مكتبة الخلفيات</label><p class="field-note">خلفيات جاهزة، أو مشهد من اختيارك.</p>
+<div id="backgrounds" class="background-grid">
+<button class="bg-card selected" data-background="mountains" aria-pressed="true"><img src="assets/mountains.jpg" alt="جبال وسط السحب"><span>سكون الجبال</span></button>
+<button class="bg-card" data-background="dunes" aria-pressed="false"><img src="assets/dunes.jpg" alt="كثبان رملية"><span>رمال ذهبية</span></button>
+<button class="bg-card" data-background="night" aria-pressed="false"><img src="assets/night.jpg" alt="سماء ليلية وجبال"><span>هدوء الليل</span></button>
+<button class="bg-card" data-background="motion" aria-pressed="false"><img src="assets/night.jpg" alt="معاينة خلفية فيديو السماء"><span>ليل متحرك <i>فيديو</i></span></button>
+<button class="bg-card" data-background="ocean" aria-pressed="false"><img src="assets/ocean.png" alt="بحر هادئ وصخور عند الغسق" loading="lazy" decoding="async"><span>سكون البحر</span></button>
+<button class="bg-card" data-background="forest" aria-pressed="false"><img src="assets/forest.png" alt="غابة خضراء يغمرها الضباب" loading="lazy" decoding="async"><span>ضباب الغابة</span></button>
+<button class="bg-card" data-background="wadi" aria-pressed="false"><img src="assets/wadi.png" alt="مياه وادٍ بين الجبال والنخيل" loading="lazy" decoding="async"><span>هدوء الوادي</span></button>
+<button class="bg-card" data-background="clouds" aria-pressed="false"><img src="assets/clouds.png" alt="غيوم ليلية مضاءة بضوء القمر" loading="lazy" decoding="async"><span>غيوم الليل</span></button>
+<button class="bg-card" data-background="waterfall" aria-pressed="false"><img src="assets/waterfall.png" alt="شلال وبحيرة خضراء بين الصخور والأشجار" loading="lazy" decoding="async"><span>سكينة الشلال</span></button>
+<button class="bg-card" data-background="lake" aria-pressed="false"><img src="assets/lake.png" alt="بحيرة هادئة تحيط بها جبال وغابات" loading="lazy" decoding="async"><span>صفاء البحيرة</span></button>
+</div>
+<label class="upload-zone" for="upload"><span class="upload-symbol" aria-hidden="true">＋</span><b>أضف خلفيتك الخاصة</b><small>صورة أو فيديو من جهازك</small><input id="upload" type="file" accept="image/*,video/*"></label><p id="uploadName" class="field-note"></p>
+<div class="range-label"><label for="zoom">تكبير الخلفية</label><output id="zoomValue">100٪</output></div><input id="zoom" type="range" min="100" max="200" value="100">
+<div class="two-col"><div><label for="bgX">موضع أفقي</label><input id="bgX" type="range" min="0" max="100" value="50"></div><div><label for="bgY">موضع رأسي</label><input id="bgY" type="range" min="0" max="100" value="50"></div></div>
+<div class="range-label"><label for="dim">تعتيم الخلفية</label><output id="dimValue">40٪</output></div><input id="dim" type="range" min="0" max="85" value="40"><p class="field-note">صوت الخلفية مكتوم. يتكرر الفيديو أو يُقص بحسب مدة التلاوة.</p>
+</div>
+<div class="panel" id="style-panel" role="tabpanel" aria-labelledby="style-tab" hidden>
+<h2 class="format-title">تنسيق الآيات</h2>
+<label for="displayMode">نمط عرض الآيات</label><select id="displayMode" aria-describedby="wordModeNote wordModeStatus"><option value="ayah" selected>الآية كاملة</option><option value="word">كلمة بكلمة</option></select>
+<div id="wordModeNote" class="info-note" hidden>تظهر كلمة واحدة وتتبدل مع التلاوة، وتتكرر عند إعادة القارئ لها. تبقى الكلمة أثناء الوقف حتى بدء التالية. في افتتاح السورة تظهر البسملة فقط إذا كانت موجودة مع توقيتها في التلاوة. يستخدم هذا النمط تلاوة مرتبطة بتوقيت الكلمات؛ قد تختلف نسخة التسجيل عن العرض الكامل. يتوفر بحسب القارئ والآية.</div>
+<p id="wordModeStatus" class="field-note" role="status" aria-live="polite"></p><button id="useFullAyah" class="text-button" type="button" hidden>الرجوع إلى عرض الآية كاملة</button>
+<label for="font">خط الآيات</label><select id="font" aria-describedby="fontFallbackNote fontStatus"></select>
+<p id="fontStatus" class="field-note" role="status" aria-live="polite"></p>
+<p id="fontFallbackNote" class="field-note font-notice" hidden>يستخدم خط عثمان طه نسخ «أميري قرآن» لعرض بعض العلامات غير المدعومة، مع الحفاظ على نص الآيات.</p>
+<label>لون الآيات</label><div class="color-row"><input type="color" id="color" value="#ffffff" aria-label="اختيار لون النص"><input type="text" id="hex" value="#FFFFFF" maxlength="7" dir="ltr" aria-label="كود لون النص"><button class="swatch white" data-color="#ffffff" aria-label="أبيض"></button><button class="swatch gold" data-color="#e4ca91" aria-label="ذهبي"></button><button class="swatch cream" data-color="#f2e9db" aria-label="عاجي"></button></div>
+<div class="range-label"><label for="fontSize">حجم الخط</label><output id="fontValue">60</output></div><input id="fontSize" type="range" min="32" max="100" value="60">
+<label for="position">موضع الآيات</label><select id="position"><option value="center">الوسط</option><option value="top">أعلى</option><option value="bottom">أسفل</option></select>
+<div class="range-label"><label for="lineHeight">المسافة بين الأسطر</label><output id="lineValue">1.9</output></div><input id="lineHeight" type="range" min="1.5" max="2.4" step="0.1" value="1.9">
+<div class="range-label"><label for="margin">الهوامش الآمنة</label><output id="marginValue">8٪</output></div><input id="margin" type="range" min="5" max="18" value="8">
+<div class="info-note">النص بالرسم العثماني والتشكيل الكامل. ينطبق الخط والحجم واللون والموضع على النمطين، وتظهر علامة رقم الآية في العرض الكامل. يتناسب النص تلقائيًا مع المساحة المتاحة.</div>
+<div class="section-divider"></div>
+<label class="reader-toggle" for="showReciter"><span>إظهار اسم القارئ في الفيديو</span><input id="showReciter" type="checkbox" role="switch" aria-controls="reciterFormat"></label>
+<fieldset id="reciterFormat" class="reader-format" hidden><legend>تنسيق اسم القارئ</legend>
+<p class="field-note">يُعرض اسم القارئ المختار تلقائيًا. تنسيقه مستقل عن الآيات.</p>
+<label for="reciterFont">خط اسم القارئ</label><select id="reciterFont" aria-describedby="fontFallbackNote fontStatus"></select>
+<div class="range-label"><label for="reciterSize">حجم اسم القارئ</label><output id="reciterSizeValue">32</output></div><input id="reciterSize" type="range" min="18" max="72" value="32">
+<label for="reciterColor">لون اسم القارئ</label><div class="color-row"><input id="reciterColor" type="color" value="#ffffff"><input id="reciterHex" type="text" value="#FFFFFF" maxlength="7" dir="ltr" aria-label="كود لون اسم القارئ"></div>
+<div class="two-col"><div><label for="reciterPosition">موضع اسم القارئ</label><select id="reciterPosition"><option value="below">تحت الآيات</option><option value="top">أعلى الفيديو</option><option value="bottom">أسفل الفيديو</option></select></div><div><label for="reciterAlign">المحاذاة</label><select id="reciterAlign"><option value="center">الوسط</option><option value="right">اليمين</option><option value="left">اليسار</option></select></div></div>
+<div class="range-label"><label for="reciterGap">المسافة عن الآيات</label><output id="reciterGapValue">3٪</output></div><input id="reciterGap" type="range" min="0" max="12" value="3"><p class="field-note">المسافة كنسبة من ارتفاع الفيديو. يُضبط النص تلقائيًا ليبقى داخل المساحة الآمنة.</p>
+<label for="reciterEffect">وضوح اسم القارئ</label><select id="reciterEffect"><option value="none">بدون تأثير</option><option value="shadow" selected>ظل</option><option value="outline">حدود للنص</option><option value="both">ظل وحدود</option></select>
+<div id="reciterEffectOptions"><label for="reciterEffectColor">لون الظل والحدود</label><input id="reciterEffectColor" type="color" value="#000000"><div class="range-label"><label for="reciterEffectSize">قوة التأثير</label><output id="reciterEffectValue">3</output></div><input id="reciterEffectSize" type="range" min="1" max="8" value="3"></div>
+</fieldset>
+</div>
+<div class="export-settings"><div class="section-divider"></div><label>مقاس الفيديو</label><div class="ratios" role="group" aria-label="نسبة أبعاد الفيديو"><button class="selected" data-ratio="portrait" aria-pressed="true"><span class="ratio-icon portrait"></span><b>عمودي</b><small dir="ltr">9:16</small></button><button data-ratio="landscape" aria-pressed="false"><span class="ratio-icon landscape"></span><b>أفقي</b><small dir="ltr">16:9</small></button><button data-ratio="square" aria-pressed="false"><span class="ratio-icon square"></span><b>مربع</b><small dir="ltr">1:1</small></button></div>
+<label id="cornerOption" class="corner-option" for="roundedCorners" hidden><span>زوايا دائرية للفيديو الأفقي</span><input id="roundedCorners" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span></label>
+<div class="two-col export-options"><div><label for="quality">الجودة</label><select id="quality"><option value="720">720p · خفيف</option><option value="1080">1080p · عالية</option></select></div><div><label for="filename">اسم الملف</label><input id="filename" type="text" value="فيديو التلاوة" maxlength="80"></div></div>
+<button id="export" class="primary-button"><span aria-hidden="true">↓</span> إنشاء الفيديو وتنزيله <span class="format-tag">MP4</span></button><p class="export-note">بدون علامة مائية · احتفظ بالصفحة مفتوحة أثناء التصدير</p>
+<div id="progressArea" hidden><div class="range-label"><span id="progressLabel">تجهيز الفيديو…</span><b id="progressPercent">0٪</b></div><progress id="progress" max="100" value="0"></progress><button id="cancel" class="text-button">إلغاء التصدير</button></div>
+<div id="result" hidden><p>فيديو التلاوة جاهز</p><div class="result-actions"><a id="download" class="primary-button" download>تنزيل MP4</a><button id="watch" class="secondary-button">مشاهدة</button><button id="share" class="secondary-button" hidden>مشاركة</button></div><video id="resultVideo" controls playsinline hidden></video></div>
+<p id="message" role="status" aria-live="polite"></p>
+</div>
+</section>
+<section class="preview-section" aria-label="معاينة الفيديو"><div class="preview-heading"><span><span class="status-dot"></span> معاينة مباشرة</span><span id="previewResolution" dir="ltr">720 × 1280</span></div><div class="preview-stage"><div class="canvas-wrap" data-ratio="portrait"><canvas id="preview" width="720" height="1280" aria-label="معاينة الآية مع الخلفية"></canvas><div id="loading" class="loading-overlay">جارٍ تجهيز المصحف…</div></div></div>
+<div class="playback"><button id="play" class="play-button" aria-label="تشغيل المعاينة">▷</button><div class="timeline"><input id="seek" type="range" min="0" max="1" value="0" step="0.01" aria-label="موضع التلاوة"><div><span id="currentTime" dir="ltr">0:00</span><span id="duration" dir="ltr">--:--</span></div></div><button id="restart" class="icon-button" aria-label="إعادة التشغيل">↺</button></div>
+<div class="preview-caption"><span id="previewSurah">سورة البقرة · الآية ٣</span><span id="previewReader">علي جابر</span></div><p class="preview-footnote">الشكل الذي تراه هنا هو أساس الفيديو المُصدَّر.</p></section>
+</div>
+<footer><span class="credit">صمم <span class="credit-heart">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span><div><button id="clearCache" class="text-button">مسح التلاوات المحفوظة</button><span class="footer-dot">·</span><button id="privacy" class="text-button" type="button" aria-haspopup="dialog" aria-controls="privacyDialog">الخصوصية</button><button id="version" class="text-button version" type="button" dir="ltr" aria-label="سجل الإصدارات، الإصدار الحالي 0.2.1" aria-haspopup="dialog" aria-controls="versionsDialog">v0.2.1</button></div></footer>
+</main>
+<dialog id="privacyDialog" class="info-dialog" aria-labelledby="privacyTitle">
+<div class="dialog-header"><h2 id="privacyTitle">الخصوصية</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق نافذة الخصوصية" autofocus>×</button></div>
+<div class="dialog-body" tabindex="0" role="region" aria-labelledby="privacyTitle">
+<p>صورك وفيديوهاتك، وكذلك الفيديو الناتج، تبقى على جهازك ولا تُرفع إلى خوادم الموقع. تتم المعالجة وإنشاء الفيديو محليًا داخل متصفحك.</p>
+<p>يتطلب تحميل التلاوات اتصالًا بالإنترنت.</p>
+<p class="dialog-prayer">ولا تنسونا من صالح دعائكم.</p>
+</div>
+</dialog>
+<dialog id="versionsDialog" class="info-dialog" aria-labelledby="versionsTitle">
+<div class="dialog-header"><h2 id="versionsTitle">سجل الإصدارات</h2><button class="dialog-close icon-button" type="button" aria-label="إغلاق سجل الإصدارات" autofocus>×</button></div>
+<div class="dialog-body release-notes" tabindex="0" role="region" aria-labelledby="versionsTitle">
+<section aria-labelledby="release021"><h3 id="release021">الإصدار <bdi>0.2.1</bdi></h3><ul>
+<li>توسيع «كلمة بكلمة» لدفعة واحدة من القراء، مع تحميل توقيت السورة عند الحاجة.</li>
+<li>توسيع تلاوة هيثم الدخين بالنمطين مع الاحتفاظ بتوقيت سورة الروم الذي جرى اختباره.</li>
+<li>ربط توقيت كل آية بالتسجيل المطابق، وإظهار رقم الآية إذا تعذّر عرض النطاق كلمة بكلمة.</li>
+<li>استبدال مصدر التلاوة الذي أصبح يتطلب تسجيل الدخول، وإتاحة المصادر المباشرة دون حساب.</li>
+</ul></section>
+<section aria-labelledby="release020"><h3 id="release020">الإصدار <bdi>0.2.0</bdi></h3><ul>
+<li>إضافة هيثم الدخين بنمطي «الآية كاملة» و«كلمة بكلمة».</li>
+<li>تفعيل «كلمة بكلمة» لعلي جابر وعبدالله بن حمد الموسى، باستخدام التسجيل المطابق لتوقيت كل قارئ.</li>
+<li>إعادة محاولة التحميل تلقائيًا مرة واحدة عند التعثّر المؤقت، مع توضيح ما إذا تعذّر تحميل الصوت أو بيانات التوقيت.</li>
+<li>تحديث زر «مسح التلاوات المحفوظة» ليحذف الصوت والتوقيت المخزّنين ويعيد تحميل الصفحة، مع الاحتفاظ باختيارات المستخدم.</li>
+</ul></section>
+<section aria-labelledby="release019"><h3 id="release019">الإصدار <bdi>0.1.9</bdi></h3><ul>
+<li>إصلاح عرض «كلمة بكلمة» لضمان تبدّل الكلمات مع التلاوة في المعاينة والفيديو الناتج.</li>
+<li>إصلاح ظهور قائمة نمط العرض فارغة، وتحديد «الآية كاملة» افتراضيًا عند أول استخدام أو غياب إعداد صالح.</li>
+<li>اعتماد اسم «كلمة بكلمة» دون وصف «تجريبي»، مع توضيح توفر التوقيت بحسب القارئ والآية.</li>
+<li>إصلاح رفض تلاوات صحيحة بسبب اختلاف تمثيل الهمزة وبعض علامات الرسم العثماني.</li>
+<li>دعم إعادة القارئ للكلمات والجمل مع الحفاظ على توقيتها.</li>
+<li>معالجة اختلاف إدراج البسملة في افتتاحيات السور، ووصل بعض الكلمات وفصلها بين مصادر النص.</li>
+<li>توضيح سبب تعذّر توقيت الكلمات، مع ذكر القارئ والسورة ورقم الآية المتأثرة.</li>
+<li>إصلاح أبعاد ومحاذاة إطار المعاينة المباشرة وإزالة الفراغات الجانبية، مع الحفاظ على نسبة العرض المختارة.</li>
+<li>إضافة القارئ محمد أيوب إلى قائمة القراء.</li>
+<li>تحديث ترتيب القراء في القائمة.</li>
+<li>اعتماد أول قارئ في القائمة افتراضيًا عند أول استخدام، مع حفظ اختيار المستخدم للزيارات اللاحقة.</li>
+</ul></section>
+<section aria-labelledby="release018"><h3 id="release018">الإصدار <bdi>0.1.8</bdi></h3><ul>
+<li>إضافة نمط «كلمة بكلمة» التجريبي بجانب عرض الآية كاملة، مع حفظ الاختيار.</li>
+<li>تبديل الكلمة مع التلاوة في المعاينة والتصدير باستخدام توقيت واحد، مع إبقاء الكلمة أثناء الوقف حتى بدء التالية.</li>
+<li>تطبيق خيارات الخط والحجم واللون والموضع على النمط الجديد، مع استمرار استقلال تنسيق اسم القارئ.</li>
+<li>التحقق من مطابقة نص الكلمات وتوقيتها ومدة الصوت قبل الاستخدام، وإظهار خيار العرض الكامل عند عدم توفر التوقيت.</li>
+<li>إتاحة النمط بحسب الآية لدى ١١ قارئًا؛ توقيت علي جابر وعبدالله الموسى غير متاح في هذه النسخة.</li>
+</ul></section>
+<section aria-labelledby="release017"><h3 id="release017">الإصدار <bdi>0.1.7</bdi></h3><ul>
+<li>إضافة قائمة لاختيار خط الآيات: أميري قرآن، حفص العثماني، عثمان طه نسخ، وشهرزاد الجديد العريض.</li>
+<li>إضافة خيار إظهار اسم القارئ المختار أو إخفائه في المعاينة والفيديو الناتج.</li>
+<li>تنسيق اسم القارئ بشكل مستقل: الخط والحجم واللون والموضع والمحاذاة والمسافة عن الآيات، مع الظل وحدود النص.</li>
+<li>حفظ اختيارات الخطوط وتنسيق اسم القارئ واستعادتها عند الزيارة التالية.</li>
+</ul></section>
+<section aria-labelledby="release016"><h3 id="release016">الإصدار <bdi>0.1.6</bdi></h3><ul>
+<li>عرض أسماء السور بدون تشكيل في قائمة الاختيار وتفاصيل المقطع.</li>
+<li>إصلاح البحث عن السور بالتشكيل أو بدونه، مع تجاهل علامات الرسم القرآني والتطويل.</li>
+<li>إظهار نتائج السور مباشرة أثناء الكتابة واختيارها بضغطة واحدة، مع دعم الأسهم وEnter.</li>
+</ul></section>
+<section aria-labelledby="release015"><h3 id="release015">الإصدار <bdi>0.1.5</bdi></h3><ul>
+<li>إضافة القارئ إسلام صبحي إلى قائمة القراء، مع توضيح التلاوات غير المتوفرة بصوته.</li>
+<li>إضافة القارئ أحمد طالب بن حميد إلى قائمة القراء، مع توضيح السور غير المتوفرة بصوته.</li>
+<li>إضافة القارئ عبدالله بن حمد الموسى، وإتاحة الاستماع والمعاينة وإنشاء الفيديو باستخدام تلاوته.</li>
+</ul></section>
+<section aria-labelledby="release014"><h3 id="release014">الإصدار <bdi>0.1.4</bdi></h3><ul>
+<li>إضافة القارئ علي جابر إلى قائمة القراء.</li>
+</ul></section>
+<section aria-labelledby="release013"><h3 id="release013">الإصدار <bdi>0.1.3</bdi></h3><ul>
+<li>مشاركة اختيار المظهر الفاتح أو الداكن بين صفحة الأدوات وأداة التلاوة.</li>
+</ul></section>
+<section aria-labelledby="release012"><h3 id="release012">الإصدار <bdi>0.1.2</bdi></h3><ul>
+<li>إضافة إمكانية التبديل بين المظهر الفاتح والداكن.</li>
+<li>حفظ اختيار المظهر واستعادته عند زيارة الأداة مجددًا.</li>
+<li>إضافة خيار الزوايا الدائرية للفيديو الأفقي، وتطبيقه على المعاينة والفيديو الناتج.</li>
+<li>حفظ إعداد الزوايا الدائرية مع بقية إعدادات المستخدم.</li>
+</ul></section>
+<section aria-labelledby="release011"><h3 id="release011">الإصدار <bdi>0.1.1</bdi></h3><ul>
+<li>إضافة القارئ بدر التركي إلى قائمة القراء.</li>
+<li>إتاحة الاستماع والمعاينة وإنشاء الفيديو باستخدام تلاوته.</li>
+<li>حفظ التلاوات المحمّلة في المتصفح لإعادة استخدامها عند توفر مساحة.</li>
+<li>التحقق من مطابقة السورة والآية عند تحميل تلاوته.</li>
+</ul></section>
+<section aria-labelledby="release010"><h3 id="release010">الإصدار <bdi>0.1.0</bdi> — الإصدار الأول</h3><ul>
+<li>إطلاق أداة إنشاء فيديوهات التلاوة.</li>
+<li>إتاحة اختيار السورة ونطاق الآيات من المصحف كاملًا بالرسم العثماني.</li>
+<li>توفير ثمانية قراء: الحصري، العفاسي، السديس، الشريم، عبد الباسط، المنشاوي، المعيقلي، والدوسري.</li>
+<li>إضافة الاستماع والمعاينة، مع ضبط مدة ظهور كل آية بحسب مدة تلاوتها.</li>
+<li>توفير ثلاث خلفيات مصوّرة وخلفية فيديو ليلية، مع إمكانية اختيار صورة أو فيديو من الجهاز.</li>
+<li>إتاحة تخصيص لون الآيات وحجمها وموضعها، والمسافات والهوامش، وتعتيم الخلفية وتكبيرها وتحريكها.</li>
+<li>دعم المقاسات العمودي والأفقي والمربع، وجودتي 720p و1080p.</li>
+<li>إنشاء فيديو بصيغة MP4 دون علامة مائية، مع عرض تقدم الإنشاء وإمكانية الإلغاء.</li>
+<li>إتاحة مشاهدة الفيديو وتنزيله ومشاركته على الأجهزة الداعمة.</li>
+<li>حفظ الإعدادات والتلاوات المحمّلة في المتصفح، مع إمكانية مسح التلاوات المحفوظة.</li>
+<li>معالجة الصور والفيديوهات وإنشاء الفيديو على جهاز المستخدم داخل المتصفح.</li>
+</ul></section>
+</div>
+</dialog>
+<video id="backgroundVideo" muted loop playsinline preload="metadata" hidden></video>
+<script type="module" src="app.js?v=0.2.1"></script>
+</body></html>
