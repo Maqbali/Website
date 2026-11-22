@@ -1,0 +1,126 @@
+/* Maqbali 404 — independent fallback page, intentionally outside Maqbali Core.
+   Path: /css/404.css | No inline styles; compatible with /tools/* CSP. */
+@font-face {
+  font-family: 'Maqbali Cairo';
+  src: url('/tools/assets/cairo-400.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maqbali Cairo';
+  src: url('/tools/assets/cairo-600.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maqbali Cairo';
+  src: url('/tools/assets/cairo-700.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { min-width: 280px; }
+body.error-page {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 28px 18px;
+  display: grid;
+  place-items: center;
+  direction: rtl;
+  text-align: center;
+  background: #111111;
+  color: #f0e6c8;
+  font-family: 'Maqbali Cairo', Tahoma, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.error-page__main {
+  width: min(100%, 560px);
+  margin-inline: auto;
+}
+.error-page__code {
+  font-family: 'Maqbali Cairo', Tahoma, Arial, sans-serif;
+  font-size: clamp(88px, 19vw, 132px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -5px;
+  color: #c9a84c;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.error-page__divider {
+  width: 48px;
+  height: 2px;
+  margin: 16px auto 22px;
+  border-radius: 20px;
+  background: rgba(201, 168, 76, .5);
+}
+.error-page__title {
+  font-size: clamp(20px, 4vw, 24px);
+  font-weight: 600;
+  line-height: 1.7;
+  margin: 0 0 10px;
+}
+.error-page__description {
+  margin: 0 auto 12px;
+  max-width: 430px;
+  color: #b7b2a7;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.error-page__countdown {
+  margin: 0 auto 25px;
+  max-width: 440px;
+  color: #b7b2a7;
+  font-size: 13px;
+  line-height: 2;
+}
+.error-page__seconds {
+  display: inline-block;
+  min-width: 1.7ch;
+  color: #c9a84c;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.error-page__home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  background: #c9a84c;
+  color: #111111;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s ease, transform .2s ease;
+}
+.error-page__home:hover {
+  background: #e1bf62;
+  transform: translateY(-1px);
+}
+.error-page__home:focus-visible {
+  outline: 3px solid #f0e6c8;
+  outline-offset: 4px;
+}
+.error-page__arrow {
+  display: inline-block;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+}
+@media (max-width: 400px) {
+  body.error-page { padding-inline: 20px; }
+  .error-page__code { letter-spacing: -3px; }
+  .error-page__home { width: 100%; max-width: 265px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .error-page__home { transition: none; }
+}
