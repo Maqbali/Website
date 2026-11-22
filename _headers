@@ -12,3 +12,7 @@
 /tools/quran/*
   ! Content-Security-Policy
   Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' https://www.maqbali.com blob: data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://everyayah.com https://cdn.mualim.app https://www.mp3quran.net https://cdn.mp3quran.net blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'
+
+# Central metadata: do not cache stale latest-release pointers.
+/tools/packages/latest.json
+  Cache-Control: no-store, max-age=0
