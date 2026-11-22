@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "apps": {
+    "dharw": {
+      "display_version": "1.4.0",
+      "package_version": "1.4.1",
+      "filename": "DHARW_v1.4.1.exe",
+      "platform": "Windows x64",
+      "package_type": "portable"
+    }
+  }
+}
