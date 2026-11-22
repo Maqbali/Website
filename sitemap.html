@@ -34,7 +34,15 @@
 .site-map-card__link--preview { background: var(--site-gold-muted); color: var(--site-gold) !important; }
 .site-map-card__status { color: var(--site-muted); font-size: 10px; white-space: nowrap; }
 .site-map-card__status--preview { color: var(--site-gold); }
+/* Sitemap badges: limited to this page. Use up to two badges per card. */
+.site-map-card__heading { display: flex; align-items: center; align-content: center; flex-wrap: wrap; gap: 6px 8px; min-width: 0; }
+.site-map-card__heading h3 { min-width: 0; line-height: 1.7; }
+.site-map-badge { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; min-height: 23px; padding: 2px 9px; border: 1px solid var(--site-border); border-radius: 999px; color: var(--site-gold); background: var(--site-gold-muted); font: 600 10px/1.6 Arial, sans-serif; white-space: nowrap; }
+.site-map-badge--new { border-color: var(--site-gold); color: var(--site-gold); font-weight: 700; }
+.site-map-badge--platform, .site-map-badge--follow { color: var(--site-muted); background: transparent; }
+.site-map-badge--live { border-color: var(--site-gold); }
 @media(max-width:680px){.site-main--sitemap{padding-block:24px 42px}}
+@media(prefers-reduced-motion:reduce){.site-map-card{transition:none}}
 </style>
 </head>
 <body class="site-page site-page--sitemap">
@@ -82,7 +90,7 @@
     </div>
   </section>
   <section class="site-map-section" aria-label="الأدوات والخدمات">
-    <h2 class="site-map-section__title">الأدوات والخدمات <span class="site-map-section__count">6</span></h2>
+    <h2 class="site-map-section__title">الأدوات والخدمات <span class="site-map-section__count">7</span></h2>
     <div class="site-map-grid">
       <article class="site-map-card">
         <div class="site-map-card__top"><h3>الأدوات</h3></div>
@@ -90,32 +98,32 @@
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/tools/">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>صانع فيديوهات التلاوة</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>صانع فيديوهات التلاوة</h3><span class="site-map-badge">متاحة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/tools/quran/</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/tools/quran/">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>DHARW | ذَرْو</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>DHARW | ذَرْو</h3><span class="site-map-badge site-map-badge--new" data-new-until="2026-12-22">🔥 جديد</span><span class="site-map-badge site-map-badge--platform" lang="en" dir="ltr">Windows</span></div></div>
         <p class="site-map-card__path" dir="ltr">/tools/dharw/</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/tools/dharw/">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>محوّل العملات</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>محوّل العملات</h3><span class="site-map-badge site-map-badge--live">مباشر</span></div></div>
         <p class="site-map-card__path" dir="ltr">/currency.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/currency.html">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>مواقيت الصلاة</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>مواقيت الصلاة</h3><span class="site-map-badge">متاحة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/pr.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/pr.html">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>تفاصيل عنوان IP</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>تفاصيل عنوان IP</h3><span class="site-map-badge">متاحة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/ip.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/ip.html">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>محلّل الإشارة وقياس السرعة</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>محلّل الإشارة وقياس السرعة</h3><span class="site-map-badge">متاحة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/speed.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/speed.html">فتح الصفحة ↗</a></div>
       </article>
@@ -125,32 +133,50 @@
     <h2 class="site-map-section__title">النشرات والمتابعة <span class="site-map-section__count">3</span></h2>
     <div class="site-map-grid">
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>نشرة أسواق المال</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>نشرة أسواق المال</h3><span class="site-map-badge site-map-badge--follow">متابعة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/news.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/news.html">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>نشرة الثغرات الأمنية</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>نشرة الثغرات الأمنية</h3><span class="site-map-badge site-map-badge--follow">متابعة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/cves.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/cves.html">فتح الصفحة ↗</a></div>
       </article>
       <article class="site-map-card">
-        <div class="site-map-card__top"><h3>تحديثات DJI</h3></div>
+        <div class="site-map-card__top"><div class="site-map-card__heading"><h3>تحديثات DJI</h3><span class="site-map-badge site-map-badge--follow">متابعة</span></div></div>
         <p class="site-map-card__path" dir="ltr">/dji.html</p>
         <div class="site-map-card__actions"><a class="site-map-card__link" href="/dji.html">فتح الصفحة ↗</a></div>
       </article>
     </div>
   </section>
   <section class="site-map-section" aria-label="صفحات أخرى">
-    <h2 class="site-map-section__title">صفحات أخرى <span class="site-map-section__count">0</span></h2>
+    <h2 class="site-map-section__title">صفحات أخرى <span class="site-map-section__count">2</span></h2>
     <div class="site-map-grid">
-
+      <article class="site-map-card">
+        <div class="site-map-card__top"><h3>الشروط والأحكام</h3></div>
+        <p class="site-map-card__path" dir="ltr">/terms.html</p>
+        <div class="site-map-card__actions"><a class="site-map-card__link" href="/terms.html">فتح الصفحة ↗</a></div>
+      </article>
+      <article class="site-map-card">
+        <div class="site-map-card__top"><h3>سياسة الخصوصية</h3></div>
+        <p class="site-map-card__path" dir="ltr">/privacy.html</p>
+        <div class="site-map-card__actions"><a class="site-map-card__link" href="/privacy.html">فتح الصفحة ↗</a></div>
+      </article>
     </div>
   </section>
 </main>
 <footer class="site-footer" role="contentinfo">
   <span class="site-footer__credit">صمم <span class="site-footer__heart" aria-hidden="true">♥</span> <a href="https://www.maqbali.com/" lang="en" dir="ltr">Maqbali</a></span>
 </footer>
-
+<script>
+/* Date-based "new" badges: visible through the specified date (visitor's local time). */
+(() => {
+  const today = new Date();
+  const localDay = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  document.querySelectorAll('[data-new-until]').forEach(badge => {
+    if (localDay > badge.dataset.newUntil) badge.remove();
+  });
+})();
+</script>
 </body>
 </html>
